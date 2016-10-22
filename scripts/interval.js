@@ -2,22 +2,24 @@ var interval_module = new function () {
     /***** PRIVATE VARIABLES *****/
     this.procedure_name = null;
     this.session = null;
+    this.input = null;
+    this.label = null;
 
     /***** PRIVATE METHODS *****/
     function prepare_input(container_id) {
-        var input = document.createElement("input");
+        input = document.createElement("input");
         input.id = container_id + "_range";
-        input.name = container_id + "_range";
+        input.name = input.id;
         input.type = "range";
         input.min = "1";
         input.max = "40";
         input.onchange = onChange;
         input.oninput = onInput;
 
-        var label = document.createElement("label");
+        label = document.createElement("label");
         label.id = container_id + "_label";
         label.innerText = "0.0";
-        label.htmlFor = container_id + "_range";
+        label.htmlFor = input.name;
 
         $("#" + container_id).append(input);
         $("#" + container_id).append(label);
@@ -51,6 +53,11 @@ var interval_module = new function () {
         );
     }
 
+    function setDisplayedValue(value) {
+        label.innerText = value;
+        input.value = Math.floor(value * 10);
+    } 
+
     function setInterval(interval) {
         if(this.session) {
             this.session.call(this.procedure_name, interval).then(
@@ -73,6 +80,7 @@ var interval_module = new function () {
             procedure_name = "http://opendsme.org/rpc/setInterval"
 
             prepare_input(container_id);
+            setDisplayedValue(1.5);
             //connect(uri);
         }
     }

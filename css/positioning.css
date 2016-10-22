@@ -12,3 +12,7 @@ div.node{
 
     cursor: move;
 }
+
+div#positioning_container_div {
+    cursor: crosshair;
+}

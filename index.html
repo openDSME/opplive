@@ -4,9 +4,8 @@
 <head>
     <link rel="stylesheet" href="css/lib/jquery-ui-1.12.1.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
-    <link rel="stylesheet" type="text/css" href="css/draggable.css">
+    <link rel="stylesheet" type="text/css" href="css/widget.css">
     <link rel="stylesheet" type="text/css" href="css/range.css">
-    <link rel="stylesheet" type="text/css" href="css/positions.css">
     <link rel="stylesheet" type="text/css" href="css/positioning.css">
 
     <script src="scripts/lib/autobahn.min.js"></script>
@@ -14,11 +13,15 @@
     <script src="scripts/lib/jquery-3.1.1.min.js"></script>
     <script src="scripts/lib/jquery-ui-1.12.1.min.js"></script>
 
-    <script src="scripts/draggable.js"></script>
+    <script src="res/positions.json.js"></script>
+    <script src="scripts/widget.js"></script>
+
     <script src="scripts/traffic.js"></script>
     <script src="scripts/interval.js"></script>
     <script src="scripts/positioning.js"></script>
+    <script src="scripts/layout.js"></script>
 
+    <link rel="shortcut icon" type="image/png" href="img/favicon.png"/>
     <title>OMNeT++ Live Interface</title>
 </head>
 
@@ -28,7 +31,7 @@
         <h1>Live Interaction with OMNeT++ Simulation</h1>
     </div>
 
-    <div id="widged_container">
+    <div id="widgets">
         <div id="interval_container" class="draggable ui-widget-content" style="width:300px; height=20px;">
             <h2>Send Interval</h2>
         </div>
@@ -38,15 +41,22 @@
         <div id="positioning_container" class="draggable ui-widget-content" style="width:600px; height=400px;">
             <h2>Node Positioning</h2>
         </div>
+        <div id="widget_container" class="draggable ui-widget-content" style="width:300px; height=400px;">
+            <h2>Widget Management</h2>
+        </div>
+        <div id="layout_container" class="draggable ui-widget-content" style="width:280px; height=400px;">
+            <h2>Layout Management</h2>
+        </div>
     </div>
 
     <script>
-        draggable_module.init();
+        widget_module.init("widget_container", {controls: true, locked: true});
 
         var wsuri = "ws://127.0.0.1:9002";
         traffic_module.init("traffic_chart_container", wsuri);
         interval_module.init("interval_container", wsuri);
         positioning_module.init("positioning_container", wsuri);
+        layout_module.init("layout_container", wsuri, positioning_module)
     </script>
 </body>
 

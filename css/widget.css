@@ -1,0 +1,72 @@
+div#widgets {
+    width: 100%;
+    height: 100vh;
+    min-height: 1000px;
+}
+
+div.draggable {
+    border: solid;
+    border-width: 1px;
+    border-color: rgba(0,0,0,0.2);
+    padding: 0px 0px 10px 0px;
+
+    -webkit-border-radius: 10px 10px 0px 0px;
+    -moz-border-radius: 10px 10px 0px 0px;
+    border-radius: 10px 10px 0px 0px;
+
+    position: absolute;
+}
+
+div.draggable h2 {
+    cursor: move;
+    margin-top: 0px;
+    padding-right: 20px;
+
+    background: url(../img/window.png) no-repeat right;
+    background-size: 24px 16px;
+    background-color:rgba(0,0,0,0.2);
+
+    -webkit-border-radius: 10px 10px 0px 0px;
+    -moz-border-radius: 10px 10px 0px 0px;
+    border-radius: 10px 10px 0px 0px;
+}
+
+fieldset {
+    border-style: none;
+    padding-right: 30px;
+}
+
+fieldset > input {
+    display: block;
+    float: left;
+    margin: 10px;
+}
+
+fieldset > button {
+    display: block;
+    float: left;
+    clear: both;
+    margin: 10px;
+}
+
+fieldset > textarea {
+    display: block;
+    float: left;
+    margin: 10px;
+    width: 100%;
+    height: 150px;
+    resize: none;
+}
+
+fieldset > input[type="checkbox"] {
+    display: inline;
+}
+
+fieldset > label {
+    float: left;
+    margin: 10px 10px 10px 0px;
+}
+
+fieldset > label:nth-child(2n+1) {
+    clear: both;
+}
