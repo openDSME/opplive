@@ -7,7 +7,11 @@ var widget_module = new function () {
 
     function add_properties() {
         $(".draggable").each(function (index, item) {
-            // $(item).resizable();
+            $(item).resizable({
+                disabled: false,
+                containment: "parent",
+                grid: [10, 10],
+            });
             $(item).draggable({
                 disabled: false,
                 handle: "h2",
@@ -24,9 +28,9 @@ var widget_module = new function () {
 
     function remove_properties() {
         $(".draggable").each(function (index, item) {
-            // $(item).resizable({
-            //     disabled: true
-            // });
+            $(item).resizable({
+                disabled: true
+            });
             $(item).draggable({
                 disabled: true
             });
@@ -35,8 +39,15 @@ var widget_module = new function () {
 
     function setup_positions() {
         for (var id in widget_positions) {
-            $("#" + id).get(0).style.left = widget_positions[id].x + "px";
-            $("#" + id).get(0).style.top = widget_positions[id].y + "px";
+            var element = $("#" + id).get(0);
+            var position = widget_positions[id];
+
+            element.style.left = position.x + "px";
+            element.style.top = position.y + "px";
+            element.style.width = position.w + "px";
+            if (position.h) {
+                element.style.height = position.h + "px";
+            }
         }
     }
 
@@ -60,7 +71,7 @@ var widget_module = new function () {
         var store_button = document.createElement("button");
         store_button.id = container_id + "_button";
         store_button.name = lock_checkbox.id;
-        store_button.innerText = "Export Positions";
+        store_button.innerText = "Export Layout";
         $(fieldset).append(store_button);
 
         this.textarea = document.createElement("textarea");
@@ -83,7 +94,9 @@ var widget_module = new function () {
             var element = $(item).get(0);
             positions[element.id] = {
                 x: element.offsetLeft,
-                y: element.offsetTop
+                y: element.offsetTop,
+                w: parseInt(element.style.width),
+                h: parseInt(element.style.height)
             }
         });
         var json = JSON.stringify(positions, null, 4);

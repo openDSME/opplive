@@ -33,7 +33,10 @@ var traffic_module = new function () {
             ]
         };
         this.latest_label = 1;
-        this.chart = new Chart(ctx).Bar(initial_data, {animationSteps: 20, responsive: true});
+        this.chart = new Chart(ctx).Bar(initial_data, {
+            //animationSteps: 20,
+            responsive: true
+        });
 
         //TODO: remove
         this.chart.addData([1,2], ++latest_label);
