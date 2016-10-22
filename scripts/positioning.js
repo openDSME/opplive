@@ -36,7 +36,9 @@ var positioning_module = new function () {
             });
 
             node.onclick = function (element) {
-                element.target.classList.toggle("range");
+                var item = element.target;
+                item.classList.toggle("range");
+                $(item).parent().append($(item)); /* pop to the front */                
             }
         }, this);
     }

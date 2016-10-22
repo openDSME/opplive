@@ -16,7 +16,7 @@ var widget_module = new function () {
             });
             $(item).draggable({
                 disabled: false,
-                handle: "h2",
+                handle: "div",
                 containment: "parent",
                 grid: [10, 10],
                 opacity: 0.5,
@@ -40,6 +40,34 @@ var widget_module = new function () {
     }
 
     function setup_positions() {
+        function onShow(object) {
+            var id = object.target.name;
+            console.log(id);
+            $("#" + id).show();
+            $(object.target).remove();
+        }
+
+        function onHide(object) {
+            var parent = $(object.target).parent();
+            var container = parent.parent();
+            var heading = parent.find( "h2" ).get(0);
+            container.hide();
+
+            var show_button = document.createElement("button");
+            show_button.name = container.get(0).id;
+            show_button.className = "menu-item";
+            show_button.innerText = heading.innerText;
+            show_button.onclick = onShow;
+            $("#menu").append(show_button);
+        }
+
+        $(".handle").each(function (index, item) {
+            var hide_button = document.createElement("a");
+            hide_button.className = "minimize";
+            hide_button.onclick = onHide;
+            $(item).prepend(hide_button);
+        });
+
         for (var id in widget_positions) {
             var element = $("#" + id).get(0);
             var position = widget_positions[id];
@@ -48,6 +76,9 @@ var widget_module = new function () {
             element.style.width = position.w + "px";
             if (position.h) {
                 element.style.height = position.h + "px";
+            }
+            if(position.hidden) {
+                element.style.display = "none";
             }
         }
     }
@@ -102,7 +133,8 @@ var widget_module = new function () {
                 x: element.offsetLeft,
                 y: element.offsetTop,
                 w: parseInt(element.style.width),
-                h: parseInt(element.style.height)
+                h: parseInt(element.style.height),
+                hidden: element.style.display == "none"
             }
         });
         var json = JSON.stringify(positions, null, 4);

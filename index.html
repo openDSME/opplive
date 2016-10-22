@@ -2,60 +2,80 @@
 <html>
 
 <head>
-    <meta charset="utf-8"/>
+	<meta charset="utf-8" />
 
-    <link rel="stylesheet" href="css/lib/jquery-ui-1.12.1.css">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    <link rel="stylesheet" type="text/css" href="css/widget.css">
-    <link rel="stylesheet" type="text/css" href="css/range.css">
-    <link rel="stylesheet" type="text/css" href="css/positioning.css">
+	<link rel="stylesheet" href="css/lib/jquery-ui-1.12.1.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="css/widget.css">
+	<link rel="stylesheet" type="text/css" href="css/range.css">
+	<link rel="stylesheet" type="text/css" href="css/positioning.css">
 
-    <script src="scripts/lib/autobahn.min.js"></script>
-    <script src="scripts/lib/chart-1.0.2.min.js"></script>
-    <script src="scripts/lib/jquery-3.1.1.min.js"></script>
-    <script src="scripts/lib/jquery-ui-1.12.1.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/themes/flat.css">
 
-    <script src="res/positions.json.js"></script>
-    <script src="scripts/mobility.js"></script>
-    <script src="scripts/widget.js"></script>
+	<script src="scripts/lib/autobahn.min.js"></script>
+	<script src="scripts/lib/chart-1.0.2.min.js"></script>
+	<script src="scripts/lib/jquery-3.1.1.min.js"></script>
+	<script src="scripts/lib/jquery-ui-1.12.1.min.js"></script>
 
-    <script src="scripts/traffic.js"></script>
-    <script src="scripts/interval.js"></script>
-    <script src="scripts/positioning.js"></script>
-    <script src="scripts/layout.js"></script>
+	<script src="res/positions.json.js"></script>
+	<script src="scripts/mobility.js"></script>
+	<script src="scripts/widget.js"></script>
 
-    <link rel="shortcut icon" type="image/png" href="img/favicon.png"/>
-    <title>OMNeT++ Live Interface</title>
+	<script src="scripts/traffic.js"></script>
+	<script src="scripts/interval.js"></script>
+	<script src="scripts/positioning.js"></script>
+	<script src="scripts/layout.js"></script>
+
+	<link rel="shortcut icon" type="image/png" href="img/favicon.png" />
+	<title>OMNeT++ Live Interface</title>
 </head>
 
 <body>
-    <div class="header">
-        <img src="img/opendsme.svg" alt="OpenDSME logo">
-        <h1>Live Interaction with OMNeT++ Simulation</h1>
-    </div>
+	<div id="header">
+		<div id="title">
+			<img src="img/opendsme-flat.svg" alt="OpenDSME logo">
+			<h1>Live Interaction with OMNeT++ Simulations</h1>
+		</div>
+	</div>
+    <div id="menu">
+        <button class="menu-item" disabled>Menu</button>
+        <!-- <button class="menu-item">Show All</button> -->
+	</div>
 
-    <div id="widgets">
-        <div id="interval_container" class="draggable ui-widget-content">
-            <h2>Send Interval</h2>
-        </div>
-        <div id="traffic_chart_container" class="draggable ui-widget-content">
-            <h2>Traffic Statistics</h2>
-        </div>
-        <div id="positioning_container" class="draggable ui-widget-content">
-            <h2>Node Positioning</h2>
-        </div>
-        <div id="widget_container" class="draggable ui-widget-content">
-            <h2>Widget Management</h2>
-        </div>
-        <div id="layout_container" class="draggable ui-widget-content">
-            <h2>Layout Management</h2>
-        </div>
-        <div id="node_container" class="draggable ui-widget-content">
-            <h2>Node Statistics</h2>
-        </div>
-    </div>
+	<div id="widgets">
+		<div id="interval_container" class="draggable ui-widget-content">
+			<div class="handle">
+				<h2>Send Interval</h2>
+			</div>
+		</div>
+		<div id="traffic_chart_container" class="draggable ui-widget-content">
+			<div class="handle">
+				<h2>Traffic Statistics</h2>
+			</div>
+		</div>
+		<div id="positioning_container" class="draggable ui-widget-content">
+			<div class="handle">
+				<h2>Node Positioning</h2>
+			</div>
+		</div>
+		<div id="widget_container" class="draggable ui-widget-content">
+			<div class="handle">
+				<h2>Widget Management</h2>
+			</div>
+		</div>
+		<div id="layout_container" class="draggable ui-widget-content">
+			<div class="handle">
+				<h2>Layout Management</h2>
+			</div>
+		</div>
+		<div id="node_container" class="draggable ui-widget-content">
+			<div class="handle">
+				<h2>Node Statistics</h2>
+			</div>
+		</div>
+	</div>
 
-    <script>
+	<script>
         widget_module.init("widget_container", {controls: true, locked: true});
 
         var wsuri = "ws://127.0.0.1:9002";
