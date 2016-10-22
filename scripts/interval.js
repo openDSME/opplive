@@ -18,7 +18,7 @@ var interval_module = new function () {
         label.id = container_id + "_label";
         label.innerText = "0.0";
         label.htmlFor = container_id + "_range";
-        
+
         $("#" + container_id).append(input);
         $("#" + container_id).append(label);
 

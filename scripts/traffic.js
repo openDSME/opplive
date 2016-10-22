@@ -62,7 +62,7 @@ var traffic_module = new function () {
         var pair = event.split(",");
         var received = parseFloat(pair[0]);
         var dropped = parseFloat(pair[1]);
-        
+
         this.chart.addData([received, dropped], ++this.latest_label);
     }
 

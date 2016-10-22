@@ -1,7 +1,7 @@
-body { 
-    font: 62.5%/1.5  "Lucida Grande", "Lucida Sans", Tahoma, Verdana, sans-serif; 
-    color: #000000;     
-    text-align:center; 
+body {
+    font: 62.5%/1.5  "Lucida Grande", "Lucida Sans", Tahoma, Verdana, sans-serif;
+    color: #000000;
+    text-align:center;
 }
 
 div.header {
@@ -20,26 +20,26 @@ div.header h1 {
     line-height: 50px;
 }
 
-h1 { 
-    font-size: 2.2em; 
+h1 {
+    font-size: 2.2em;
 }
 
-h2 { 
-    font-size: 2.0em;     
+h2 {
+    font-size: 2.0em;
 }
 
-h3 { 
-    font-size: 1.8em; 
+h3 {
+    font-size: 1.8em;
 }
 
-h4 { 
-    font-size: 1.6em;     
+h4 {
+    font-size: 1.6em;
 }
 
-h5 { 
-    font-size: 1.4em;     
+h5 {
+    font-size: 1.4em;
 }
 
-p { 
-    font-size: 1.2em;     
+p {
+    font-size: 1.2em;
 }
