@@ -8,7 +8,7 @@ var positioning_module = new function () {
     /***** PRIVATE METHODS *****/
     function setup_nodes(container_id, div) {
         this.nodes = [];
-        
+
         for (i = 0; i < this.node_count; i++) {
             nodes[i] = {
                 x: 0,
@@ -18,8 +18,8 @@ var positioning_module = new function () {
             };
         }
 
-        this.nodes.forEach(function(element) {
-            var node = document.createElement( "div" );
+        this.nodes.forEach(function (element) {
+            var node = document.createElement("div");
             element.object = node;
             node.id = container_id + "node_" + element.address;
             node.innerText = element.address;
@@ -27,10 +27,17 @@ var positioning_module = new function () {
             $(div).append(node);
 
             $(node).draggable({
-                    containment: "parent",
-                    opacity: 0.5,
-                    stack: ".node"
-                });
+                stop: function (event, ui) {
+                    $(event.toElement).one('click', function (e) { e.stopImmediatePropagation(); });
+                },
+                containment: "parent",
+                opacity: 0.5,
+                stack: ".node"
+            });
+
+            node.onclick = function (element) {
+                element.target.classList.toggle("range");
+            }
         }, this);
     }
 
@@ -38,14 +45,14 @@ var positioning_module = new function () {
         var positions = mobility_provider(this.node_count);
         var normalized = mobility.normalize(positions);
 
-        this.nodes.forEach(function(element, index) {
+        this.nodes.forEach(function (element, index) {
             element.x = positions[index].x;
             element.y = positions[index].y;
         }, this);
 
         var offsetX = 80;
         var offsetY = 56;
-        this.nodes.forEach(function(element) {
+        this.nodes.forEach(function (element) {
             element.object.style.left = Math.floor(element.x) + 20 + "px";
             element.object.style.top = Math.floor(element.y) + offsetY + "px";
         }, this);
@@ -54,7 +61,7 @@ var positioning_module = new function () {
     }
 
     function prepare_chart(container_id) {
-        var div = document.createElement( "div" );
+        var div = document.createElement("div");
         div.id = container_id + "_div";
         div.style.width = "100%";
         div.style.height = "100%";
@@ -89,7 +96,7 @@ var positioning_module = new function () {
 
     /***** PUBLIC INTERFACE *****/
     return {
-        init: function(container_id, uri) {
+        init: function (container_id, uri) {
             console.log("Init positioning.js");
 
             node_count = 19;
@@ -97,7 +104,7 @@ var positioning_module = new function () {
             //connect(uri);
         },
 
-        reposition: function(mobility_provider) {
+        reposition: function (mobility_provider) {
             position_nodes(mobility_provider);
         }
     }
