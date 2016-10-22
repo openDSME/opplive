@@ -9,6 +9,8 @@ var widget_module = new function () {
         $(".draggable").each(function (index, item) {
             $(item).resizable({
                 disabled: false,
+                minWidth: 150,
+                minHeight: 60,
                 containment: "parent",
                 grid: [10, 10],
             });
