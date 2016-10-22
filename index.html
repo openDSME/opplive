@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="css/lib/jquery-ui-1.12.1.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/draggable.css">
+    <link rel="stylesheet" type="text/css" href="css/range.css">
+    <link rel="stylesheet" type="text/css" href="css/positions.css">
+    <link rel="stylesheet" type="text/css" href="css/positioning.css">
+
+	<script src="scripts/lib/autobahn.min.js"></script>
+	<script src="scripts/lib/chart-1.0.2.min.js"></script>
+	<script src="scripts/lib/jquery-3.1.1.min.js"></script>
+	<script src="scripts/lib/jquery-ui-1.12.1.min.js"></script>
+
+    <script src="scripts/draggable.js"></script>
+	<script src="scripts/traffic.js"></script>
+    <script src="scripts/interval.js"></script>
+    <script src="scripts/positioning.js"></script>
+
+    <title>OMNeT++ Live Interface</title>
+</head>
+
+<body>
+    <div class="header">
+	    <img src="img/opendsme.svg" alt="OpenDSME logo"><h1>Live Interaction with OMNeT++ Simulation</h1>
+    </div>
+    
+    <div id="widged_container">
+        <div id="interval_container" class="draggable ui-widget-content" style="width:300px; height=20px;"><h2>Send Interval</h2></div>
+        <div id="traffic_chart_container" class="draggable ui-widget-content" style="width:600px; height=400px;"><h2>Traffic Statistics</h2></div>
+        <div id="positioning_container" class="draggable ui-widget-content" style="width:600px; height=400px;"><h2>Node Positioning</h2></div>
+    </div>
+
+	<script>
+        draggable_module.init();
+
+        var wsuri = "ws://127.0.0.1:9002";
+        traffic_module.init("traffic_chart_container", wsuri);
+        interval_module.init("interval_container", wsuri);
+        positioning_module.init("positioning_container", wsuri);
+    </script>
+</body>
+</html>

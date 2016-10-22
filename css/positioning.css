@@ -1,0 +1,14 @@
+div.node{
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+    border-radius: 16px;
+    background: rgba(220, 200, 200, 0.8);
+
+    text-align: center;
+    line-height: 32px;
+
+    cursor: move;
+}

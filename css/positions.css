@@ -1,0 +1,14 @@
+div#traffic_chart_container {
+    left: 540px;
+    top: 230px;
+}
+
+div#interval_container {
+    left: 540px;
+    top: 100px;
+}
+
+div#positioning_container {
+    left: 20px;
+    top: 100px;
+}
