@@ -32,7 +32,6 @@ var interval_module = new function () {
         function onInput(value) {
             label.innerText = parseFloat(input.value) / 10;
         }
-
     }
 
     function connect(uri) {

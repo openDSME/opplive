@@ -41,7 +41,6 @@ var widget_module = new function () {
         for (var id in widget_positions) {
             var element = $("#" + id).get(0);
             var position = widget_positions[id];
-
             element.style.left = position.x + "px";
             element.style.top = position.y + "px";
             element.style.width = position.w + "px";
@@ -60,25 +59,30 @@ var widget_module = new function () {
         lock_checkbox.name = lock_checkbox.id;
         lock_checkbox.type = "checkbox";
         lock_checkbox.checked = !this.locked;
-        $(fieldset).append(lock_checkbox);
 
         var label = document.createElement("label");
         label.id = container_id + "_label";
         label.innerText = "Unlock Widgets";
         label.htmlFor = lock_checkbox.id;
-        $(fieldset).append(label);
+
+        var p1 = document.createElement("p");
+        $(p1).append(lock_checkbox);
+        $(p1).append(label);
+        $(fieldset).append(p1);
 
         var store_button = document.createElement("button");
         store_button.id = container_id + "_button";
-        store_button.name = lock_checkbox.id;
         store_button.innerText = "Export Layout";
-        $(fieldset).append(store_button);
+        var p2 = document.createElement("p");
+        $(p2).append(store_button);
+        $(fieldset).append(p2);
 
         this.textarea = document.createElement("textarea");
         textarea.id = container_id + "_textarea";
-        textarea.name = lock_checkbox.id;
         textarea.readOnly = true;
-        $(fieldset).append(textarea);
+        var p3 = document.createElement("p");
+        $(p3).append(textarea);
+        $(fieldset).append(p3);
 
         lock_checkbox.onchange = onChange;
         store_button.onclick = onClick;
