@@ -7,7 +7,7 @@ div#widgets {
 div.draggable {
     border: solid;
     border-width: 1px;
-    border-color: rgba(0,0,0,0.2);
+    border-color:rgba(0,0,0,0.1);
     padding: 0px 0px 10px 0px;
 
     -webkit-border-radius: 10px 10px 0px 0px;
@@ -24,7 +24,8 @@ div.draggable h2 {
 
     background: url(../img/window.png) no-repeat right;
     background-size: 24px 16px;
-    background-color:rgba(0,0,0,0.2);
+    background-color:rgba(0,0,0,0.1);
+    color: #001e82;
 
     -webkit-border-radius: 10px 10px 0px 0px;
     -moz-border-radius: 10px 10px 0px 0px;
