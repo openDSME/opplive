@@ -39,26 +39,30 @@ var widget_module = new function () {
         });
     }
 
-    function setup_positions() {
-        function onShow(object) {
+    function showWidget(object) {
             var id = object.target.name;
-            console.log(id);
             $("#" + id).show();
             $(object.target).remove();
         }
 
-        function onHide(object) {
-            var parent = $(object.target).parent();
-            var container = parent.parent();
-            var heading = parent.find( "h2" ).get(0);
+    function hideWidget(handle) {
+            var container = handle.parent();
+            var heading = handle.find( "h2" ).get(0);
             container.hide();
 
             var show_button = document.createElement("button");
             show_button.name = container.get(0).id;
             show_button.className = "menu-item";
             show_button.innerText = heading.innerText;
-            show_button.onclick = onShow;
+            show_button.onclick = showWidget;
             $("#menu").append(show_button);
+    }
+
+    function setup_positions() {
+
+        function onHide(object) {
+            var handle = $(object.target).parent();
+            hideWidget(handle);
         }
 
         $(".handle").each(function (index, item) {
@@ -78,7 +82,8 @@ var widget_module = new function () {
                 element.style.height = position.h + "px";
             }
             if(position.hidden) {
-                element.style.display = "none";
+                handle = $(element).find( "div" );
+                hideWidget(handle)
             }
         }
     }
@@ -168,13 +173,13 @@ var widget_module = new function () {
         },
 
         unlock: function () {
-            console.log("Unlocking UI");
+            //console.log("Unlocking UI");
             locked = false;
             add_properties();
         },
 
         lock: function () {
-            console.log("Locking UI");
+            //console.log("Locking UI");
             locked = true;
             remove_properties();
         },

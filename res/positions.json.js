@@ -26,7 +26,7 @@ var widget_positions =
         "y": 120,
         "w": 300,
         "h": null,
-        "hidden": false
+        "hidden": true
     },
     "layout_container": {
         "x": 520,
@@ -40,6 +40,6 @@ var widget_positions =
         "y": 670,
         "w": 1380,
         "h": 180,
-        "hidden": false
+        "hidden": true
     }
 }
