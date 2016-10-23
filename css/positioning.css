@@ -21,3 +21,26 @@ div#positioning_container_div {
     position: relative;
     overflow: hidden;
 }
+
+div.coordinate-box {
+    position: fixed;
+    display: none;
+    text-align: left;
+    font-size: 12px;
+    padding: 2px;
+    z-index: 99;
+    background-color: rgba(255, 255, 255, 0.5)
+}
+
+p.coordinate {
+    padding: 0px;
+    margin: 0px;
+}
+
+p.coordinate.coordinate-x::before {
+    content: "x: ";
+}
+
+p.coordinate.coordinate-y::before {
+    content: "y: ";
+}

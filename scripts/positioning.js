@@ -142,6 +142,48 @@ var positioning_module = new function () {
         div.style.height = "100%";
         $("#" + container_id).append(div);
 
+        var position_info = document.createElement("div");
+        position_info.classList.add("coordinate-box");
+        $("#" + container_id).append(position_info);
+        var spanX = document.createElement("p");
+        spanX.classList.add("coordinate");
+        spanX.classList.add("coordinate-x");
+        var spanY = document.createElement("p");
+        spanY.classList.add("coordinate");
+        spanY.classList.add("coordinate-y");
+        $(position_info).append(spanX);
+        $(position_info).append(spanY);
+
+        div.onmouseenter = onEnter;
+        div.onmouseleave = onLeave;
+
+        function onEnter(event) {
+            window.onmousemove = onMove;
+            $(position_info).show();
+        }
+
+        function onLeave(event) {
+            window.onmousemove = null;
+            $(position_info).hide();
+        }
+
+        function onMove(event) {
+            var left = event.clientX;
+            var top = event.clientY;
+
+            var rect = div.getBoundingClientRect();
+            var offsetX = rect.left;
+            var offsetY = rect.top;
+
+            position_info.style.left = left + 10 + "px";
+            position_info.style.top = top + 10 + "px";
+
+            /* -16  for node dimensions */
+            spanX.innerText = left - offsetX - shiftX - 16;
+            spanY.innerText = top - offsetY - shiftY - 16;
+            return false;
+        }
+
         this.container = div;
 
         setup_nodes(container_id, div);
