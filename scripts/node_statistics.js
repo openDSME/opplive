@@ -1,28 +1,21 @@
-var traffic_module = new function () {
+var node_statistics_module = new function () {
     /***** PRIVATE VARIABLES *****/
     this.event_name = null;
+    this.node_count = null;
     this.chart = null;
-    this.latest_label = null;
 
     /***** PRIVATE METHODS *****/
     function prepare_chart(container_id) {
         var canvas = document.createElement("canvas");
         canvas.id = container_id + "_canvas";
         canvas.style.width = "100%";
-        canvas.style.height = "100%";
+        canvas.style.height = "100px";
         $("#" + container_id).append(canvas);
 
         var ctx = canvas.getContext('2d');
         var initial_data = {
             labels: [],
             datasets: [
-                {
-                    fillColor: "rgba(0,220,0,0.2)",
-                    strokeColor: "rgba(0,220,0,1)",
-                    pointColor: "rgba(0,220,0,1)",
-                    pointStrokeColor: "#fff",
-                    data: []
-                },
                 {
                     fillColor: "rgba(220,0,0,0.2)",
                     strokeColor: "rgba(220,0,0,1)",
@@ -32,15 +25,15 @@ var traffic_module = new function () {
                 }
             ]
         };
-        this.latest_label = 1;
         this.chart = new Chart(ctx).Bar(initial_data, {
-            animationSteps: 20,
+            animationSteps: 5,
             responsive: true
         });
 
-        //TODO: remove
-        this.chart.addData([1, 2], ++latest_label);
-        this.chart.addData([3, 4], ++latest_label);
+        for (i = 0; i < node_count; i++) {
+            var value = Math.random();
+            this.chart.addData([value], i);
+        }
     }
 
     function connect(uri) {
@@ -72,8 +65,9 @@ var traffic_module = new function () {
     /***** PUBLIC INTERFACE *****/
     return {
         init: function (container_id, uri) {
-            console.log("Init traffic.js");
-            eventName = "http://opendsme.org/events/1"
+            console.log("Init node_statistics.js");
+            eventName = "http://opendsme.org/events/2"
+            node_count = nodeCount;
 
             prepare_chart(container_id);
             //connect(uri);

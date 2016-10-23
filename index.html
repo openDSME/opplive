@@ -25,6 +25,7 @@
 	<script src="scripts/interval.js"></script>
 	<script src="scripts/positioning.js"></script>
 	<script src="scripts/layout.js"></script>
+	<script src="scripts/node_statistics.js"></script>
 
 	<link rel="shortcut icon" type="image/png" href="img/favicon.png" />
 	<title>OMNeT++ Live Interface</title>
@@ -37,9 +38,9 @@
 			<h1>Live Interaction with OMNeT++ Simulations</h1>
 		</div>
 	</div>
-    <div id="menu">
-        <button class="menu-item" disabled>Menu</button>
-        <!-- <button class="menu-item">Show All</button> -->
+	<div id="menu">
+		<button class="menu-item" disabled>Menu</button>
+		<!-- <button class="menu-item">Show All</button> -->
 	</div>
 
 	<div id="widgets">
@@ -65,7 +66,7 @@
 		</div>
 		<div id="layout_container" class="draggable ui-widget-content">
 			<div class="handle">
-				<h2>Layout Management</h2>
+				<h2>Network Layout</h2>
 			</div>
 		</div>
 		<div id="node_container" class="draggable ui-widget-content">
@@ -76,13 +77,15 @@
 	</div>
 
 	<script>
-        widget_module.init("widget_container", {controls: true, locked: true});
+        widget_module.init("widget_container", {locked: true});
 
         var wsuri = "ws://127.0.0.1:9002";
+		var nodeCount = 19;
         traffic_module.init("traffic_chart_container", wsuri);
         interval_module.init("interval_container", wsuri);
-        positioning_module.init("positioning_container", wsuri);
+        positioning_module.init("positioning_container", wsuri, nodeCount);
         layout_module.init("layout_container", wsuri, positioning_module)
+		node_statistics_module.init("node_container", wsuri, nodeCount);
     </script>
 </body>
 

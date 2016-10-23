@@ -1,8 +1,8 @@
 var widget_positions =
 {
     "interval_container": {
-        "x": 520,
-        "y": 380,
+        "x": 790,
+        "y": 480,
         "w": 250,
         "h": null,
         "hidden": false
@@ -39,7 +39,7 @@ var widget_positions =
         "x": 20,
         "y": 670,
         "w": 1380,
-        "h": 180,
-        "hidden": true
+        "h": null,
+        "hidden": false
     }
 }

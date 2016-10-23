@@ -1,92 +1,79 @@
 body {
-  font-family: "Trebuchet MS", Helvetica, sans-serif;
-  font-size: 0.9em;
-  color: #000000;
-
-  margin-top: 0px;
-  overflow-x: hidden;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    font-size: 0.9em;
+    color: #000000;
+    margin-top: 0px;
+    overflow-x: hidden;
 }
-
 h1 {
     font-size: 1.4em;
 }
-
 h2 {
     font-size: 1.2em;
 }
-
 h3 {
     font-size: 1.2em;
 }
-
 h4 {
     font-size: 1.1em;
 }
-
 h5 {
     font-size: 1em;
 }
-
 p {
     font-size: 0.9em;
 }
-
 div#header {
-  background-color: #F1F1F1;
-  width: 100vw;
-  border-bottom-style: solid;
-  border-width: 1px;
-  border-color: #505050;
+    background-color: #F1F1F1;
+    width: 100vw;
+    border-bottom-style: solid;
+    border-width: 1px;
+    border-color: #505050;
 }
-
 div#header > div#title {
-  padding-top: 10px;
-  padding-bottom: 5px;
+    padding-top: 10px;
+    padding-bottom: 5px;
 }
-
 div#header > div#title > h1 {
-   margin-top: 0px;
+    margin-top: 0px;
 }
-
 div#menu {
-  text-align: left;
-  background-color: #F1F1F1;
-  width: 100vw;
-  border-bottom-style: solid;
-  border-width: 1px;
-  border-color: #505050;
+    text-align: left;
+    background-color: #F1F1F1;
+    width: 100vw;
+    border-bottom-style: solid;
+    border-width: 1px;
+    border-color: #505050;
 }
-
 div#menu > button.menu-item {
-   border-style: none;
+    border-style: none;
 }
 
 /* BUTTON -----> */
 button {
-  min-width: 140px;
-
-  background-color: #F1F1F1;
-  border-style: solid;
-  border-width: 1px;
-  border-color: #505050;
-  color:#505050;
-
-  display:inline-block;
-  cursor:pointer;
-  
-  font-size:13px;
-  font-weight:bold;
-  padding:6px 12px;
-  text-decoration:none;
+    min-width: 140px;
+    background-color: #F1F1F1;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #505050;
+    color: #505050;
+    display: inline-block;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 6px 12px;
+    text-decoration: none;
 }
-
 button:hover {
-  background-color: #C5C5C5;
+    background-color: #C5C5C5;
 }
-
+button:hover:disabled {
+    cursor: default;
+    background-color: #F1F1F1;
+}
 button:active {
-	position:relative;
-	top:1px;
+    position: relative;
+    top: 1px;
 }
 /* <----- BUTTON */
 
@@ -94,7 +81,6 @@ button:active {
 input[type=checkbox] {
     display: none;
 }
-
 input[type=checkbox] + label {
     display: inline-block;
     cursor: pointer;
@@ -103,29 +89,26 @@ input[type=checkbox] + label {
     margin-right: 15px;
     margin-bottom: 10px;
 }
-
 input[type=checkbox] + label::before {
-  content:"";
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  margin-right: 10px;
-  position: absolute;
-  left: 0;
-  bottom: 1px;
-  background-color: #F1F1F1;
-  border-style: solid;
-  border-width: 1px;
-  border-color: #505050;
-  color:#505050;
+    content: "";
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 10px;
+    position: absolute;
+    left: 0;
+    bottom: 1px;
+    background-color: #F1F1F1;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #505050;
+    color: #505050;
 }
-
 input[type=checkbox] + label:hover::before {
-  background-color: #C5C5C5;
+    background-color: #C5C5C5;
 }
-
 input[type=checkbox]:checked + label::before {
-    content:"\2716";
+    content: "\2716";
     font-size: 15px;
     color: #505050;
     text-align: center;
@@ -135,87 +118,77 @@ input[type=checkbox]:checked + label::before {
 
 /* RANGE -----> */
 input[type=range]::-webkit-slider-runnable-track {
-  width: 100%;
-  height: 8.4px;
-  cursor: pointer;
-  background: #C5C5C5;
-  border-radius: 0px;
-  border: 0.2px solid #010101;
+    width: 100%;
+    height: 8.4px;
+    cursor: pointer;
+    background: #C5C5C5;
+    border-radius: 0px;
+    border: 0.2px solid #010101;
 }
-
 input[type=range]::-webkit-slider-thumb {
-  border: 1px solid #000000;
-  height: 36px;
-  width: 16px;
-  border-radius: 0px;
-  background: #ffffff;
-  cursor: pointer;
-  -webkit-appearance: none;
-  margin-top: -14px;
+    border: 1px solid #000000;
+    height: 36px;
+    width: 16px;
+    border-radius: 0px;
+    background: #ffffff;
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -14px;
 }
-
 input[type=range]:focus::-webkit-slider-runnable-track {
-  background: #C5C5C5;
+    background: #C5C5C5;
 }
-
 input[type=range]::-moz-range-track {
-  width: 100%;
-  height: 8.4px;
-  cursor: pointer;
-  background: #C5C5C5;
-  border-radius: 0px;
-  border: 0.2px solid #010101;
+    width: 100%;
+    height: 8.4px;
+    cursor: pointer;
+    background: #C5C5C5;
+    border-radius: 0px;
+    border: 0.2px solid #010101;
 }
-
 input[type=range]::-moz-range-thumb {
-  border: 1px solid #000000;
-  height: 36px;
-  width: 16px;
-  border-radius: 0px;
-  background: #ffffff;
-  cursor: pointer;
+    border: 1px solid #000000;
+    height: 36px;
+    width: 16px;
+    border-radius: 0px;
+    background: #ffffff;
+    cursor: pointer;
 }
-
 input[type=range]::-ms-track {
-  width: 100%;
-  height: 8.4px;
-  cursor: pointer;
-  background: transparent;
-  border-color: transparent;
-  border-width: 16px 0;
-  color: transparent;
+    width: 100%;
+    height: 8.4px;
+    cursor: pointer;
+    background: transparent;
+    border-color: transparent;
+    border-width: 16px 0;
+    color: transparent;
 }
-
 input[type=range]::-ms-fill-lower {
-  background: #C5C5C5;
-  border: 0.2px solid #010101;
-  border-radius: 0px;
-  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    background: #C5C5C5;
+    border: 0.2px solid #010101;
+    border-radius: 0px;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
 }
-
 input[type=range]::-ms-fill-upper {
-  background: #C5C5C5;
-  border: 0.2px solid #010101;
-  border-radius: 0px;
-  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    background: #C5C5C5;
+    border: 0.2px solid #010101;
+    border-radius: 0px;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
 }
-
 input[type=range]::-ms-thumb {
-  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-  border: 1px solid #000000;
-  height: 36px;
-  width: 16px;
-  border-radius: 0px;
-  background: #ffffff;
-  cursor: pointer;
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    border: 1px solid #000000;
+    height: 36px;
+    width: 16px;
+    border-radius: 0px;
+    background: #ffffff;
+    cursor: pointer;
 }
-
 input[type=range]:focus::-ms-fill-lower {
-  background: #C5C5C5;
+    background: #C5C5C5;
 }
-
 input[type=range]:focus::-ms-fill-upper {
-  background: #C5C5C5;
+    background: #C5C5C5;
 }
 /* <----- RANGE */
 
@@ -223,46 +196,40 @@ input[type=range]:focus::-ms-fill-upper {
 div.draggable {
     border: solid;
     border-width: 1px;
-    border-color:rgba(0,0,0,0.1);
+    border-color: rgba(0, 0, 0, 0.1);
     padding: 0px 0px 10px 0px;
 }
-
 div.draggable > div.handle {
     padding-top: 4px;
     padding-bottom: 4px;
     padding-right: 20px;
-
     background-size: 24px 16px;
     background-color: #F1F1F1;
     color: #505050;
 }
-
 div.draggable > div.handle > h2 {
-  cursor: move;
-
-  margin: 0px 0px 0px 6px;
+    cursor: move;
+    margin: 0px 0px 0px 6px;
 }
-
-div.draggable > div.handle > a.minimize  {
-  cursor: pointer;
-
-  background: url(../../img/bar.png) no-repeat right;
-  background-size: 16px;
-  margin: 0px;
-  outline: none;
-  display: block;
-  height: 20px;
-  width: 20px;
-  float: right;
+div.draggable > div.handle > a.minimize {
+    cursor: pointer;
+    background: url(../../img/bar.png) no-repeat right;
+    background-size: 16px;
+    margin: 0px;
+    outline: none;
+    display: block;
+    height: 20px;
+    width: 20px;
+    float: right;
 }
 /* <----- WIDGETS */
 
 /* WIDGET:POSITIONING -----> */
-div.node{
+div.node {
     background-color: #F1F1F1;
     border-style: solid;
     border-width: 1px;
     border-color: #505050;
-    color:#505050;
+    color: #505050;
 }
 /* <----- WIDGET:POSITIONING */

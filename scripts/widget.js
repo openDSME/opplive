@@ -1,7 +1,5 @@
 var widget_module = new function () {
     /***** PRIVATE VARIABLES *****/
-    this.locked = null;
-    this.textarea = null;
 
     /***** PRIVATE METHODS *****/
 
@@ -40,22 +38,22 @@ var widget_module = new function () {
     }
 
     function showWidget(object) {
-            var id = object.target.name;
-            $("#" + id).show();
-            $(object.target).remove();
-        }
+        var id = object.target.name;
+        $("#" + id).show();
+        $(object.target).remove();
+    }
 
     function hideWidget(handle) {
-            var container = handle.parent();
-            var heading = handle.find( "h2" ).get(0);
-            container.hide();
+        var container = handle.parent();
+        var heading = handle.find("h2").get(0);
+        container.hide();
 
-            var show_button = document.createElement("button");
-            show_button.name = container.get(0).id;
-            show_button.className = "menu-item";
-            show_button.innerText = heading.innerText;
-            show_button.onclick = showWidget;
-            $("#menu").append(show_button);
+        var show_button = document.createElement("button");
+        show_button.name = container.get(0).id;
+        show_button.className = "menu-item";
+        show_button.innerText = heading.innerText;
+        show_button.onclick = showWidget;
+        $("#menu").append(show_button);
     }
 
     function setup_positions() {
@@ -81,14 +79,14 @@ var widget_module = new function () {
             if (position.h) {
                 element.style.height = position.h + "px";
             }
-            if(position.hidden) {
-                handle = $(element).find( "div" );
+            if (position.hidden) {
+                handle = $(element).find("div");
                 hideWidget(handle)
             }
         }
     }
 
-    function prepare_controls(container_id) {
+    function prepare_controls(container_id, locked) {
         var fieldset = document.createElement("fieldset");
         $("#" + container_id).append(fieldset);
 
@@ -96,7 +94,7 @@ var widget_module = new function () {
         lock_checkbox.id = container_id + "_checkbox";
         lock_checkbox.name = lock_checkbox.id;
         lock_checkbox.type = "checkbox";
-        lock_checkbox.checked = !this.locked;
+        lock_checkbox.checked = !locked;
 
         var label = document.createElement("label");
         label.id = container_id + "_label";
@@ -116,10 +114,10 @@ var widget_module = new function () {
         $(fieldset).append(p2);
 
         this.textarea = document.createElement("textarea");
-        textarea.id = container_id + "_textarea";
-        textarea.readOnly = true;
+        this.textarea.id = container_id + "_textarea";
+        this.textarea.readOnly = true;
         var p3 = document.createElement("p");
-        $(p3).append(textarea);
+        $(p3).append(this.textarea);
         $(fieldset).append(p3);
 
         lock_checkbox.onchange = onChange;
@@ -143,7 +141,7 @@ var widget_module = new function () {
             }
         });
         var json = JSON.stringify(positions, null, 4);
-        textarea.innerText = json;
+        $(obj.target).parent().parent().find("textarea").val(json);
     }
 
     /***** PUBLIC INTERFACE *****/
@@ -152,13 +150,9 @@ var widget_module = new function () {
             console.log("Init widget.js");
 
             var locked = true;
-            var controls = false;
             if (typeof params !== "undefined") {
                 if (typeof params.locked !== "undefined") {
                     locked = params.locked;
-                }
-                if (typeof params.controls !== "undefined") {
-                    controls = params.controls;
                 }
             }
             if (!locked) {
@@ -166,21 +160,16 @@ var widget_module = new function () {
             } else {
                 this.lock();
             }
-            if (controls) {
-                prepare_controls(container_id);
-            }
+
+            prepare_controls(container_id, locked);
             setup_positions();
         },
 
         unlock: function () {
-            //console.log("Unlocking UI");
-            locked = false;
             add_properties();
         },
 
         lock: function () {
-            //console.log("Locking UI");
-            locked = true;
             remove_properties();
         },
 

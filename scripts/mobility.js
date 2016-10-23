@@ -97,6 +97,11 @@ var mobility = {
     },
 
     normalize: function (positions) {
+        positions.forEach(function (element) {
+            element.x = Math.round(element.x);
+            element.y = Math.round(element.y);
+        }, this);
+
         var minX = Infinity;
         var minY = Infinity;
         positions.forEach(function (element) {
