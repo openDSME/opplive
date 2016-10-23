@@ -39,7 +39,7 @@ var positioning_module = new function () {
 
     function setup_nodes(container_id, div) {
         this.shiftX = 20;
-        this.shiftY = 56;
+        this.shiftY = 20;
 
         this.nodes = [];
 
@@ -86,13 +86,16 @@ var positioning_module = new function () {
             element.y = normalized.positions[index].y;
         }, this);
 
+        var minWidth = 500;
+        var minHeight = 500;
         var offsetX = 80;
+        var offsetY = 60;
         this.nodes.forEach(function (element) {
             element.object.style.left = Math.floor(element.x) + shiftX + "px";
             element.object.style.top = Math.floor(element.y) + shiftY + "px";
         }, this);
-        this.container.style.width = Math.floor(normalized.maxX + offsetX) + "px";
-        this.container.style.height = Math.floor(normalized.maxY + shiftY) + "px";
+        this.container.style.width = Math.max(minWidth, Math.floor(normalized.maxX + offsetX)) + "px";
+        this.container.style.height = Math.max(minHeight, Math.floor(normalized.maxY + shiftY + offsetY)) + "px";
 
         send_all_positions(this.nodes);
     }

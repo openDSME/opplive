@@ -75,7 +75,9 @@ var widget_module = new function () {
             var position = widget_positions[id];
             element.style.left = position.x + "px";
             element.style.top = position.y + "px";
-            element.style.width = position.w + "px";
+            if (position.w) {
+                element.style.width = position.w + "px";
+            }
             if (position.h) {
                 element.style.height = position.h + "px";
             }

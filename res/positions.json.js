@@ -1,14 +1,14 @@
 var widget_positions =
 {
     "interval_container": {
-        "x": 790,
+        "x": 820,
         "y": 480,
         "w": 250,
         "h": null,
         "hidden": false
     },
     "traffic_chart_container": {
-        "x": 790,
+        "x": 820,
         "y": 120,
         "w": 600,
         "h": null,
@@ -17,8 +17,8 @@ var widget_positions =
     "positioning_container": {
         "x": 20,
         "y": 120,
-        "w": 480,
-        "h": 520,
+        "w": null,
+        "h": null,
         "hidden": false
     },
     "widget_container": {
@@ -29,7 +29,7 @@ var widget_positions =
         "hidden": true
     },
     "layout_container": {
-        "x": 520,
+        "x": 540,
         "y": 120,
         "w": 250,
         "h": null,
@@ -37,7 +37,7 @@ var widget_positions =
     },
     "node_container": {
         "x": 20,
-        "y": 670,
+        "y": 680,
         "w": 1380,
         "h": null,
         "hidden": false

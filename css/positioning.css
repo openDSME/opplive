@@ -18,4 +18,6 @@ div.node.range {
 
 div#positioning_container_div {
     cursor: crosshair;
+    position: relative;
+    overflow: hidden;
 }
