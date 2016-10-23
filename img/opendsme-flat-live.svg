@@ -9,9 +9,9 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="116.68294mm"
-   height="58.943932mm"
-   viewBox="0 0 413.44349 208.85646"
+   width="116.80959mm"
+   height="59.602371mm"
+   viewBox="0 0 413.89224 211.18951"
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
@@ -55,11 +55,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4142136"
-     inkscape:cx="71.831445"
-     inkscape:cy="129.28395"
+     inkscape:zoom="2.8284272"
+     inkscape:cx="45.192496"
+     inkscape:cy="116.35608"
      inkscape:document-units="px"
-     inkscape:current-layer="layer3"
+     inkscape:current-layer="g4183"
      showgrid="false"
      showguides="true"
      inkscape:guide-bbox="true"
@@ -88,7 +88,7 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(44.480714,212.94518)"
+     transform="translate(44.929446,215.27823)"
      style="display:inline"
      sodipodi:insensitive="true">
     <g
@@ -241,48 +241,55 @@
      id="layer3"
      inkscape:label="Live"
      style="display:inline"
-     transform="translate(13.961768,11.721643)">
+     transform="translate(14.4105,14.054696)">
     <g
        id="g4616"
        transform="matrix(0.94302024,-0.33273538,0.33273538,0.94302024,251.56935,124.21037)">
-      <rect
-         style="opacity:1;fill:#ffffff;fill-opacity:0.4576659;stroke:#001e82;stroke-width:2.12598419;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-         id="rect4169-7-8"
-         width="180.00003"
-         height="82.500023"
-         x="-215.2901"
-         y="-139.55136" />
-      <text
-         xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;line-height:125%;font-family:Arial;-inkscape-font-specification:Arial;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#001e82;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         x="-211.59381"
-         y="-73.914116"
-         id="text4165-1-9"
-         sodipodi:linespacing="125%"><tspan
-           sodipodi:role="line"
-           id="tspan4167-1-0"
-           x="-211.59381"
-           y="-73.914116"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:70px;font-family:'Segoe Script';-inkscape-font-specification:'Segoe Script'">Live</tspan></text>
-      <rect
-         y="-139.55136"
-         x="-215.2901"
-         height="82.500008"
-         width="180"
-         id="rect4169"
-         style="opacity:1;fill:none;fill-opacity:0.4576659;stroke:#0090b8;stroke-width:2.12598419;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter4552)" />
-      <text
-         sodipodi:linespacing="125%"
-         id="text4165"
-         y="-73.914146"
-         x="-211.59381"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;line-height:125%;font-family:Arial;-inkscape-font-specification:Arial;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#0090b8;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter4560)"
-         xml:space="preserve"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:70px;font-family:'Segoe Script';-inkscape-font-specification:'Segoe Script';fill:#0090b8;fill-opacity:1"
-           y="-73.914146"
-           x="-211.59381"
-           id="tspan4167"
-           sodipodi:role="line">Live</tspan></text>
+      <g
+         id="g4175"
+         transform="matrix(0.99954746,-0.03008118,0.03008118,0.99954746,2.9003222,-3.8133598)">
+        <g
+           id="g4183">
+          <rect
+             style="opacity:1;fill:#ffffff;fill-opacity:0.78431373;stroke:#001e82;stroke-width:2.12598419;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+             id="rect4169-7-8"
+             width="180.00003"
+             height="82.500023"
+             x="-215.2901"
+             y="-139.55136" />
+          <text
+             xml:space="preserve"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;line-height:125%;font-family:Arial;-inkscape-font-specification:Arial;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#001e82;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+             x="-211.59381"
+             y="-73.914116"
+             id="text4165-1-9"
+             sodipodi:linespacing="125%"><tspan
+               sodipodi:role="line"
+               id="tspan4167-1-0"
+               x="-211.59381"
+               y="-73.914116"
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:70px;font-family:'Segoe Script';-inkscape-font-specification:'Segoe Script'">Live</tspan></text>
+          <rect
+             y="-139.55136"
+             x="-215.2901"
+             height="82.500008"
+             width="180"
+             id="rect4169"
+             style="opacity:1;fill:none;fill-opacity:0.4576659;stroke:#0090b8;stroke-width:2.12598419;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter4552)" />
+          <text
+             sodipodi:linespacing="125%"
+             id="text4165"
+             y="-73.914146"
+             x="-211.59381"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;line-height:125%;font-family:Arial;-inkscape-font-specification:Arial;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#0090b8;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter4560)"
+             xml:space="preserve"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:70px;font-family:'Segoe Script';-inkscape-font-specification:'Segoe Script';fill:#0090b8;fill-opacity:1"
+               y="-73.914146"
+               x="-211.59381"
+               id="tspan4167"
+               sodipodi:role="line">Live</tspan></text>
+        </g>
+      </g>
     </g>
   </g>
 </svg>
