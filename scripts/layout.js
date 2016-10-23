@@ -124,10 +124,9 @@ var layout_module = new function () {
 
     /***** PUBLIC INTERFACE *****/
     return {
-        init: function (container_id, uri, positioning) {
+        init: function (container_id, positioning) {
             console.log("Init layout.js");
             prepare_html(container_id, positioning);
-            //connect(uri);
         }
     }
 }
