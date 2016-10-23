@@ -3,14 +3,14 @@ body {
 }
 
 div#title {
-    width: 650px;
+    width: 550px;
     position: relative;
     left: 50%;
-    margin-left: -325px;
+    margin-left: -275px;
 }
 
 div#title img {
-    height: 50px;
+    height: 60px;
     float: left;
 }
 

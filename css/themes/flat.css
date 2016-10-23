@@ -31,11 +31,13 @@ div#header {
     border-color: #505050;
 }
 div#header > div#title {
-    padding-top: 10px;
-    padding-bottom: 5px;
+    padding-top: 2px;
+    padding-bottom: 10px;
 }
 div#header > div#title > h1 {
+    padding-top: 15px;
     margin-top: 0px;
+    margin-bottom: 0px;
 }
 div#menu {
     text-align: left;
