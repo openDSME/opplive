@@ -1,9 +1,9 @@
 var interval_module = new function () {
     /***** PRIVATE VARIABLES *****/
-    this.procedure_name = null;
-    this.session = null;
-    this.input = null;
-    this.label = null;
+    var procedure_name = null;
+    var stored_session = null;
+    var input = null;
+    var label = null;
 
     /***** PRIVATE METHODS *****/
     function prepare_input(container_id) {
@@ -37,16 +37,16 @@ var interval_module = new function () {
     function connect(uri) {
         ab.connect(uri,
             function (session) {
-                this.session = session;
+                stored_session = session;
                 console.log("Connected to " + uri);
             },
             function (code, reason) {
-                this.session = null;
+                stored_session = null;
                 console.log("Connection lost (" + reason + ")");
                 connected = false;
             },
             {
-                "maxRetries": 10,
+                "maxRetries": 1,
                 "retryDelay": 10
             }
         );
@@ -58,10 +58,10 @@ var interval_module = new function () {
     } 
 
     function setInterval(interval) {
-        if(this.session) {
-            this.session.call(this.procedure_name, interval).then(
+        if(stored_session) {
+            stored_session.call(procedure_name, interval).then(
                 function (res) {
-                    console.log("Call succeded (" + res + ")");
+                    //console.log("Call succeded (" + res + ")");
                 },
                 function (error, desc) {
                     console.log("Connection error (" + desc + ")");
@@ -79,8 +79,8 @@ var interval_module = new function () {
             procedure_name = "http://opendsme.org/rpc/setInterval"
 
             prepare_input(container_id);
-            setDisplayedValue(1.5);
-            //connect(uri);
+            setDisplayedValue(1.0);
+            connect(uri);
         }
     }
 }

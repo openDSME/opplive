@@ -1,24 +1,30 @@
 var positioning_module = new function () {
     /***** PRIVATE VARIABLES *****/
-    this.node_count = null;
-    this.container = null;
+    var node_count = null;
+    var container = null;
+    var shiftX = null;
+    var shiftY = null;
 
-    this.nodes = null;
+    var nodes = null;
+
+    var procedure_name = null;
+    var stored_session = null;
 
     /***** PRIVATE METHODS *****/
     function connect(uri) {
         ab.connect(uri,
             function (session) {
+                stored_session = session;
                 console.log("Connected to " + uri);
-                session.subscribe(this.event_name, onEvent);
             },
             function (code, reason) {
+                stored_session = 0;
                 console.log("Connection lost (" + reason + ")");
                 connected = false;
             },
 
             {
-                "maxRetries": 600,
+                "maxRetries": 1,
                 "retryDelay": 10
             }
         );
@@ -28,22 +34,33 @@ var positioning_module = new function () {
     }
 
     function send_single_position(node) {
-        // TODO
-        //console.log(node);
+        if(stored_session) {
+            stored_session.call(procedure_name + "/" + node.address, node.x, node.y).then(
+                function (res) {
+                    //console.log("Call succeded (" + res + ")");
+                },
+                function (error, desc) {
+                    console.log("Connection error (" + desc + ")");
+                }
+            );
+        } else {
+            console.log("Session is not established!");
+        }
     }
 
     function send_all_positions(nodes) {
-        // TODO
-        //console.log(nodes);
+        nodes.forEach(function (element) {
+            send_single_position(element);
+        }, this);
     }
 
     function setup_nodes(container_id, div) {
-        this.shiftX = 20;
-        this.shiftY = 20;
+        shiftX = 20;
+        shiftY = 20;
 
-        this.nodes = [];
+        nodes = [];
 
-        for (i = 0; i < this.node_count; i++) {
+        for (i = 0; i < node_count; i++) {
             nodes[i] = {
                 x: 0,
                 y: 0,
@@ -52,7 +69,7 @@ var positioning_module = new function () {
             };
         }
 
-        this.nodes.forEach(function (element) {
+        nodes.forEach(function (element) {
             var node = document.createElement("div");
             element.object = node;
             node.id = container_id + "node_" + element.address;
@@ -80,8 +97,8 @@ var positioning_module = new function () {
         }, this);
     }
 
-    function place_nodes(normalized) {
-        this.nodes.forEach(function (element, index) {
+    function place_nodes(normalized, quiet) {
+        nodes.forEach(function (element, index) {
             element.x = normalized.positions[index].x;
             element.y = normalized.positions[index].y;
         }, this);
@@ -90,25 +107,27 @@ var positioning_module = new function () {
         var minHeight = 500;
         var offsetX = 80;
         var offsetY = 60;
-        this.nodes.forEach(function (element) {
+        nodes.forEach(function (element) {
             element.object.style.left = Math.floor(element.x) + shiftX + "px";
             element.object.style.top = Math.floor(element.y) + shiftY + "px";
         }, this);
-        this.container.style.width = Math.max(minWidth, Math.floor(normalized.maxX + offsetX)) + "px";
-        this.container.style.height = Math.max(minHeight, Math.floor(normalized.maxY + shiftY + offsetY)) + "px";
+        container.style.width = Math.max(minWidth, Math.floor(normalized.maxX + offsetX)) + "px";
+        container.style.height = Math.max(minHeight, Math.floor(normalized.maxY + shiftY + offsetY)) + "px";
 
-        send_all_positions(this.nodes);
+        if(!quiet) {
+            send_all_positions(nodes);
+        }
     }
 
-    function position_nodes(mobility_provider) {
-        var positions = mobility_provider(this.node_count);
+    function position_nodes(mobility_provider, quiet) {
+        var positions = mobility_provider(node_count);
         var normalized = mobility.normalize(positions);
-        place_nodes(normalized);
+        place_nodes(normalized, quiet);
     }
 
     function get_node_positions() {
         var positions = [];
-        this.nodes.forEach(function (element, index) {
+        nodes.forEach(function (element, index) {
             positions[element.address] = {
                 x: element.x,
                 y: element.y
@@ -118,15 +137,15 @@ var positioning_module = new function () {
     }
 
     function load_node_positions(positions) {
-        if (positions.length != this.node_count) {
-            throw "Incorrect number of nodes given (was " + positions.length + ", expected " + this.node_count + ")";
+        if (positions.length != node_count) {
+            throw "Incorrect number of nodes given (was " + positions.length + ", expected " + node_count + ")";
         }
         var normalized = mobility.normalize(positions);
         place_nodes(normalized);
     }
 
     function show_ranges(show) {
-        this.nodes.forEach(function (element) {
+        nodes.forEach(function (element) {
             if (show) {
                 element.object.classList.add("range");
             } else {
@@ -184,20 +203,21 @@ var positioning_module = new function () {
             return false;
         }
 
-        this.container = div;
+        container = div;
 
         setup_nodes(container_id, div);
-        position_nodes(mobility.concentric_circles);
+        position_nodes(mobility.concentric_circles, true);
     }
 
     /***** PUBLIC INTERFACE *****/
     return {
         init: function (container_id, uri, nodeCount) {
             console.log("Init positioning.js");
+            procedure_name = "http://opendsme.org/rpc/setPosition"
 
             node_count = nodeCount;
             prepare_chart(container_id);
-            //connect(uri);
+            connect(uri);
         },
 
         reposition: function (mobility_provider) {

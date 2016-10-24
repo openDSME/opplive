@@ -1,8 +1,9 @@
 var node_statistics_module = new function () {
     /***** PRIVATE VARIABLES *****/
-    this.event_name = null;
-    this.node_count = null;
-    this.chart = null;
+    var node_count = null;
+    var chart = null;
+
+    var dropped = [];
 
     /***** PRIVATE METHODS *****/
     function prepare_chart(container_id) {
@@ -25,22 +26,22 @@ var node_statistics_module = new function () {
                 }
             ]
         };
-        this.chart = new Chart(ctx).Bar(initial_data, {
+        chart = new Chart(ctx).Bar(initial_data, {
             animationSteps: 5,
             responsive: true
         });
 
         for (i = 0; i < node_count; i++) {
-            var value = Math.random();
-            this.chart.addData([value], i);
+            dropped[i] = 0;
+            chart.addData([dropped[i]], i);
         }
     }
 
-    function connect(uri) {
+    function connect(uri, event_name) {
         ab.connect(uri,
             function (session) {
                 console.log("Connected to " + uri);
-                session.subscribe(this.event_name, onEvent);
+                session.subscribe(event_name, onEvent);
             },
             function (code, reason) {
                 console.log("Connection lost (" + reason + ")");
@@ -48,29 +49,33 @@ var node_statistics_module = new function () {
             },
 
             {
-                "maxRetries": 600,
+                "maxRetries": 1,
                 "retryDelay": 10
             }
         );
     }
 
     function onEvent(topic, event) {
-        var pair = event.split(",");
-        var received = parseFloat(pair[0]);
-        var dropped = parseFloat(pair[1]);
-
-        this.chart.addData([received, dropped], ++this.latest_label);
+        var address = parseFloat(event) - 1;
+        dropped[address]++;
+        chart.datasets[0].bars[address].value = dropped[address];
+        chart.update();
+        setTimeout(function(){
+            dropped[address]--;
+            chart.datasets[0].bars[address].value = dropped[address];
+            chart.update();
+        }, 10000);
     }
 
     /***** PUBLIC INTERFACE *****/
     return {
         init: function (container_id, uri) {
             console.log("Init node_statistics.js");
-            eventName = "http://opendsme.org/events/2"
+            var event_name = "http://opendsme.org/events/2"
             node_count = nodeCount;
 
             prepare_chart(container_id);
-            //connect(uri);
+            connect(uri, event_name);
         }
     }
 }

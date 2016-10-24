@@ -1,8 +1,7 @@
 var traffic_module = new function () {
     /***** PRIVATE VARIABLES *****/
-    this.event_name = null;
-    this.chart = null;
-    this.latest_label = null;
+    var chart = null;
+    var latest_label = null;
 
     /***** PRIVATE METHODS *****/
     function prepare_chart(container_id) {
@@ -32,22 +31,18 @@ var traffic_module = new function () {
                 }
             ]
         };
-        this.latest_label = 1;
-        this.chart = new Chart(ctx).Bar(initial_data, {
+        latest_label = 1;
+        chart = new Chart(ctx).Bar(initial_data, {
             animationSteps: 20,
             responsive: true
         });
-
-        //TODO: remove
-        this.chart.addData([1, 2], ++latest_label);
-        this.chart.addData([3, 4], ++latest_label);
     }
 
-    function connect(uri) {
+    function connect(uri, event_name) {
         ab.connect(uri,
             function (session) {
                 console.log("Connected to " + uri);
-                session.subscribe(this.event_name, onEvent);
+                session.subscribe(event_name, onEvent);
             },
             function (code, reason) {
                 console.log("Connection lost (" + reason + ")");
@@ -55,28 +50,31 @@ var traffic_module = new function () {
             },
 
             {
-                "maxRetries": 600,
+                "maxRetries": 1,
                 "retryDelay": 10
             }
         );
     }
 
     function onEvent(topic, event) {
-        var pair = event.split(",");
-        var received = parseFloat(pair[0]);
-        var dropped = parseFloat(pair[1]);
-
-        this.chart.addData([received, dropped], ++this.latest_label);
+        var tuple = event.split(",");
+        var time = parseFloat(tuple[0]);
+        var received = parseFloat(tuple[1]);
+        var dropped = parseFloat(tuple[2]);
+        chart.addData([received, dropped], time);
+        if(latest_label++ > 30) {
+            chart.removeData();
+        }
     }
 
     /***** PUBLIC INTERFACE *****/
     return {
         init: function (container_id, uri) {
             console.log("Init traffic.js");
-            eventName = "http://opendsme.org/events/1"
+            var event_name = "http://opendsme.org/events/1"
 
             prepare_chart(container_id);
-            //connect(uri);
+            connect(uri, event_name);
         }
     }
 }
