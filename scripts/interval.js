@@ -18,7 +18,7 @@ var interval_module = new function () {
 
         label = document.createElement("label");
         label.id = container_id + "_label";
-        label.innerText = "0.0";
+        label.innerText = "0.0 s";
         label.htmlFor = input.name;
 
         $("#" + container_id).append(input);
@@ -30,7 +30,7 @@ var interval_module = new function () {
         }
 
         function onInput(value) {
-            label.innerText = parseFloat(input.value) / 10;
+            label.innerText = parseFloat(input.value) / 10 + " s";
         }
     }
 
@@ -53,7 +53,7 @@ var interval_module = new function () {
     }
 
     function setDisplayedValue(value) {
-        label.innerText = value;
+        label.innerText = value + " s";
         input.value = Math.floor(value * 10);
     } 
 

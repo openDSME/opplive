@@ -1,8 +1,8 @@
 var widget_positions =
 {
     "interval_container": {
-        "x": 541,
-        "y": 480,
+        "x": 21,
+        "y": 680,
         "w": 250,
         "h": null,
         "hidden": false
@@ -10,7 +10,7 @@ var widget_positions =
     "traffic_chart_container": {
         "x": 541,
         "y": 120,
-        "w": 600,
+        "w": 500,
         "h": null,
         "hidden": false
     },
@@ -36,9 +36,9 @@ var widget_positions =
         "hidden": true
     },
     "node_container": {
-        "x": 20,
-        "y": 680,
-        "w": 1130,
+        "x": 541,
+        "y": 420,
+        "w": 500,
         "h": null,
         "hidden": false
     }
