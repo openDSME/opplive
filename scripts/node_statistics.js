@@ -3,8 +3,6 @@ var node_statistics_module = new function () {
     var node_count = null;
     var chart = null;
 
-    var dropped = [];
-
     /***** PRIVATE METHODS *****/
     function prepare_chart(container_id) {
         var canvas = document.createElement("canvas");
@@ -32,8 +30,7 @@ var node_statistics_module = new function () {
         });
 
         for (i = 0; i < node_count; i++) {
-            dropped[i] = 0;
-            chart.addData([dropped[i]], i);
+            chart.addData([0], i);
         }
     }
 
@@ -56,15 +53,11 @@ var node_statistics_module = new function () {
     }
 
     function onEvent(topic, event) {
-        var address = parseFloat(event) - 1;
-        dropped[address]++;
-        chart.datasets[0].bars[address].value = dropped[address];
+        var values = JSON.parse(event);
+        for (var i = 0; i < values.length; i++) {
+            chart.datasets[0].bars[i].value = values[i];
+        }
         chart.update();
-        setTimeout(function(){
-            dropped[address]--;
-            chart.datasets[0].bars[address].value = dropped[address];
-            chart.update();
-        }, 10000);
     }
 
     /***** PUBLIC INTERFACE *****/
