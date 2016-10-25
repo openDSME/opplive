@@ -16,13 +16,13 @@ var traffic_module = new function () {
             datasets: [
                 {
                     label: "Delivered Packets",
-                    backgroundColor: "rgba(0,220,0,0.2)",
+                    backgroundColor: "rgba(0,220,0,0.4)",
                     borderColor: "rgba(0,220,0,1)",
                     data: []
                 },
                 {
                     label: "Dropped Packets",
-                    backgroundColor: "rgba(220,0,0,0.2)",
+                    backgroundColor: "rgba(220,0,0,0.4)",
                     borderColor: "rgba(220,0,0,1)",
                     data: []
                 }

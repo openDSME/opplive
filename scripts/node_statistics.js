@@ -17,7 +17,7 @@ var node_statistics_module = new function () {
             datasets: [
                 {
                     label: "Dropped Packets",
-                    backgroundColor: "rgba(220,0,0,0.2)",
+                    backgroundColor: "rgba(220,0,0,0.4)",
                     borderColor: "rgba(220,0,0,1)",
                     data: []
                 }
