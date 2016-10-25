@@ -8,7 +8,7 @@ var node_statistics_module = new function () {
         var canvas = document.createElement("canvas");
         canvas.id = container_id + "_canvas";
         canvas.style.width = "100%";
-        canvas.style.height = "100px";
+        canvas.style.height = "80px";
         $("#" + container_id).append(canvas);
 
         var ctx = canvas.getContext('2d');
