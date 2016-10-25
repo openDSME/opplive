@@ -78,12 +78,14 @@ var traffic_module = new function () {
         chart.data.datasets[0].data.push(received);
         chart.data.datasets[1].data.push(dropped);
 
+        var duration = 1000;
         if(chart.data.labels.length > 30) {
             chart.data.labels.shift();
             chart.data.datasets[0].data.shift();
             chart.data.datasets[1].data.shift();
+            duration = 1;
         }
-        chart.update();
+        chart.update(duration);
     }
 
     /***** PUBLIC INTERFACE *****/
