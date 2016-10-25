@@ -16,22 +16,39 @@ var node_statistics_module = new function () {
             labels: [],
             datasets: [
                 {
-                    fillColor: "rgba(220,0,0,0.2)",
-                    strokeColor: "rgba(220,0,0,1)",
-                    pointColor: "rgba(220,0,0,1)",
-                    pointStrokeColor: "#fff",
+                    label: "Dropped Packets",
+                    backgroundColor: "rgba(220,0,0,0.2)",
+                    borderColor: "rgba(220,0,0,1)",
                     data: []
                 }
             ]
         };
-        chart = new Chart(ctx).Bar(initial_data, {
-            animationSteps: 5,
-            responsive: true
+        chart = new Chart(ctx, {
+            type: "bar",
+            data: initial_data,
+            options: {
+                scales: {
+                    xAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                },
+                responsive: true,
+                maintainAspectRatio: false
+            }
         });
 
         for (i = 0; i < node_count; i++) {
-            chart.addData([0], i);
+            chart.data.labels.push(i);
+            chart.data.datasets[0].data.push(0);
         }
+        chart.update();
     }
 
     function connect(uri, event_name) {
@@ -55,7 +72,7 @@ var node_statistics_module = new function () {
     function onEvent(topic, event) {
         var values = JSON.parse(event);
         for (var i = 0; i < values.length; i++) {
-            chart.datasets[0].bars[i].value = values[i];
+            chart.data.datasets[0].data[i] = values[i];
         }
         chart.update();
     }

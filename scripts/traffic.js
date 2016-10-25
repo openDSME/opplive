@@ -1,7 +1,6 @@
 var traffic_module = new function () {
     /***** PRIVATE VARIABLES *****/
     var chart = null;
-    var latest_label = null;
 
     /***** PRIVATE METHODS *****/
     function prepare_chart(container_id) {
@@ -16,25 +15,39 @@ var traffic_module = new function () {
             labels: [],
             datasets: [
                 {
-                    fillColor: "rgba(0,220,0,0.2)",
-                    strokeColor: "rgba(0,220,0,1)",
-                    pointColor: "rgba(0,220,0,1)",
-                    pointStrokeColor: "#fff",
+                    label: "Delivered Packets",
+                    backgroundColor: "rgba(0,220,0,0.2)",
+                    borderColor: "rgba(0,220,0,1)",
                     data: []
                 },
                 {
-                    fillColor: "rgba(220,0,0,0.2)",
-                    strokeColor: "rgba(220,0,0,1)",
-                    pointColor: "rgba(220,0,0,1)",
-                    pointStrokeColor: "#fff",
+                    label: "Dropped Packets",
+                    backgroundColor: "rgba(220,0,0,0.2)",
+                    borderColor: "rgba(220,0,0,1)",
                     data: []
                 }
             ]
         };
-        latest_label = 1;
-        chart = new Chart(ctx).Bar(initial_data, {
-            animationSteps: 20,
-            responsive: true
+
+        chart = new Chart(ctx, {
+            type: "bar",
+            data: initial_data,
+            options: {
+                scales: {
+                    xAxes: [{
+                        stacked: true,
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }],
+                    yAxes: [{
+                        stacked: true,
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
         });
     }
 
@@ -61,10 +74,16 @@ var traffic_module = new function () {
         var time = parseFloat(tuple[0]);
         var received = parseFloat(tuple[1]);
         var dropped = parseFloat(tuple[2]);
-        chart.addData([received, dropped], time);
-        if(latest_label++ > 30) {
-            chart.removeData();
+        chart.data.labels.push(time);
+        chart.data.datasets[0].data.push(received);
+        chart.data.datasets[1].data.push(dropped);
+
+        if(chart.data.labels.length > 30) {
+            chart.data.labels.shift();
+            chart.data.datasets[0].data.shift();
+            chart.data.datasets[1].data.shift();
         }
+        chart.update();
     }
 
     /***** PUBLIC INTERFACE *****/
