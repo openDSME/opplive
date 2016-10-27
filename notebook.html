@@ -17,7 +17,8 @@
 	<script src="scripts/lib/jquery-3.1.1.min.js"></script>
 	<script src="scripts/lib/jquery-ui-1.12.1.min.js"></script>
 
-	<script src="res/notebook.json.js"></script>
+	<script src="res/widgets/notebook.json.js"></script>
+
 	<script src="scripts/mobility.js"></script>
 	<script src="scripts/widget.js"></script>
 
@@ -83,13 +84,15 @@
 
 		/***** SINGLETONS *****/
 		widget_module.init("widget_container", {locked: true});
-        interval_module.init("interval_container", dsme_wsuri);
+		widget_module.loadView(widget_positions_notebook);
+
         positioning_module.init("positioning_container", dsme_wsuri, nodeCount);
         layout_module.init("layout_container", positioning_module)
 
 		/***** INSTANCES *****/
 		var dsme_traffic = new TrafficModule("traffic_chart_container", dsme_wsuri);
 		var dsme_node_statistics = new NoteStatisticsModule("node_container", dsme_wsuri, nodeCount);
+		var interval_slider = new IntervalSliderModule("interval_container", [dsme_wsuri]);
     </script>
 </body>
 

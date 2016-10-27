@@ -66,7 +66,7 @@ var TrafficModule = (function () {
                 session.subscribe(event_name, _onEvent);
             },
             function (code, reason) {
-                console.log("Connection lost (" + reason + ")");
+                console.error("Connection lost (" + reason + ")");
                 connected = false;
             },
 
@@ -84,7 +84,7 @@ var TrafficModule = (function () {
         _chart.data.datasets[1].data.push(parseFloat(tuple[2])); // dropped
 
         var duration = 1000;
-        if(_chart.data.labels.length > 30) {
+        if (_chart.data.labels.length > 30) {
             _chart.data.labels.shift();
             _chart.data.datasets[0].data.shift();
             _chart.data.datasets[1].data.shift();

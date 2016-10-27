@@ -65,8 +65,7 @@ var NoteStatisticsModule = (function () {
                 session.subscribe(event_name, _onEvent);
             },
             function (code, reason) {
-                console.log("Connection lost (" + reason + ")");
-                connected = false;
+                console.error("Connection lost (" + reason + ")");
             },
 
             {

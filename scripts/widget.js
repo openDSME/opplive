@@ -37,10 +37,17 @@ var widget_module = new function () {
         });
     }
 
-    function showWidget(object) {
+    function showWidgetFromMenu(object) {
         var id = object.target.name;
         $("#" + id).show();
         $(object.target).remove();
+    }
+
+    function showWidget(handle) {
+        var container = handle.parent();
+        var heading = handle.find("h2").get(0);
+        container.show();
+        $("#" + container.get(0).id + "_menu").remove();
     }
 
     function hideWidget(handle) {
@@ -50,14 +57,14 @@ var widget_module = new function () {
 
         var show_button = document.createElement("button");
         show_button.name = container.get(0).id;
+        show_button.id = show_button.name + "_menu";
         show_button.className = "menu-item";
         show_button.innerText = heading.innerText;
-        show_button.onclick = showWidget;
+        show_button.onclick = showWidgetFromMenu;
         $("#menu").append(show_button);
     }
 
     function setup_positions() {
-
         function onHide(object) {
             var handle = $(object.target).parent();
             hideWidget(handle);
@@ -69,23 +76,6 @@ var widget_module = new function () {
             hide_button.onclick = onHide;
             $(item).prepend(hide_button);
         });
-
-        for (var id in widget_positions) {
-            var element = $("#" + id).get(0);
-            var position = widget_positions[id];
-            element.style.left = position.x + "px";
-            element.style.top = position.y + "px";
-            if (position.w) {
-                element.style.width = position.w + "px";
-            }
-            if (position.h) {
-                element.style.height = position.h + "px";
-            }
-            if (position.hidden) {
-                handle = $(element).find("div");
-                hideWidget(handle)
-            }
-        }
     }
 
     function prepare_controls(container_id, locked) {
@@ -165,6 +155,29 @@ var widget_module = new function () {
 
             prepare_controls(container_id, locked);
             setup_positions();
+        },
+
+        loadView: function (positions) {
+            for (var id in positions) {
+                var element = $("#" + id).get(0);
+                var position = positions[id];
+                element.style.left = position.x + "px";
+                element.style.top = position.y + "px";
+                if (position.w) {
+                    element.style.width = position.w + "px";
+                }
+                if (position.h) {
+                    element.style.height = position.h + "px";
+                }
+                if (position.hidden && element.style.display != "none") {
+                    handle = $(element).find("div");
+                    hideWidget(handle)
+                }
+                if (!position.hidden && element.style.display == "none") {
+                    handle = $(element).find("div");
+                    showWidget(handle)
+                }
+            }
         },
 
         unlock: function () {

@@ -19,7 +19,7 @@ var positioning_module = new function () {
             },
             function (code, reason) {
                 stored_session = 0;
-                console.log("Connection lost (" + reason + ")");
+                console.error("Connection lost (" + reason + ")");
                 connected = false;
             },
 
@@ -34,17 +34,18 @@ var positioning_module = new function () {
     }
 
     function send_single_position(node) {
-        if(stored_session) {
+        if (stored_session) {
             stored_session.call(procedure_name + "/" + node.address, node.x, node.y).then(
                 function (res) {
-                    //console.log("Call succeded (" + res + ")");
+                    return;
                 },
                 function (error, desc) {
-                    console.log("Connection error (" + desc + ")");
+                    console.error("Connection error (" + desc + ")");
+                    return;
                 }
             );
         } else {
-            console.log("Session is not established!");
+            console.error("Session is not established!");
         }
     }
 
@@ -114,7 +115,7 @@ var positioning_module = new function () {
         container.style.width = Math.max(minWidth, Math.floor(normalized.maxX + offsetX)) + "px";
         container.style.height = Math.max(minHeight, Math.floor(normalized.maxY + shiftY + offsetY)) + "px";
 
-        if(!quiet) {
+        if (!quiet) {
             send_all_positions(nodes);
         }
     }
