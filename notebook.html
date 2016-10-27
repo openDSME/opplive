@@ -77,15 +77,19 @@
 	</div>
 
 	<script>
-        widget_module.init("widget_container", {locked: true});
-
-        var wsuri = "ws://134.28.77.146:9002";
+		/***** CONFIGURATION *****/
+        var dsme_wsuri = "ws://127.0.0.1:9002";
 		var nodeCount = 19;
-        traffic_module.init("traffic_chart_container", wsuri);
-        interval_module.init("interval_container", wsuri);
-        positioning_module.init("positioning_container", wsuri, nodeCount);
+
+		/***** SINGLETONS *****/
+		widget_module.init("widget_container", {locked: true});
+        interval_module.init("interval_container", dsme_wsuri);
+        positioning_module.init("positioning_container", dsme_wsuri, nodeCount);
         layout_module.init("layout_container", positioning_module)
-		node_statistics_module.init("node_container", wsuri, nodeCount);
+
+		/***** INSTANCES *****/
+		var dsme_traffic = new TrafficModule("traffic_chart_container", dsme_wsuri);
+		var dsme_node_statistics = new NoteStatisticsModule("node_container", dsme_wsuri, nodeCount);
     </script>
 </body>
 

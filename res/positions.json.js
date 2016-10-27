@@ -7,7 +7,7 @@ var widget_positions =
         "h": null,
         "hidden": false
     },
-    "traffic_chart_container": {
+    "dsme_traffic_chart_container": {
         "x": 820,
         "y": 120,
         "w": 600,
@@ -35,7 +35,7 @@ var widget_positions =
         "h": null,
         "hidden": false
     },
-    "node_container": {
+    "dsme_node_container": {
         "x": 20,
         "y": 680,
         "w": 1380,

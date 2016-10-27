@@ -1,9 +1,17 @@
-var traffic_module = new function () {
+var TrafficModule = (function () {
     /***** PRIVATE VARIABLES *****/
-    var chart = null;
+    var _chart = null;
+
+    /***** CONSTRUCTOR *****/
+    function TrafficModule(container_id, uri) {
+        console.log("Creating instance of traffic.js");
+
+        _prepare_chart(container_id);
+        _connect(uri, "http://opendsme.org/events/1");
+    }
 
     /***** PRIVATE METHODS *****/
-    function prepare_chart(container_id) {
+    function _prepare_chart(container_id) {
         var canvas = document.createElement("canvas");
         canvas.id = container_id + "_canvas";
         canvas.style.width = "100%";
@@ -29,7 +37,7 @@ var traffic_module = new function () {
             ]
         };
 
-        chart = new Chart(ctx, {
+        _chart = new Chart(ctx, {
             type: "bar",
             data: initial_data,
             options: {
@@ -51,11 +59,11 @@ var traffic_module = new function () {
         });
     }
 
-    function connect(uri, event_name) {
+    function _connect(uri, event_name) {
         ab.connect(uri,
             function (session) {
                 console.log("Connected to " + uri);
-                session.subscribe(event_name, onEvent);
+                session.subscribe(event_name, _onEvent);
             },
             function (code, reason) {
                 console.log("Connection lost (" + reason + ")");
@@ -69,33 +77,24 @@ var traffic_module = new function () {
         );
     }
 
-    function onEvent(topic, event) {
+    function _onEvent(topic, event) {
         var tuple = event.split(",");
-        var time = parseFloat(tuple[0]);
-        var received = parseFloat(tuple[1]);
-        var dropped = parseFloat(tuple[2]);
-        chart.data.labels.push(time);
-        chart.data.datasets[0].data.push(received);
-        chart.data.datasets[1].data.push(dropped);
+        _chart.data.labels.push(parseFloat(tuple[0])); // time
+        _chart.data.datasets[0].data.push(parseFloat(tuple[1])); // received
+        _chart.data.datasets[1].data.push(parseFloat(tuple[2])); // dropped
 
         var duration = 1000;
-        if(chart.data.labels.length > 30) {
-            chart.data.labels.shift();
-            chart.data.datasets[0].data.shift();
-            chart.data.datasets[1].data.shift();
+        if(_chart.data.labels.length > 30) {
+            _chart.data.labels.shift();
+            _chart.data.datasets[0].data.shift();
+            _chart.data.datasets[1].data.shift();
             duration = 1;
         }
-        chart.update(duration);
+        _chart.update(duration);
     }
 
     /***** PUBLIC INTERFACE *****/
-    return {
-        init: function (container_id, uri) {
-            console.log("Init traffic.js");
-            var event_name = "http://opendsme.org/events/1"
+    // NONE
 
-            prepare_chart(container_id);
-            connect(uri, event_name);
-        }
-    }
-}
+    return TrafficModule;
+})();

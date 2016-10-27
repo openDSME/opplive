@@ -1,10 +1,17 @@
-var node_statistics_module = new function () {
+var NoteStatisticsModule = (function () {
     /***** PRIVATE VARIABLES *****/
-    var node_count = null;
-    var chart = null;
+    var _chart = null;
+
+    /***** CONSTRUCTOR *****/
+    function NoteStatisticsModule(container_id, uri, node_count) {
+        console.log("Creating instance of node_statistics.js");
+
+        _prepare_chart(container_id, node_count);
+        _connect(uri, "http://opendsme.org/events/2");
+    }
 
     /***** PRIVATE METHODS *****/
-    function prepare_chart(container_id) {
+    function _prepare_chart(container_id, node_count ) {
         var canvas = document.createElement("canvas");
         canvas.id = container_id + "_canvas";
         canvas.style.width = "100%";
@@ -23,7 +30,7 @@ var node_statistics_module = new function () {
                 }
             ]
         };
-        chart = new Chart(ctx, {
+        _chart = new Chart(ctx, {
             type: "bar",
             data: initial_data,
             options: {
@@ -45,17 +52,17 @@ var node_statistics_module = new function () {
         });
 
         for (i = 0; i < node_count; i++) {
-            chart.data.labels.push(i);
-            chart.data.datasets[0].data.push(0);
+            _chart.data.labels.push(i);
+            _chart.data.datasets[0].data.push(0);
         }
-        chart.update();
+        _chart.update();
     }
 
-    function connect(uri, event_name) {
+    function _connect(uri, event_name) {
         ab.connect(uri,
             function (session) {
                 console.log("Connected to " + uri);
-                session.subscribe(event_name, onEvent);
+                session.subscribe(event_name, _onEvent);
             },
             function (code, reason) {
                 console.log("Connection lost (" + reason + ")");
@@ -69,23 +76,17 @@ var node_statistics_module = new function () {
         );
     }
 
-    function onEvent(topic, event) {
+    function _onEvent(topic, event) {
         var values = JSON.parse(event);
         for (var i = 0; i < values.length; i++) {
-            chart.data.datasets[0].data[i] = values[i];
+            _chart.data.datasets[0].data[i] = values[i];
         }
-        chart.update();
+        _chart.update();
     }
 
     /***** PUBLIC INTERFACE *****/
-    return {
-        init: function (container_id, uri) {
-            console.log("Init node_statistics.js");
-            var event_name = "http://opendsme.org/events/2"
-            node_count = nodeCount;
+    // NONE
 
-            prepare_chart(container_id);
-            connect(uri, event_name);
-        }
-    }
-}
+    return NoteStatisticsModule;
+})();
+
