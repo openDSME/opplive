@@ -82,31 +82,31 @@
 	</div>
 
 	<script>
-        /***** CONFIGURATION *****/
-        var dsme_wsuri = "ws://127.0.0.1:9002";
-        var nodeCount = 19;
+		/***** CONFIGURATION *****/
+		var dsme_wsuri = "ws://127.0.0.1:9002";
+		var nodeCount = 19;
 
-        /***** SINGLETONS *****/
-        widget_module.init("widget_container", {locked: true});
+		/***** SINGLETONS *****/
+		widget_module.init("widget_container", {locked: true});
 		widget_module.loadView(widget_positions_default);
 
-        positioning_module.init("positioning_container", dsme_wsuri, nodeCount);
-        layout_module.init("layout_container", positioning_module)
+		positioning_module.init("positioning_container", dsme_wsuri, nodeCount);
 
-        /***** INSTANCES *****/
-        var dsme_traffic = new TrafficModule("dsme_traffic_chart_container", dsme_wsuri);
-        var dsme_node_statistics = new NoteStatisticsModule("dsme_node_container", dsme_wsuri, nodeCount);
-        var interval_slider = new IntervalSliderModule("interval_container", [dsme_wsuri]);
+		/***** INSTANCES *****/
+		var dsme_traffic = new TrafficModule("dsme_traffic_chart_container", dsme_wsuri);
+		var dsme_node_statistics = new NoteStatisticsModule("dsme_node_container", dsme_wsuri, nodeCount);
+		var interval_slider = new IntervalSliderModule("interval_container", [dsme_wsuri]);
+		var network_layout = new NetworkLayoutModule("layout_container", positioning_module);
 
 		/***** CUSTOM CODE *****/
 		$("#view_default").click(function () {
-    		widget_module.loadView(widget_positions_default);
+			widget_module.loadView(widget_positions_default);
 		});
 
 		$("#view_statistics_only").click(function () {
-    		widget_module.loadView(widget_positions_statistics_only);
+			widget_module.loadView(widget_positions_statistics_only);
 		});
-    </script>
+	</script>
 </body>
 
 </html>

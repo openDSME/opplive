@@ -1,8 +1,16 @@
-var layout_module = new function () {
+var NetworkLayoutModule = (function () {
     /***** PRIVATE VARIABLES *****/
+    // NONE
+
+    /***** CONSTRUCTOR *****/
+    function NetworkLayoutModule(container_id, positioning) {
+        console.log("Creating instance of layout.js");
+
+        _prepare_html(container_id, positioning);
+    }
 
     /***** PRIVATE METHODS *****/
-    function prepare_html(container_id, positioning) {
+    function _prepare_html(container_id, positioning) {
         var fieldset = document.createElement("fieldset");
         $("#" + container_id).append(fieldset);
 
@@ -123,10 +131,7 @@ var layout_module = new function () {
     }
 
     /***** PUBLIC INTERFACE *****/
-    return {
-        init: function (container_id, positioning) {
-            console.log("Init layout.js");
-            prepare_html(container_id, positioning);
-        }
-    }
-}
+    // NONE
+
+    return NetworkLayoutModule;
+})();
