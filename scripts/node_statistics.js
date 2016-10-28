@@ -4,7 +4,10 @@ var NoteStatisticsModule = (function () {
 
     /***** CONSTRUCTOR *****/
     function NoteStatisticsModule(container_id, uri, node_count) {
-        console.log("Creating instance of node_statistics.js");
+        if (!(this instanceof arguments.callee)) {
+            throw new Error("Constructor called as a function");
+        }
+        console.log("Creating instance of 'node_statistics.js' at '" + container_id + "'");
 
         _prepare_chart(container_id, node_count);
         _connect(uri, "http://opendsme.org/events/2");

@@ -90,12 +90,11 @@
 		widget_module.init("widget_container", {locked: true});
 		widget_module.loadView(widget_positions_default);
 
-		positioning_module.init("positioning_container", dsme_wsuri, nodeCount);
-
 		/***** INSTANCES *****/
 		var dsme_traffic = new TrafficModule("dsme_traffic_chart_container", dsme_wsuri);
 		var dsme_node_statistics = new NoteStatisticsModule("dsme_node_container", dsme_wsuri, nodeCount);
 		var interval_slider = new IntervalSliderModule("interval_container", [dsme_wsuri]);
+		var positioning_module = new NodePositioningModule("positioning_container", [dsme_wsuri], nodeCount);
 		var network_layout = new NetworkLayoutModule("layout_container", positioning_module);
 
 		/***** CUSTOM CODE *****/

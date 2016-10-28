@@ -4,7 +4,10 @@ var TrafficModule = (function () {
 
     /***** CONSTRUCTOR *****/
     function TrafficModule(container_id, uri) {
-        console.log("Creating instance of traffic.js");
+        if (!(this instanceof arguments.callee)) {
+            throw new Error("Constructor called as a function");
+        }
+        console.log("Creating instance of 'traffic.js' at '" + container_id + "'");
 
         _prepare_chart(container_id);
         _connect(uri, "http://opendsme.org/events/1");

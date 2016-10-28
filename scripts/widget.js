@@ -139,7 +139,7 @@ var widget_module = new function () {
     /***** PUBLIC INTERFACE *****/
     return interface = {
         init: function (container_id, params) {
-            console.log("Init widget.js");
+            console.log("Initialising singleton 'widget.js' at '" + container_id + "'");
 
             var locked = true;
             if (typeof params !== "undefined") {
@@ -160,6 +160,11 @@ var widget_module = new function () {
         loadView: function (positions) {
             for (var id in positions) {
                 var element = $("#" + id).get(0);
+                if (element == undefined) {
+                    console.warn("Position was given for widget '" + id + "', but this widget does not exist");
+                    continue;
+                }
+
                 var position = positions[id];
                 element.style.left = position.x + "px";
                 element.style.top = position.y + "px";

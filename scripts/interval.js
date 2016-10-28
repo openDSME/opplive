@@ -7,7 +7,10 @@ var IntervalSliderModule = (function () {
 
     /***** CONSTRUCTOR *****/
     function IntervalSliderModule(container_id, uris) {
-        console.log("Creating instance of interval.js");
+        if (!(this instanceof arguments.callee)) {
+            throw new Error("Constructor called as a function");
+        }
+        console.log("Creating instance of 'interval.js' at '" + container_id + "'");
 
         _procedure_name = "http://opendsme.org/rpc/setInterval"
 
@@ -95,4 +98,3 @@ var IntervalSliderModule = (function () {
 
     return IntervalSliderModule;
 })();
-
