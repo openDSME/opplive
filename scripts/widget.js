@@ -175,11 +175,11 @@ var widget_module = new function () {
                     element.style.height = position.h + "px";
                 }
                 if (position.hidden && element.style.display != "none") {
-                    handle = $(element).find("div");
+                    handle = $(element).find("div.handle");
                     hideWidget(handle)
                 }
                 if (!position.hidden && element.style.display == "none") {
-                    handle = $(element).find("div");
+                    handle = $(element).find("div.handle");
                     showWidget(handle)
                 }
             }
