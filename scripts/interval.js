@@ -54,7 +54,7 @@ var IntervalSliderModule = (function () {
     function _connect(uri) {
         ab.connect(uri,
             function (session) {
-                _stored_sessions.push[session];
+                _stored_sessions.push(session);
                 console.log("Connected to " + uri);
             },
             function (code, reason) {
