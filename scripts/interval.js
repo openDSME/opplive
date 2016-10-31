@@ -58,7 +58,6 @@ var IntervalSliderModule = (function () {
                 console.log("Connected to " + uri);
             },
             function (code, reason) {
-                _stored_sessions = [];
                 console.error("Connection lost (" + reason + ")");
                 connected = false;
             },

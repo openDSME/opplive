@@ -1,6 +1,4 @@
 var NoteStatisticsModule = (function () {
-    /***** PRIVATE VARIABLES *****/
-    var _chart = null;
 
     /***** CONSTRUCTOR *****/
     function NoteStatisticsModule(container_id, uri, node_count) {
@@ -9,8 +7,11 @@ var NoteStatisticsModule = (function () {
         }
         console.log("Creating instance of 'node_statistics.js' at '" + container_id + "'");
 
-        _prepare_chart(container_id, node_count);
-        _connect(uri, "http://opendsme.org/events/2");
+    /***** PRIVATE VARIABLES *****/
+        this._chart = null;
+
+        _prepare_chart.call(this, container_id, node_count);
+        _connect.call(this, uri, "http://opendsme.org/events/2");
     }
 
     /***** PRIVATE METHODS *****/
@@ -33,7 +34,7 @@ var NoteStatisticsModule = (function () {
                 }
             ]
         };
-        _chart = new Chart(ctx, {
+        this._chart = new Chart(ctx, {
             type: "bar",
             data: initial_data,
             options: {
@@ -55,17 +56,27 @@ var NoteStatisticsModule = (function () {
         });
 
         for (i = 0; i < node_count; i++) {
-            _chart.data.labels.push(i);
-            _chart.data.datasets[0].data.push(0);
+            this._chart.data.labels.push(i);
+            this._chart.data.datasets[0].data.push(0);
         }
-        _chart.update();
+        this._chart.update();
     }
 
     function _connect(uri, event_name) {
+        var that = this;
+
+        function onEvent(topic, event) {
+            var values = JSON.parse(event);
+            for (var i = 0; i < values.length; i++) {
+                that._chart.data.datasets[0].data[i] = values[i];
+            }
+            that._chart.update();
+        }
+
         ab.connect(uri,
             function (session) {
                 console.log("Connected to " + uri);
-                session.subscribe(event_name, _onEvent);
+                session.subscribe(event_name, onEvent);
             },
             function (code, reason) {
                 console.error("Connection lost (" + reason + ")");
@@ -78,13 +89,6 @@ var NoteStatisticsModule = (function () {
         );
     }
 
-    function _onEvent(topic, event) {
-        var values = JSON.parse(event);
-        for (var i = 0; i < values.length; i++) {
-            _chart.data.datasets[0].data[i] = values[i];
-        }
-        _chart.update();
-    }
 
     /***** PUBLIC INTERFACE *****/
     // NONE

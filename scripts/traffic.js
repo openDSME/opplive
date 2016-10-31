@@ -1,6 +1,4 @@
 var TrafficModule = (function () {
-    /***** PRIVATE VARIABLES *****/
-    var _chart = null;
 
     /***** CONSTRUCTOR *****/
     function TrafficModule(container_id, uri) {
@@ -9,8 +7,11 @@ var TrafficModule = (function () {
         }
         console.log("Creating instance of 'traffic.js' at '" + container_id + "'");
 
-        _prepare_chart(container_id);
-        _connect(uri, "http://opendsme.org/events/1");
+    /***** PRIVATE VARIABLES *****/
+        this._chart = null;
+
+        _prepare_chart.call(this, container_id);
+        _connect.call(this, uri, "http://opendsme.org/events/1");
     }
 
     /***** PRIVATE METHODS *****/
@@ -40,7 +41,7 @@ var TrafficModule = (function () {
             ]
         };
 
-        _chart = new Chart(ctx, {
+        this._chart = new Chart(ctx, {
             type: "bar",
             data: initial_data,
             options: {
@@ -63,10 +64,28 @@ var TrafficModule = (function () {
     }
 
     function _connect(uri, event_name) {
+        var that = this;
+
+        function onEvent(topic, event) {
+            var tuple = event.split(",");
+            that._chart.data.labels.push(parseFloat(tuple[0])); // time
+            that._chart.data.datasets[0].data.push(parseFloat(tuple[1])); // received
+            that._chart.data.datasets[1].data.push(parseFloat(tuple[2])); // dropped
+
+            var duration = 1000;
+            if (that._chart.data.labels.length > 30) {
+                that._chart.data.labels.shift();
+                that._chart.data.datasets[0].data.shift();
+                that._chart.data.datasets[1].data.shift();
+                duration = 1;
+            }
+            that._chart.update(duration);
+        }
+
         ab.connect(uri,
             function (session) {
                 console.log("Connected to " + uri);
-                session.subscribe(event_name, _onEvent);
+                session.subscribe(event_name, onEvent);
             },
             function (code, reason) {
                 console.error("Connection lost (" + reason + ")");
@@ -80,21 +99,6 @@ var TrafficModule = (function () {
         );
     }
 
-    function _onEvent(topic, event) {
-        var tuple = event.split(",");
-        _chart.data.labels.push(parseFloat(tuple[0])); // time
-        _chart.data.datasets[0].data.push(parseFloat(tuple[1])); // received
-        _chart.data.datasets[1].data.push(parseFloat(tuple[2])); // dropped
-
-        var duration = 1000;
-        if (_chart.data.labels.length > 30) {
-            _chart.data.labels.shift();
-            _chart.data.datasets[0].data.shift();
-            _chart.data.datasets[1].data.shift();
-            duration = 1;
-        }
-        _chart.update(duration);
-    }
 
     /***** PUBLIC INTERFACE *****/
     // NONE

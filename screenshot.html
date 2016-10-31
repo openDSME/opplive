@@ -17,8 +17,7 @@
 	<script src="scripts/lib/jquery-3.1.1.min.js"></script>
 	<script src="scripts/lib/jquery-ui-1.12.1.min.js"></script>
 
-	<script src="res/widgets/default.json.js"></script>
-	<script src="res/widgets/statistics_only.json.js"></script>
+	<script src="res/widgets/screenshot.json.js"></script>
 
 	<script src="scripts/mobility.js"></script>
 	<script src="scripts/widget.js"></script>
@@ -42,13 +41,14 @@
 	</div>
 	<div id="menu">
 		<button class="menu-item" disabled>Menu</button> |
-		<!-- <button class="menu-item">Show All</button> -->
-		<button class="menu-item" id="view_default">Default View</button>
-		<button class="menu-item" id="view_statistics_only">Statistics Only</button> |
-
 	</div>
 
 	<div id="widgets">
+		<div id="positioning_container" class="draggable ui-widget-content">
+			<div class="handle">
+				<h2>Node Positioning</h2>
+			</div>
+		</div>
 		<div id="interval_container" class="draggable ui-widget-content">
 			<div class="handle">
 				<h2>Send Interval</h2>
@@ -59,34 +59,14 @@
 				<h2>DSME Traffic Statistics</h2>
 			</div>
 		</div>
-		<div id="csma_traffic_chart_container" class="draggable ui-widget-content">
-			<div class="handle">
-				<h2>CSMA Traffic Statistics</h2>
-			</div>
-		</div>
-		<div id="positioning_container" class="draggable ui-widget-content">
-			<div class="handle">
-				<h2>Node Positioning</h2>
-			</div>
-		</div>
 		<div id="widget_container" class="draggable ui-widget-content">
 			<div class="handle">
 				<h2>Widget Management</h2>
 			</div>
 		</div>
-		<div id="layout_container" class="draggable ui-widget-content">
-			<div class="handle">
-				<h2>Network Layout</h2>
-			</div>
-		</div>
 		<div id="dsme_node_container" class="draggable ui-widget-content">
 			<div class="handle">
 				<h2>DSME Node Statistics</h2>
-			</div>
-		</div>
-		<div id="csma_node_container" class="draggable ui-widget-content">
-			<div class="handle">
-				<h2>CSMA Node Statistics</h2>
 			</div>
 		</div>
 	</div>
@@ -100,19 +80,13 @@
 
 		/***** SINGLETONS *****/
 		widget_module.init("widget_container", {locked: true});
-		//widget_module.loadView(widget_positions_default);
-		widget_module.loadView(widget_positions_statistics_only);
+		widget_module.loadView(widget_positions_screenshot);
 
 		/***** INSTANCES *****/
 		var dsme_traffic = new TrafficModule("dsme_traffic_chart_container", dsme_wsuri);
-		var csma_traffic = new TrafficModule("csma_traffic_chart_container", csma_wsuri);
-
 		var dsme_node_statistics = new NoteStatisticsModule("dsme_node_container", dsme_wsuri, nodeCount);
-		var csma_node_statistics = new NoteStatisticsModule("csma_node_container", csma_wsuri, nodeCount);
-
-		var interval_slider = new IntervalSliderModule("interval_container", [dsme_wsuri, csma_wsuri]);
-		var positioning_module = new NodePositioningModule("positioning_container", [dsme_wsuri, csma_wsuri], nodeCount);
-		var network_layout = new NetworkLayoutModule("layout_container", positioning_module);
+		var interval_slider = new IntervalSliderModule("interval_container", [dsme_wsuri]);
+		var positioning_module = new NodePositioningModule("positioning_container", [dsme_wsuri], nodeCount);
 
 		/***** CUSTOM CODE *****/
 		$("#view_default").click(function () {

@@ -1,7 +1,7 @@
 var widget_positions_statistics_only =
     {
         "interval_container": {
-            "x": 840,
+            "x": 1630,
             "y": 120,
             "w": 250,
             "h": null,
@@ -9,6 +9,13 @@ var widget_positions_statistics_only =
         },
         "dsme_traffic_chart_container": {
             "x": 30,
+            "y": 120,
+            "w": 790,
+            "h": null,
+            "hidden": false
+        },
+        "csma_traffic_chart_container": {
+            "x": 830,
             "y": 120,
             "w": 790,
             "h": null,
@@ -38,8 +45,16 @@ var widget_positions_statistics_only =
         "dsme_node_container": {
             "x": 30,
             "y": 570,
-            "w": 1380,
+            "w": 790,
+            "h": null,
+            "hidden": false
+        },
+        "csma_node_container": {
+            "x": 830,
+            "y": 570,
+            "w": 790,
             "h": null,
             "hidden": false
         }
     }
+

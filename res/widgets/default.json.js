@@ -14,6 +14,13 @@ var widget_positions_default =
             "h": null,
             "hidden": false
         },
+        "csma_traffic_chart_container": {
+            "x": 820,
+            "y": 120,
+            "w": 600,
+            "h": null,
+            "hidden": true
+        },
         "positioning_container": {
             "x": 20,
             "y": 120,
@@ -41,5 +48,12 @@ var widget_positions_default =
             "w": 1380,
             "h": null,
             "hidden": false
+        },
+        "csma_node_container": {
+            "x": 20,
+            "y": 680,
+            "w": 1380,
+            "h": null,
+            "hidden": true
         }
     }
