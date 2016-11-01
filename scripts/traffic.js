@@ -1,7 +1,7 @@
 var TrafficModule = (function () {
 
     /***** CONSTRUCTOR *****/
-    function TrafficModule(container_id, uri) {
+    function TrafficModule(container_id, uri, fit_chart) {
         if (!(this instanceof arguments.callee)) {
             throw new Error("Constructor called as a function");
         }
@@ -9,6 +9,8 @@ var TrafficModule = (function () {
 
     /***** PRIVATE VARIABLES *****/
         this._chart = null;
+        this._fit_chart = fit_chart;
+        this._fit_max = -Infinity;
 
         _prepare_chart.call(this, container_id);
         _connect.call(this, uri, "http://opendsme.org/events/1");
@@ -16,6 +18,8 @@ var TrafficModule = (function () {
 
     /***** PRIVATE METHODS *****/
     function _prepare_chart(container_id) {
+        var that = this;
+
         var canvas = document.createElement("canvas");
         canvas.id = container_id + "_canvas";
         canvas.style.width = "100%";
@@ -41,7 +45,7 @@ var TrafficModule = (function () {
             ]
         };
 
-        this._chart = new Chart(ctx, {
+        that._chart = new Chart(ctx, {
             type: "bar",
             data: initial_data,
             options: {
@@ -56,7 +60,18 @@ var TrafficModule = (function () {
                         stacked: true,
                         ticks: {
                             beginAtZero: true
-                        }
+                        },
+                        afterFit: function (scale) {
+                            console.log(that._fit_chart);
+                            if(that._fit_chart) {
+                                that._fit_chart.checkY(scale.max);
+                            }
+                            if(scale.max < that._fit_max) {
+                                console.log("Refitting from ", scale.max, " to ", that._fit_max)
+                                scale.end = that._fit_max
+                                //TODO: Fix Ticks
+                            }
+                        },
                     }]
                 }
             }
@@ -80,6 +95,7 @@ var TrafficModule = (function () {
                 duration = 1;
             }
             that._chart.update(duration);
+            that._chart.update(1);
         }
 
         ab.connect(uri,
@@ -101,7 +117,13 @@ var TrafficModule = (function () {
 
 
     /***** PUBLIC INTERFACE *****/
-    // NONE
+    TrafficModule.prototype.checkY = function (max) {
+        this._fit_max = max;
+    };
+
+    TrafficModule.prototype.setFitChart = function (fit_chart) {
+        this._fit_chart = fit_chart;
+    };
 
     return TrafficModule;
 })();

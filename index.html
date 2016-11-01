@@ -105,7 +105,8 @@
 
 		/***** INSTANCES *****/
 		var dsme_traffic = new TrafficModule("dsme_traffic_chart_container", dsme_wsuri);
-		var csma_traffic = new TrafficModule("csma_traffic_chart_container", csma_wsuri);
+		var csma_traffic = new TrafficModule("csma_traffic_chart_container", csma_wsuri, dsme_traffic);
+		dsme_traffic.setFitChart(csma_traffic);
 
 		var dsme_node_statistics = new NoteStatisticsModule("dsme_node_container", dsme_wsuri, nodeCount);
 		var csma_node_statistics = new NoteStatisticsModule("csma_node_container", csma_wsuri, nodeCount);
