@@ -5,9 +5,9 @@ var NodePositioningModule = (function () {
 
     var _node_count = null;
     var _container = null;
-    var _shiftX = null;
-    var _shiftY = null;
     var _nodes = null;
+
+    var _scale = null;
 
     /***** CONSTRUCTOR *****/
     function NodePositioningModule(container_id, uris, nodeCount) {
@@ -71,9 +71,6 @@ var NodePositioningModule = (function () {
     }
 
     function _setup_nodes(container_id, div) {
-        _shiftX = 20;
-        _shiftY = 20;
-
         _nodes = [];
 
         for (i = 0; i < _node_count; i++) {
@@ -96,8 +93,8 @@ var NodePositioningModule = (function () {
             $(node).draggable({
                 stop: function (event, ui) {
                     //$(event.toElement).one('click', function (e) { e.stopImmediatePropagation(); });
-                    element.x = node.offsetLeft - _shiftX;
-                    element.y = node.offsetTop - _shiftY;
+                    element.x = node.offsetLeft * _scale;
+                    element.y = node.offsetTop * _scale;
                     _send_single_position(element);
                 },
                 containment: "parent",
@@ -108,6 +105,12 @@ var NodePositioningModule = (function () {
             node.onclick = function (element) {
                 var item = element.target;
                 item.classList.toggle("range");
+                var range = Math.floor(170 / _scale);
+                if (item.classList.contains("range")) {
+                    $(item).css("box-shadow", "0px 0px 0px " + range + "px rgba(0, 0, 0, 0.1)");
+                } else {
+                    $(item).css("box-shadow", "0px 0px 0px 0px rgba(0, 0, 0, 0.0)");
+                }
                 $(item).parent().append($(item)); /* pop to the front */
             }
         }, this);
@@ -119,16 +122,29 @@ var NodePositioningModule = (function () {
             element.y = normalized.positions[index].y;
         }, this);
 
+        _scale = normalized.maxX / 500;
+
         var minWidth = 500;
         var minHeight = 500;
-        var offsetX = 80;
-        var offsetY = 60;
+        var offset = 10;
+
+        var nodeSize = Math.min(32 / _scale, 32)
+
         _nodes.forEach(function (element) {
-            element.object.style.left = Math.floor(element.x) + _shiftX + "px";
-            element.object.style.top = Math.floor(element.y) + _shiftY + "px";
+            element.object.style.width = nodeSize + "px";
+            element.object.style.height = nodeSize + "px";
+
+            var fontSize = Math.min(30 / _scale, 15) + "px";
+            var lineHeight = nodeSize;
+            $(element.object).css("font-size", fontSize);
+            $(element.object).css("line-height", lineHeight + "px");
+
+            element.object.style.left = Math.floor(element.x / _scale) + "px";
+            element.object.style.top = Math.floor(element.y / _scale) + "px";
         }, this);
-        container.style.width = Math.max(minWidth, Math.floor(normalized.maxX + offsetX)) + "px";
-        container.style.height = Math.max(minHeight, Math.floor(normalized.maxY + _shiftY + offsetY)) + "px";
+
+        container.style.width = Math.max(minWidth, Math.floor(normalized.maxX / _scale) + nodeSize + offset) + "px";
+        container.style.height = Math.max(minHeight, Math.floor(normalized.maxY / _scale) + nodeSize + offset) + "px";
 
         if (!quiet) {
             _send_all_positions(_nodes);
@@ -163,8 +179,11 @@ var NodePositioningModule = (function () {
     function _show_ranges(show) {
         _nodes.forEach(function (element) {
             if (show) {
+                var range = Math.floor(170 / _scale);
+                $(element.object).css("box-shadow", "0px 0px 0px " + range + "px rgba(0, 0, 0, 0.1)");
                 element.object.classList.add("range");
             } else {
+                $(element.object).css("box-shadow", "0px 0px 0px 0px rgba(0, 0, 0, 0.0)");
                 element.object.classList.remove("range");
             }
         }, this);
@@ -213,9 +232,9 @@ var NodePositioningModule = (function () {
             position_info.style.left = left + 10 + "px";
             position_info.style.top = top + 10 + "px";
 
-            /* -16  for node dimensions */
-            spanX.innerText = left - offsetX - _shiftX - 16;
-            spanY.innerText = top - offsetY - _shiftY - 16;
+            var nodeWidth = Math.min(16, 16 * _scale);
+            spanX.innerText = Math.floor((left - offsetX) * _scale - nodeWidth);
+            spanY.innerText = Math.floor((top - offsetY) * _scale - nodeWidth);
             return false;
         }
 

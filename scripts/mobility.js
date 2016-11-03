@@ -41,8 +41,8 @@ var mobility = {
                 currentAngle = onCurrentCircle * 2 * Math.PI / currentCircleSize;
             }
             positions[i] = {
-                x: 70 * currentCircle * Math.cos(currentAngle),
-                y: 70 * currentCircle * Math.sin(currentAngle)
+                x: 100 * currentCircle * Math.cos(currentAngle),
+                y: 100 * currentCircle * Math.sin(currentAngle)
             };
             if (onCurrentCircle + 1 >= currentCircleSize) {
                 currentCircleSize = 6;

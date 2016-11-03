@@ -62,12 +62,12 @@ var TrafficModule = (function () {
                             beginAtZero: true
                         },
                         afterFit: function (scale) {
-                            console.log(that._fit_chart);
+                            //console.log(that._fit_chart);
                             if(that._fit_chart) {
                                 that._fit_chart.checkY(scale.max);
                             }
                             if(scale.max < that._fit_max) {
-                                console.log("Refitting from ", scale.max, " to ", that._fit_max)
+                                //console.log("Refitting from ", scale.max, " to ", that._fit_max)
                                 scale.end = that._fit_max
                                 //TODO: Fix Ticks
                             }
