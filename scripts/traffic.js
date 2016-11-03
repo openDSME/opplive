@@ -34,7 +34,7 @@ var TrafficModule = (function () {
                 rgb: "0,220,0"
             },
             {
-                label: "No Ack",
+                label: "No ACK",
                 rgb: "220,0,0"
             },
             {
