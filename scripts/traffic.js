@@ -119,7 +119,7 @@ var TrafficModule = (function () {
             var duration = 1000;
             if (that._chart.data.labels.length > 30) {
                 that._chart.data.labels.shift();
-                for (var i = 1; i < that._chart.data.datasets.length; i++) {
+                for (var i = 0; i < that._chart.data.datasets.length; i++) {
                     that._chart.data.datasets[i].data.shift();
                 }
                 duration = 1;
