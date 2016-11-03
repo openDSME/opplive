@@ -34,12 +34,24 @@ var TrafficModule = (function () {
                 rgb: "0,220,0"
             },
             {
-                label: "Dropped Packets",
+                label: "No Ack",
                 rgb: "220,0,0"
             },
             {
-                label: "Queue Loss",
+                label: "Channel Busy",
                 rgb: "220,0,100"
+            },
+            {
+                label: "No Route",
+                rgb: "220,0,150"
+            },
+            {
+                label: "Queue Full",
+                rgb: "220,0,200"
+            },
+            {
+                label: "No GTS",
+                rgb: "220,0,250"
             }
         ]
 
