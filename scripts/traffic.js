@@ -1,4 +1,4 @@
-var TrafficModule = (function () {
+var TrafficModule = (function() {
 
     /***** CONSTRUCTOR *****/
     function TrafficModule(container_id, uri, fit, excluded) {
@@ -96,7 +96,7 @@ var TrafficModule = (function () {
                         ticks: {
                             beginAtZero: true
                         },
-                        afterFit: function (scale) {
+                        afterFit: function(scale) {
                             if (that._fit_chart !== undefined) {
                                 var fitScale = that._fit_chart._chart.scales["y-axis-0"];
                                 var fitMax = fitScale.max;
@@ -151,27 +151,29 @@ var TrafficModule = (function () {
         }
 
         ab.connect(uri,
-            function (session) {
+            function(session) {
                 if (window.DEBUG) {
                     console.log("Connected to " + uri);
                 }
                 session.subscribe(event_name, onEvent);
             },
-            function (code, reason) {
-                console.error("Connection lost (" + reason + ")");
+            function(code, reason) {
+                if (window.DEBUG) {
+                    console.error("Connection lost (" + reason + ")");
+                }
                 connected = false;
             },
 
             {
-                "maxRetries": 1,
-                "retryDelay": 10
+                "maxRetries": 5,
+                "retryDelay": 1000
             }
         );
     }
 
 
     /***** PUBLIC INTERFACE *****/
-    TrafficModule.prototype.setFitChart = function (fit_chart) {
+    TrafficModule.prototype.setFitChart = function(fit_chart) {
         this._fit_chart = fit_chart;
     };
 

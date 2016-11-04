@@ -66,12 +66,14 @@ var ResetButtonModule = (function () {
                 }
             },
             function (code, reason) {
-                console.error("Connection lost (" + reason + ")");
+                if (window.DEBUG) {
+                    console.error("Connection lost (" + reason + ")");
+                }
                 connected = false;
             },
             {
-                "maxRetries": 1,
-                "retryDelay": 10
+                "maxRetries": 5,
+                "retryDelay": 1000
             }
         );
     }

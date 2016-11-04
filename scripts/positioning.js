@@ -1,4 +1,4 @@
-var NodePositioningModule = (function () {
+var NodePositioningModule = (function() {
     /***** PRIVATE VARIABLES *****/
     var _procedure_name = null;
     var _stored_sessions = [];
@@ -31,20 +31,22 @@ var NodePositioningModule = (function () {
     /***** PRIVATE METHODS *****/
     function _connect(uri) {
         ab.connect(uri,
-            function (session) {
+            function(session) {
                 _stored_sessions.push(session);
                 if (window.DEBUG) {
                     console.log("Connected to " + uri);
                 }
             },
-            function (code, reason) {
+            function(code, reason) {
                 _stored_sessions = [];
-                console.error("Connection lost (" + reason + ")");
+                if (window.DEBUG) {
+                    console.error("Connection lost (" + reason + ")");
+                }
                 connected = false;
             },
             {
-                "maxRetries": 1,
-                "retryDelay": 10
+                "maxRetries": 5,
+                "retryDelay": 1000
             }
         );
     }
@@ -57,10 +59,10 @@ var NodePositioningModule = (function () {
 
         for (var i = 0; i < _stored_sessions.length; i++) {
             _stored_sessions[i].call(_procedure_name + "/" + node.address, node.x, node.y).then(
-                function (res) {
+                function(res) {
                     return;
                 },
-                function (error, desc) {
+                function(error, desc) {
                     console.error("Connection error (" + desc + ")");
                     return;
                 }
@@ -69,7 +71,7 @@ var NodePositioningModule = (function () {
     }
 
     function _send_all_positions(nodes) {
-        nodes.forEach(function (element) {
+        nodes.forEach(function(element) {
             _send_single_position(element);
         }, this);
     }
@@ -86,7 +88,7 @@ var NodePositioningModule = (function () {
             };
         }
 
-        _nodes.forEach(function (element) {
+        _nodes.forEach(function(element) {
             var node = document.createElement("div");
             element.object = node;
             node.id = container_id + "node_" + element.address;
@@ -95,7 +97,7 @@ var NodePositioningModule = (function () {
             $(div).append(node);
 
             $(node).draggable({
-                stop: function (event, ui) {
+                stop: function(event, ui) {
                     //$(event.toElement).one('click', function (e) { e.stopImmediatePropagation(); });
                     element.x = node.offsetLeft * _scale;
                     element.y = node.offsetTop * _scale;
@@ -106,7 +108,7 @@ var NodePositioningModule = (function () {
                 stack: ".node"
             });
 
-            node.onclick = function (element) {
+            node.onclick = function(element) {
                 var item = element.target;
                 item.classList.toggle("range");
                 var range = Math.floor(170 / _scale);
@@ -121,7 +123,7 @@ var NodePositioningModule = (function () {
     }
 
     function _place_nodes(normalized, quiet) {
-        _nodes.forEach(function (element, index) {
+        _nodes.forEach(function(element, index) {
             element.x = normalized.positions[index].x;
             element.y = normalized.positions[index].y;
         }, this);
@@ -134,7 +136,7 @@ var NodePositioningModule = (function () {
 
         var nodeSize = Math.min(32 / _scale, 32)
 
-        _nodes.forEach(function (element) {
+        _nodes.forEach(function(element) {
             element.object.style.width = nodeSize + "px";
             element.object.style.height = nodeSize + "px";
 
@@ -163,7 +165,7 @@ var NodePositioningModule = (function () {
 
     function _get_node_positions() {
         var positions = [];
-        _nodes.forEach(function (element, index) {
+        _nodes.forEach(function(element, index) {
             positions[element.address] = {
                 x: element.x,
                 y: element.y
@@ -181,7 +183,7 @@ var NodePositioningModule = (function () {
     }
 
     function _show_ranges(show) {
-        _nodes.forEach(function (element) {
+        _nodes.forEach(function(element) {
             if (show) {
                 var range = Math.floor(170 / _scale);
                 $(element.object).css("box-shadow", "0px 0px 0px " + range + "px rgba(0, 0, 0, 0.1)");
@@ -249,19 +251,19 @@ var NodePositioningModule = (function () {
     }
 
     /***** PUBLIC INTERFACE *****/
-    NodePositioningModule.prototype.reposition = function (mobility_provider) {
+    NodePositioningModule.prototype.reposition = function(mobility_provider) {
         _position_nodes(mobility_provider);
     };
 
-    NodePositioningModule.prototype.getPositions = function () {
+    NodePositioningModule.prototype.getPositions = function() {
         return _get_node_positions();
     }
 
-    NodePositioningModule.prototype.loadPositions = function (positions) {
+    NodePositioningModule.prototype.loadPositions = function(positions) {
         _load_node_positions(positions);
     }
 
-    NodePositioningModule.prototype.ranges = function (show) {
+    NodePositioningModule.prototype.ranges = function(show) {
         _show_ranges(show);
     }
 

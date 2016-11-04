@@ -1,4 +1,4 @@
-var IntervalSliderModule = (function () {
+var IntervalSliderModule = (function() {
     /***** PRIVATE VARIABLES *****/
     var _procedure_name = null;
     var _stored_sessions = [];
@@ -66,19 +66,21 @@ var IntervalSliderModule = (function () {
 
     function _connect(uri) {
         ab.connect(uri,
-            function (session) {
+            function(session) {
                 _stored_sessions.push(session);
                 if (window.DEBUG) {
                     console.log("Connected to " + uri);
                 }
             },
-            function (code, reason) {
-                console.error("Connection lost (" + reason + ")");
+            function(code, reason) {
+                if (window.DEBUG) {
+                    console.error("Connection lost (" + reason + ")");
+                }
                 connected = false;
             },
             {
-                "maxRetries": 1,
-                "retryDelay": 10
+                "maxRetries": 5,
+                "retryDelay": 1000
             }
         );
     }
@@ -97,10 +99,10 @@ var IntervalSliderModule = (function () {
 
         for (var i = 0; i < _stored_sessions.length; i++) {
             _stored_sessions[i].call(_procedure_name, sendInterval).then(
-                function (res) {
+                function(res) {
                     return;
                 },
-                function (error, desc) {
+                function(error, desc) {
                     console.error("Connection error (" + desc + ")");
                     return;
                 }

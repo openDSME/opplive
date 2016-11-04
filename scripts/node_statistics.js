@@ -1,4 +1,4 @@
-var NoteStatisticsModule = (function () {
+var NoteStatisticsModule = (function() {
 
     /***** CONSTRUCTOR *****/
     function NoteStatisticsModule(container_id, uri, node_count, excluded) {
@@ -128,19 +128,21 @@ var NoteStatisticsModule = (function () {
         }
 
         ab.connect(uri,
-            function (session) {
+            function(session) {
                 if (window.DEBUG) {
                     console.log("Connected to " + uri);
                 }
                 session.subscribe(event_name, onEvent);
             },
-            function (code, reason) {
-                console.error("Connection lost (" + reason + ")");
+            function(code, reason) {
+                if (window.DEBUG) {
+                    console.error("Connection lost (" + reason + ")");
+                }
             },
 
             {
-                "maxRetries": 1,
-                "retryDelay": 10
+                "maxRetries": 5,
+                "retryDelay": 1000
             }
         );
     }
