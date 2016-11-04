@@ -79,7 +79,7 @@ var IntervalSliderModule = (function() {
                 }
             },
             {
-                "maxRetries": 10,
+                "maxRetries": 20,
                 "retryDelay": 500
             }
         );

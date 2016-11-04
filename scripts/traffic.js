@@ -104,7 +104,12 @@ var TrafficModule = (function() {
                                     scale.end = fitMax;
                                     scale.ticks = fitScale.ticks;
                                     scale.ticksAsNumbers = fitScale.ticksAsNumbers;
-                                    that._fit_chart._chart.update();
+
+                                    var duration = 1000;
+                                    if (that._fit_chart._chart.data.labels.length > 30) {
+                                        duration = 1;
+                                    }
+                                    that._fit_chart._chart.update(duration);
                                 }
                             }
                         },
@@ -165,8 +170,8 @@ var TrafficModule = (function() {
             },
 
             {
-                "maxRetries": 5,
-                "retryDelay": 1000
+                "maxRetries": 20,
+                "retryDelay": 500
             }
         );
     }
