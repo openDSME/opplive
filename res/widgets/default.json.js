@@ -1,5 +1,12 @@
 var widget_positions_default =
     {
+        "reset_container": {
+            "x": 1110,
+            "y": 570,
+            "w": null,
+            "h": null,
+            "hidden": false
+        },
         "interval_container": {
             "x": 850,
             "y": 570,

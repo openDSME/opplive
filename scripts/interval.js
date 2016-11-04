@@ -65,12 +65,18 @@ var IntervalSliderModule = (function() {
     }
 
     function _connect(uri) {
+        function onInitialized(topic, event) {
+            _setInterval(_convertValue(_input.value));
+        }
+
         ab.connect(uri,
             function(session) {
                 _stored_sessions.push(session);
                 if (window.DEBUG) {
                     console.log("Connected to " + uri);
                 }
+                session.subscribe("http://opendsme.org/events/initialized", onInitialized);
+
             },
             function(code, reason) {
                 _stored_sessions = [];
