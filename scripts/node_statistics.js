@@ -101,7 +101,12 @@ var NoteStatisticsModule = (function() {
         });
 
         for (i = 0; i < node_count; i++) {
-            this._chart.data.labels.push(i);
+            if(i == 0) {
+                this._chart.data.labels.push("?");
+            }
+            else {
+                this._chart.data.labels.push(i);
+            }
             this._chart.data.datasets[0].data.push(0);
         }
         this._chart.update();
