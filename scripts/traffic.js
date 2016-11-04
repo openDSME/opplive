@@ -158,10 +158,10 @@ var TrafficModule = (function() {
                 session.subscribe(event_name, onEvent);
             },
             function(code, reason) {
+                _stored_sessions = [];
                 if (window.DEBUG) {
                     console.error("Connection lost (" + reason + ")");
                 }
-                connected = false;
             },
 
             {

@@ -73,14 +73,14 @@ var IntervalSliderModule = (function() {
                 }
             },
             function(code, reason) {
+                _stored_sessions = [];
                 if (window.DEBUG) {
                     console.error("Connection lost (" + reason + ")");
                 }
-                connected = false;
             },
             {
-                "maxRetries": 5,
-                "retryDelay": 1000
+                "maxRetries": 10,
+                "retryDelay": 500
             }
         );
     }

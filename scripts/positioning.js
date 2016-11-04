@@ -45,8 +45,8 @@ var NodePositioningModule = (function() {
                 connected = false;
             },
             {
-                "maxRetries": 5,
-                "retryDelay": 1000
+                "maxRetries": 10,
+                "retryDelay": 500
             }
         );
     }
