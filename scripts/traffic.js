@@ -68,8 +68,9 @@ var TrafficModule = (function () {
         for (var i = 0; i < datasets.length; i++) {
             var color = datasets[i].rgb
             datasets[i].data = [];
-            datasets[i].backgroundColor = "rgba(" + color + ",0.5)",
-                datasets[i].borderColor = "rgba(" + color + ",1)"
+            datasets[i].backgroundColor = "rgba(" + color + ",0.5)";
+            datasets[i].borderColor = "rgba(" + color + ",0.5)";
+            datasets[i].borderWidth = 0;
         }
 
         var initial_data = {
@@ -94,7 +95,7 @@ var TrafficModule = (function () {
                             beginAtZero: true
                         },
                         afterFit: function (scale) {
-                            if(that._fit_chart !== undefined) {
+                            if (that._fit_chart !== undefined) {
                                 var fitScale = that._fit_chart._chart.scales["y-axis-0"];
                                 var fitMax = fitScale.max;
                                 if (scale.max < fitMax) {
@@ -120,10 +121,10 @@ var TrafficModule = (function () {
 
             var currentDataset = 0;
             for (var i = 1; i < tuple.length; i++) {
-                while (that._excluded.indexOf(currentDataset) > -1) {
-                    currentDataset++;
+                while (that._excluded.indexOf(i-1) > -1) {
+                    i++;
                 }
-                if (that._chart.data.datasets.length >= i) {
+                if (that._chart.data.datasets.length > currentDataset) {
                     that._chart.data.datasets[currentDataset].data.push(parseFloat(tuple[i]));
                 }
                 currentDataset++;
