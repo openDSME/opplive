@@ -5,7 +5,9 @@ var NoteStatisticsModule = (function () {
         if (!(this instanceof arguments.callee)) {
             throw new Error("Constructor called as a function");
         }
-        console.log("Creating instance of 'node_statistics.js' at '" + container_id + "'");
+        if (window.DEBUG) {
+            console.log("Creating instance of 'node_statistics.js' at '" + container_id + "'");
+        }
 
         /***** PRIVATE VARIABLES *****/
         this._chart = null;
@@ -127,7 +129,9 @@ var NoteStatisticsModule = (function () {
 
         ab.connect(uri,
             function (session) {
-                console.log("Connected to " + uri);
+                if (window.DEBUG) {
+                    console.log("Connected to " + uri);
+                }
                 session.subscribe(event_name, onEvent);
             },
             function (code, reason) {

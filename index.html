@@ -24,6 +24,7 @@
 	<script src="scripts/widget.js"></script>
 
 	<script src="scripts/traffic.js"></script>
+	<script src="scripts/reset.js"></script>
 	<script src="scripts/interval.js"></script>
 	<script src="scripts/positioning.js"></script>
 	<script src="scripts/layout.js"></script>
@@ -49,6 +50,11 @@
 	</div>
 
 	<div id="widgets">
+		<div id="reset_container" class="draggable ui-widget-content">
+			<div class="handle">
+				<h2>Reset</h2>
+			</div>
+		</div>
 		<div id="interval_container" class="draggable ui-widget-content">
 			<div class="handle">
 				<h2>Send Interval</h2>
@@ -93,10 +99,12 @@
 
 	<script>
 		/***** CONFIGURATION *****/
-		var dsme_wsuri = "ws://127.0.0.1:9002";
-		var csma_wsuri = "ws://127.0.0.1:9003";
+		var dsme_wsuri = "ws://donner:9002";
+		var csma_wsuri = "ws://donner:9003";
 
 		var nodeCount = 19;
+
+		window.DEBUG = false;
 
 		/***** SINGLETONS *****/
 		widget_module.init("widget_container", {locked: true});
@@ -108,9 +116,10 @@
 		var csma_traffic = new TrafficModule("csma_traffic_chart_container", csma_wsuri, fit=dsme_traffic, excluded=[5]);
 		dsme_traffic.setFitChart(csma_traffic);
 
-		var dsme_node_statistics = new NoteStatisticsModule("dsme_node_container", dsme_wsuri, nodeCount);
-		var csma_node_statistics = new NoteStatisticsModule("csma_node_container", csma_wsuri, nodeCount);
+		var dsme_node_statistics = new NoteStatisticsModule("dsme_node_container", dsme_wsuri, nodeCount, excluded=[0]);
+		var csma_node_statistics = new NoteStatisticsModule("csma_node_container", csma_wsuri, nodeCount, excluded=[0, 5]);
 
+		var reset_button = new ResetButtonModule("reset_container",  [dsme_wsuri, csma_wsuri]);
 		var interval_slider = new IntervalSliderModule("interval_container", [dsme_wsuri, csma_wsuri]);
 		var positioning_module = new NodePositioningModule("positioning_container", [dsme_wsuri, csma_wsuri], nodeCount);
 		var network_layout = new NetworkLayoutModule("layout_container", positioning_module);

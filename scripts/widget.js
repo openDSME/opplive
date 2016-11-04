@@ -139,7 +139,9 @@ var widget_module = new function () {
     /***** PUBLIC INTERFACE *****/
     return interface = {
         init: function (container_id, params) {
-            console.log("Initialising singleton 'widget.js' at '" + container_id + "'");
+            if (window.DEBUG) {
+                console.log("Initialising singleton 'widget.js' at '" + container_id + "'");
+            }
 
             var locked = true;
             if (typeof params !== "undefined") {

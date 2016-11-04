@@ -5,7 +5,9 @@ var TrafficModule = (function () {
         if (!(this instanceof arguments.callee)) {
             throw new Error("Constructor called as a function");
         }
-        console.log("Creating instance of 'traffic.js' at '" + container_id + "'");
+        if (window.DEBUG) {
+            console.log("Creating instance of 'traffic.js' at '" + container_id + "'");
+        }
 
         /***** PRIVATE VARIABLES *****/
         this._chart = null;
@@ -121,7 +123,7 @@ var TrafficModule = (function () {
 
             var currentDataset = 0;
             for (var i = 1; i < tuple.length; i++) {
-                while (that._excluded.indexOf(i-1) > -1) {
+                while (that._excluded.indexOf(i - 1) > -1) {
                     i++;
                 }
                 if (that._chart.data.datasets.length > currentDataset) {
@@ -150,7 +152,9 @@ var TrafficModule = (function () {
 
         ab.connect(uri,
             function (session) {
-                console.log("Connected to " + uri);
+                if (window.DEBUG) {
+                    console.log("Connected to " + uri);
+                }
                 session.subscribe(event_name, onEvent);
             },
             function (code, reason) {

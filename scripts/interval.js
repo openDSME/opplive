@@ -10,7 +10,9 @@ var IntervalSliderModule = (function () {
         if (!(this instanceof arguments.callee)) {
             throw new Error("Constructor called as a function");
         }
-        console.log("Creating instance of 'interval.js' at '" + container_id + "'");
+        if (window.DEBUG) {
+            console.log("Creating instance of 'interval.js' at '" + container_id + "'");
+        }
 
         _procedure_name = "http://opendsme.org/rpc/setInterval"
 
@@ -66,7 +68,9 @@ var IntervalSliderModule = (function () {
         ab.connect(uri,
             function (session) {
                 _stored_sessions.push(session);
-                console.log("Connected to " + uri);
+                if (window.DEBUG) {
+                    console.log("Connected to " + uri);
+                }
             },
             function (code, reason) {
                 console.error("Connection lost (" + reason + ")");

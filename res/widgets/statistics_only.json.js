@@ -1,5 +1,12 @@
 var widget_positions_statistics_only =
     {
+        "reset_container": {
+            "x": 1630,
+            "y": 240,
+            "w": null,
+            "h": null,
+            "hidden": false
+        },
         "interval_container": {
             "x": 1630,
             "y": 120,

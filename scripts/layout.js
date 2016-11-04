@@ -7,7 +7,9 @@ var NetworkLayoutModule = (function () {
         if (!(this instanceof arguments.callee)) {
             throw new Error("Constructor called as a function");
         }
-        console.log("Creating instance of 'layout.js' at '" + container_id + "'");
+        if (window.DEBUG) {
+            console.log("Creating instance of 'layout.js' at '" + container_id + "'");
+        }
 
         _prepare_html(container_id, positioning);
     }
