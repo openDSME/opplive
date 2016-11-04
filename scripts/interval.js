@@ -25,10 +25,11 @@ var IntervalSliderModule = (function () {
     /***** PRIVATE METHODS *****/
     function _convertValue(text) {
         var converted = parseFloat(_input.value) / 100
-        converted = Math.pow(10, converted);
+        converted = Math.pow(5, converted);
 
-        var decimals = Math.ceil(Math.log(1 / converted) / Math.log(2.5));
+        var decimals = Math.round(Math.sqrt(1 / converted));
         decimals = Math.max(0, decimals);
+        decimals = Math.min(3, decimals);
 
         converted = converted.toFixed(decimals)
         return converted;
@@ -39,8 +40,8 @@ var IntervalSliderModule = (function () {
         _input.id = container_id + "_range";
         _input.name = _input.id;
         _input.type = "range";
-        _input.min = "-100";
-        _input.max = "200";
+        _input.min = "-143";
+        _input.max = "243";
         _input.onchange = onChange;
         _input.oninput = onInput;
 
@@ -80,7 +81,7 @@ var IntervalSliderModule = (function () {
 
     function _setDisplayedValue(value) {
         _label.innerText = value + " s";
-        _input.value = Math.floor(Math.log10(value) * 100);
+        _input.value = Math.floor(Math.log(value) / Math.log(5) * 100);
     }
 
     function _setInterval(interval) {
