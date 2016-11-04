@@ -23,13 +23,24 @@ var IntervalSliderModule = (function () {
     }
 
     /***** PRIVATE METHODS *****/
+    function _convertValue(text) {
+        var converted = parseFloat(_input.value) / 100
+        converted = Math.pow(10, converted);
+
+        var decimals = Math.ceil(Math.log(1 / converted) / Math.log(2.5));
+        decimals = Math.max(0, decimals);
+
+        converted = converted.toFixed(decimals)
+        return converted;
+    }
+
     function _prepare_input(container_id) {
         _input = document.createElement("input");
         _input.id = container_id + "_range";
         _input.name = _input.id;
         _input.type = "range";
-        _input.min = "1";
-        _input.max = "40";
+        _input.min = "-100";
+        _input.max = "200";
         _input.onchange = onChange;
         _input.oninput = onInput;
 
@@ -42,12 +53,11 @@ var IntervalSliderModule = (function () {
         $("#" + container_id).append(_label);
 
         function onChange() {
-            var value = parseFloat(_input.value) / 10;
-            _setInterval(value);
+            _setInterval(_convertValue(_input.value));
         }
 
         function onInput(value) {
-            _label.innerText = parseFloat(_input.value) / 10 + " s";
+            _label.innerText = _convertValue(_input.value) + " s";
         }
     }
 
@@ -70,7 +80,7 @@ var IntervalSliderModule = (function () {
 
     function _setDisplayedValue(value) {
         _label.innerText = value + " s";
-        _input.value = Math.floor(value * 10);
+        _input.value = Math.floor(Math.log10(value) * 100);
     }
 
     function _setInterval(interval) {
