@@ -19,7 +19,7 @@ var NoteStatisticsModule = (function() {
         }
 
         _prepare_chart.call(this, container_id, node_count);
-        _connect.call(this, uri, "http://opendsme.org/events/2");
+        _connect.call(this, uri);
     }
 
     /***** PRIVATE METHODS *****/
@@ -102,12 +102,14 @@ var NoteStatisticsModule = (function() {
 
         for (i = 0; i < node_count; i++) {
             this._chart.data.labels.push(i);
-            this._chart.data.datasets[0].data.push(0);
+            for (j = 0; j < this._chart.data.datasets; j++) {
+                this._chart.data.datasets[j].data[i] = 0;
+            }
         }
         this._chart.update();
     }
 
-    function _connect(uri, event_name) {
+    function _connect(uri) {
         var that = this;
 
         function onEvent(topic, event) {
@@ -127,12 +129,22 @@ var NoteStatisticsModule = (function() {
             that._chart.update();
         }
 
+        function onInitialized(topic, event) {
+            for (i = 0; i < that._chart.data.datasets.length; i++) {
+                for (j = 0; j < that._chart.data.datasets[i].data.length; j++) {
+                    that._chart.data.datasets[i].data[j] = 0;
+                }
+            }
+            that._chart.update();
+        }
+
         ab.connect(uri,
             function(session) {
                 if (window.DEBUG) {
                     console.log("Connected to " + uri);
                 }
-                session.subscribe(event_name, onEvent);
+                session.subscribe("http://opendsme.org/events/2", onEvent);
+                session.subscribe("http://opendsme.org/events/initialized", onInitialized);
             },
             function(code, reason) {
                 if (window.DEBUG) {
@@ -141,12 +153,11 @@ var NoteStatisticsModule = (function() {
             },
 
             {
-                "maxRetries": 5,
-                "retryDelay": 1000
+                "maxRetries": 20,
+                "retryDelay": 500
             }
         );
     }
-
 
     /***** PUBLIC INTERFACE *****/
     // NONE
