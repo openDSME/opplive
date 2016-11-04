@@ -30,19 +30,23 @@ var NodePositioningModule = (function() {
 
     /***** PRIVATE METHODS *****/
     function _connect(uri) {
+        function onInitialized(topic, event) {
+            _send_all_positions(_nodes);
+        }
+
         ab.connect(uri,
             function(session) {
                 _stored_sessions.push(session);
                 if (window.DEBUG) {
                     console.log("Connected to " + uri);
                 }
+                session.subscribe("http://opendsme.org/events/initialized", onInitialized);
             },
             function(code, reason) {
                 _stored_sessions = [];
                 if (window.DEBUG) {
                     console.error("Connection lost (" + reason + ")");
                 }
-                connected = false;
             },
             {
                 "maxRetries": 20,
