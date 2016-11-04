@@ -1,7 +1,7 @@
 var TrafficModule = (function () {
 
     /***** CONSTRUCTOR *****/
-    function TrafficModule(container_id, uri, fit_chart) {
+    function TrafficModule(container_id, uri, fit, excluded) {
         if (!(this instanceof arguments.callee)) {
             throw new Error("Constructor called as a function");
         }
@@ -9,8 +9,14 @@ var TrafficModule = (function () {
 
         /***** PRIVATE VARIABLES *****/
         this._chart = null;
-        this._fit_chart = fit_chart;
+        this._fit_chart = fit;
         this._fit_max = -Infinity;
+
+        if (excluded !== undefined) {
+            this._excluded = excluded.sort();
+        } else {
+            this._excluded = []
+        }
 
         _prepare_chart.call(this, container_id);
         _connect.call(this, uri, "http://opendsme.org/events/1");
@@ -31,34 +37,38 @@ var TrafficModule = (function () {
         var datasets = [
             {
                 label: "Delivered Packets",
-                rgb: "0,220,0"
+                rgb: "0,240,0"
             },
             {
                 label: "No ACK",
-                rgb: "220,0,0"
+                rgb: "240,0,0"
             },
             {
                 label: "Channel Busy",
-                rgb: "220,0,100"
+                rgb: "240,0,150"
             },
             {
                 label: "No Route",
-                rgb: "220,0,150"
+                rgb: "220,100,30"
             },
             {
                 label: "Queue Full",
-                rgb: "220,0,200"
+                rgb: "180,50,100"
             },
             {
                 label: "No GTS",
-                rgb: "220,0,250"
+                rgb: "200,0,200"
             }
         ]
+
+        for (var i = that._excluded.length - 1; i >= 0; i--) {
+            datasets.splice(that._excluded[i], 1);
+        }
 
         for (var i = 0; i < datasets.length; i++) {
             var color = datasets[i].rgb
             datasets[i].data = [];
-            datasets[i].backgroundColor = "rgba(" + color + ",0.4)",
+            datasets[i].backgroundColor = "rgba(" + color + ",0.5)",
                 datasets[i].borderColor = "rgba(" + color + ",1)"
         }
 
@@ -84,12 +94,15 @@ var TrafficModule = (function () {
                             beginAtZero: true
                         },
                         afterFit: function (scale) {
-                            if (that._fit_chart) {
-                                that._fit_chart.checkY(scale.max);
-                            }
-                            if (scale.max < that._fit_max) {
-                                scale.end = that._fit_max
-                                //TODO: Fix Ticks
+                            if(that._fit_chart !== undefined) {
+                                var fitScale = that._fit_chart._chart.scales["y-axis-0"];
+                                var fitMax = fitScale.max;
+                                if (scale.max < fitMax) {
+                                    scale.end = fitMax;
+                                    scale.ticks = fitScale.ticks;
+                                    scale.ticksAsNumbers = fitScale.ticksAsNumbers;
+                                    that._fit_chart._chart.update();
+                                }
                             }
                         },
                     }]
@@ -104,16 +117,23 @@ var TrafficModule = (function () {
         function onEvent(topic, event) {
             var tuple = event.split(",");
             that._chart.data.labels.push(parseFloat(tuple[0])); // time
+
+            var currentDataset = 0;
             for (var i = 1; i < tuple.length; i++) {
-                if (that._chart.data.datasets.length >= i) {
-                    that._chart.data.datasets[i - 1].data.push(parseFloat(tuple[i]));
+                while (that._excluded.indexOf(currentDataset) > -1) {
+                    currentDataset++;
                 }
+                if (that._chart.data.datasets.length >= i) {
+                    that._chart.data.datasets[currentDataset].data.push(parseFloat(tuple[i]));
+                }
+                currentDataset++;
             }
 
-            if (tuple.length - 1 > that._chart.data.datasets.length) {
-                console.warn("Data was given for ", tuple.length - 1, " dataset but only ", that._chart.data.datasets.length, " exist");
+            var totalDatasets = that._chart.data.datasets.length + that._excluded.length;
+            if (tuple.length - 1 > totalDatasets) {
+                console.warn("Data was given for ", tuple.length - 1, " dataset but only ", totalDatasets, " exist");
             } else if (tuple.length - 1 < that._chart.data.datasets.length) {
-                console.warn("Data was given for ", tuple.length - 1, " dataset but ", that._chart.data.datasets.length, " have to be filled");
+                console.warn("Data was given for ", tuple.length - 1, " dataset but ", totalDatasets, " have to be filled");
             }
 
             var duration = 1000;
@@ -125,7 +145,6 @@ var TrafficModule = (function () {
                 duration = 1;
             }
             that._chart.update(duration);
-            that._chart.update(1);
         }
 
         ab.connect(uri,
@@ -147,10 +166,6 @@ var TrafficModule = (function () {
 
 
     /***** PUBLIC INTERFACE *****/
-    TrafficModule.prototype.checkY = function (max) {
-        this._fit_max = max;
-    };
-
     TrafficModule.prototype.setFitChart = function (fit_chart) {
         this._fit_chart = fit_chart;
     };

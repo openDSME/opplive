@@ -85,13 +85,14 @@ var IntervalSliderModule = (function () {
     }
 
     function _setInterval(interval) {
+        var sendInterval = parseFloat(interval);
         if (_stored_sessions.length == 0) {
             console.error("No Session is established!");
             return;
         }
 
         for (var i = 0; i < _stored_sessions.length; i++) {
-            _stored_sessions[i].call(_procedure_name, interval).then(
+            _stored_sessions[i].call(_procedure_name, sendInterval).then(
                 function (res) {
                     return;
                 },
