@@ -62,5 +62,12 @@ var widget_positions_default =
             "w": 790,
             "h": null,
             "hidden": true
+        },
+        "power_chart_container": {
+            "x": 510,
+            "y": 186,
+            "w": 720,
+            "h": null,
+            "hidden": true
         }
     }

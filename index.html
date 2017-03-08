@@ -29,6 +29,7 @@
 	<script src="scripts/positioning.js"></script>
 	<script src="scripts/layout.js"></script>
 	<script src="scripts/node_statistics.js"></script>
+	<script src="scripts/power.js"></script>
 
 	<link rel="shortcut icon" type="image/png" href="img/favicon.png" />
 	<title>OMNeT++ Live Interface</title>
@@ -95,12 +96,17 @@
 				<h2>CSMA Node Statistics</h2>
 			</div>
 		</div>
+		<div id="power_chart_container" class="draggable ui-widget-content">
+			<div class="handle">
+				<h2>Total Power Consumption [W]</h2>
+			</div>
+		</div>
 	</div>
 
 	<script>
 		/***** CONFIGURATION *****/
-		var dsme_wsuri = "ws://donner:9002";
-		var csma_wsuri = "ws://donner:9003";
+		var dsme_wsuri = "ws://erda:9002";
+		var csma_wsuri = "ws://erda:9003";
 
 		var nodeCount = 19;
 
@@ -118,6 +124,8 @@
 
 		var dsme_node_statistics = new NoteStatisticsModule("dsme_node_container", dsme_wsuri, nodeCount, excluded=[0]);
 		var csma_node_statistics = new NoteStatisticsModule("csma_node_container", csma_wsuri, nodeCount, excluded=[0, 5]);
+
+		var power_statistics = new PowerStatisticsModule("power_chart_container", [dsme_wsuri, csma_wsuri], ["DSME", "CSMA"]);
 
 		var reset_button = new ResetButtonModule("reset_container",  [dsme_wsuri, csma_wsuri]);
 		var interval_slider = new IntervalSliderModule("interval_container", [dsme_wsuri, csma_wsuri]);

@@ -62,6 +62,13 @@ var widget_positions_statistics_only =
             "w": 790,
             "h": null,
             "hidden": false
+        },
+        "power_chart_container": {
+            "x": 510,
+            "y": 186,
+            "w": 720,
+            "h": null,
+            "hidden": true
         }
     }
 
