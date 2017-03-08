@@ -69,6 +69,13 @@ var widget_positions_statistics_only =
             "w": 720,
             "h": null,
             "hidden": true
+        },
+        "qr_code_container": {
+            "x": 0,
+            "y": 106,
+            "w": null,
+            "h": null,
+            "hidden": true
         }
     }
 
