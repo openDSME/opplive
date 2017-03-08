@@ -59,7 +59,7 @@ var widget_module = new function () {
         show_button.name = container.get(0).id;
         show_button.id = show_button.name + "_menu";
         show_button.className = "menu-item";
-        show_button.innerText = heading.innerText;
+        show_button.innerHTML = heading.innerHTML;
         show_button.onclick = showWidgetFromMenu;
         $("#menu").append(show_button);
     }

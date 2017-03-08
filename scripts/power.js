@@ -12,7 +12,7 @@ var PowerStatisticsModule = (function() {
         /***** PRIVATE VARIABLES *****/
         this._chart = null;
         this._labels = labels;
-        this._arrived = 0;
+        this._last_data = [];
 
         _prepare_chart.call(this, container_id);
 
@@ -80,13 +80,15 @@ var PowerStatisticsModule = (function() {
         function onEvent(topic, event) {
             var tuple = event.split(",");
 
-            that._arrived = that._arrived + 1;
-            that._chart.data.datasets[i].data.push(parseFloat(tuple[1]));
+            that._last_data[i] = parseFloat(tuple[1]) * 1000;
 
             var duration = 1000;
             if(i == 0) {
-                that._arrived = 0;
                 that._chart.data.labels.push(parseFloat(tuple[0])); // time
+
+                for(var j = 0; j < that._labels.length; j++) {
+                    that._chart.data.datasets[j].data.push(that._last_data[j]);
+                }
 
                 if (that._chart.data.labels.length > 30) {
                     that._chart.data.labels.shift();
@@ -95,10 +97,6 @@ var PowerStatisticsModule = (function() {
                     }
                     duration = 0;
                 }
-                that._chart.update(duration);
-            }
-
-            if(that._arrived == that._labels.length) {
                 that._chart.update(duration);
             }
         }

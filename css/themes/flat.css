@@ -50,6 +50,9 @@ div#menu {
 div#menu > button.menu-item {
     border-style: none;
 }
+div#menu > button.menu-item > span.description {
+    display: none;
+}
 
 /* BUTTON -----> */
 button:not(.menu-item) {
