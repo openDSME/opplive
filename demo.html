@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+
+	<link rel="stylesheet" type="text/css" href="css/lib/jquery-ui-1.12.1.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="css/widget.css">
+	<link rel="stylesheet" type="text/css" href="css/range.css">
+	<link rel="stylesheet" type="text/css" href="css/positioning.css">
+
+	<link rel="stylesheet" type="text/css" href="css/themes/flat.css">
+
+	<script src="scripts/lib/autobahn.min.js"></script>
+	<script src="scripts/lib/chart-2.3.0.min.js"></script>
+	<script src="scripts/lib/jquery-3.1.1.min.js"></script>
+	<script src="scripts/lib/jquery-ui-1.12.1.min.js"></script>
+
+	<script src="res/widgets/demo.json.js"></script>
+
+	<script src="scripts/mobility.js"></script>
+	<script src="scripts/widget.js"></script>
+
+	<script src="scripts/traffic.js"></script>
+	<script src="scripts/reset.js"></script>
+	<script src="scripts/interval.js"></script>
+	<script src="scripts/positioning.js"></script>
+	<script src="scripts/layout.js"></script>
+	<script src="scripts/node_statistics.js"></script>
+	<script src="scripts/power.js"></script>
+
+	<link rel="shortcut icon" type="image/png" href="img/favicon.png" />
+	<title>OMNeT++ Live Interface</title>
+</head>
+
+<body>
+	<div id="header">
+		<div id="title" style="margin-left: -1235px;">
+			<img src="img/opendsme-flat.svg" alt="OpenDSME logo">
+			<h1>Live Interaction with OMNeT++ Simulations</h1>
+		</div>
+	</div>
+	<div id="menu">
+		<button class="menu-item" disabled>Menu</button> |
+		<button class="menu-item" id="view_default">Default View</button> |
+	</div>
+
+	<div id="widgets">
+		<div id="reset_container" class="draggable ui-widget-content">
+			<div class="handle">
+				<h2>Reset</h2>
+			</div>
+		</div>
+		<div id="interval_container" class="draggable ui-widget-content">
+			<div class="handle">
+				<h2>Send Interval</h2>
+			</div>
+		</div>
+		<div id="dsme_traffic_chart_container" class="draggable ui-widget-content">
+			<div class="handle">
+				<h2>DSME Traffic Statistics</h2>
+			</div>
+		</div>
+		<div id="csma_traffic_chart_container" class="draggable ui-widget-content">
+			<div class="handle">
+				<h2>CSMA Traffic Statistics</h2>
+			</div>
+		</div>
+		<div id="positioning_container" class="draggable ui-widget-content">
+			<div class="handle">
+				<h2>Node Positioning</h2>
+			</div>
+		</div>
+		<div id="widget_container" class="draggable ui-widget-content">
+			<div class="handle">
+				<h2>Widget Management</h2>
+			</div>
+		</div>
+		<div id="layout_container" class="draggable ui-widget-content">
+			<div class="handle">
+				<h2>Network Layout</h2>
+			</div>
+		</div>
+		<div id="dsme_node_container" class="draggable ui-widget-content">
+			<div class="handle">
+				<h2>DSME Node Statistics</h2>
+			</div>
+		</div>
+		<div id="csma_node_container" class="draggable ui-widget-content">
+			<div class="handle">
+				<h2>CSMA Node Statistics</h2>
+			</div>
+		</div>
+		<div id="power_chart_container" class="draggable ui-widget-content">
+			<div class="handle">
+				<h2>Total Power Consumption <span class="description">[mW]</span></h2>
+			</div>
+		</div>
+		<div id="qr_code_container" class="draggable ui-widget-content">
+			<div class="handle">
+				<h2>Our Project Page</span></h2>
+			</div>
+			<img style="margin:20px;" src="img/qr-opendsme-org-img.svg" alt="opendsme.org QR-code">
+		</div>
+	</div>
+
+	<script>
+		/***** CONFIGURATION *****/
+		var dsme_wsuri = "ws://localhost:9002";
+		var csma_wsuri = "ws://localhost:9003";
+
+		var nodeCount = 19;
+
+		window.DEBUG = false;
+
+		/***** SINGLETONS *****/
+		widget_module.init("widget_container", {locked: true});
+		widget_module.loadView(widget_positions_demo);
+
+		/***** INSTANCES *****/
+		var dsme_traffic = new TrafficModule("dsme_traffic_chart_container", dsme_wsuri);
+		var csma_traffic = new TrafficModule("csma_traffic_chart_container", csma_wsuri, fit=dsme_traffic, excluded=[5]);
+		dsme_traffic.setFitChart(csma_traffic);
+
+		var dsme_node_statistics = new NoteStatisticsModule("dsme_node_container", dsme_wsuri, nodeCount, excluded=[0]);
+		var csma_node_statistics = new NoteStatisticsModule("csma_node_container", csma_wsuri, nodeCount, excluded=[0, 5]);
+
+		var power_statistics = new PowerStatisticsModule("power_chart_container", [dsme_wsuri, csma_wsuri], ["DSME", "CSMA"]);
+
+		var reset_button = new ResetButtonModule("reset_container",  [dsme_wsuri, csma_wsuri]);
+		var interval_slider = new IntervalSliderModule("interval_container", [dsme_wsuri, csma_wsuri]);
+		var positioning_module = new NodePositioningModule("positioning_container", [dsme_wsuri, csma_wsuri], nodeCount);
+		var network_layout = new NetworkLayoutModule("layout_container", positioning_module);
+
+		/***** CUSTOM CODE *****/
+		$("#view_default").click(function () {
+			widget_module.loadView(widget_positions_demo);
+		});
+	</script>
+</body>
+
+</html>
