@@ -104,12 +104,6 @@ var TrafficModule = (function() {
                                     scale.end = fitMax;
                                     scale.ticks = fitScale.ticks;
                                     scale.ticksAsNumbers = fitScale.ticksAsNumbers;
-
-                                    var duration = 1000;
-                                    if (that._fit_chart._chart.data.labels.length > 30) {
-                                        duration = 1;
-                                    }
-                                    that._fit_chart._chart.update(duration);
                                 }
                             }
                         },
@@ -144,15 +138,16 @@ var TrafficModule = (function() {
                 console.warn("Data was given for ", tuple.length - 1, " dataset but ", totalDatasets, " have to be filled");
             }
 
-            var duration = 1000;
             if (that._chart.data.labels.length > 30) {
                 that._chart.data.labels.shift();
                 for (var i = 0; i < that._chart.data.datasets.length; i++) {
                     that._chart.data.datasets[i].data.shift();
                 }
-                duration = 1;
+                that._chart.update(1);
+            } else {
+                that._chart.update(1000);
             }
-            that._chart.update(duration);
+            
         }
 
         ab.connect(uri,
