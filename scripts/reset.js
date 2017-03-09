@@ -1,7 +1,7 @@
 var ResetButtonModule = (function () {
     /***** PRIVATE VARIABLES *****/
     var _procedure_name = null;
-    var _stored_sessions = [];
+    var _stored_sessions = {};
 
     /***** CONSTRUCTOR *****/
     function ResetButtonModule(container_id, uris) {
@@ -37,21 +37,19 @@ var ResetButtonModule = (function () {
         store_button.onclick = onClick;
 
         function onClick() {
-            if (_stored_sessions.length == 0) {
-                console.error("No Session is established!");
-                return;
-            }
-
-            for (var i = 0; i < _stored_sessions.length; i++) {
-                _stored_sessions[i].call(_procedure_name).then(
-                    function (res) {
-                        return;
-                    },
-                    function (error, desc) {
-                        console.error("Connection error (" + desc + ")");
-                        return;
-                    }
-                );
+            for (var uri in _stored_sessions) {
+                if(_stored_sessions[uri]) {
+                    _stored_sessions[uri].call(_procedure_name).then(
+                        function (res) {
+                            console.log("calling ", _procedure_name, " on session ", _stored_sessions);
+                            return;
+                        },
+                        function (error, desc) {
+                            console.error("Connection error (" + desc + ")");
+                            return;
+                        }
+                    );
+                }
             }
         }
 
@@ -60,19 +58,19 @@ var ResetButtonModule = (function () {
     function _connect(uri) {
         ab.connect(uri,
             function (session) {
-                _stored_sessions.push(session);
+                _stored_sessions[uri] = session;
                 if (window.DEBUG) {
                     console.log("Connected to " + uri);
                 }
             },
             function (code, reason) {
-                _stored_sessions = [];
+                _stored_sessions[uri] = null;
                 if (window.DEBUG) {
                     console.error("Connection lost (" + reason + ")");
                 }
             },
             {
-                "maxRetries": 20,
+                "maxRetries": 50,
                 "retryDelay": 500
             }
         );
