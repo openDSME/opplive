@@ -104,6 +104,7 @@ var TrafficModule = (function() {
                                     scale.end = fitMax;
                                     scale.ticks = fitScale.ticks;
                                     scale.ticksAsNumbers = fitScale.ticksAsNumbers;
+                                    that._fit_chart._chart.update(1);
                                 }
                             }
                         },
