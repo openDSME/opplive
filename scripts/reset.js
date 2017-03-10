@@ -39,12 +39,10 @@ var ResetButtonModule = (function () {
         store_button.onclick = onClick;
 
         function onClick() {
-            console.log(that)
             for (var uri in that._stored_sessions) {
                 if(that._stored_sessions[uri]) {
                     that._stored_sessions[uri].call(that._procedure_name).then(
                         function (res) {
-                            console.log("calling ", _procedure_name, " on session ", _stored_sessions);
                             return;
                         },
                         function (error, desc) {
@@ -55,7 +53,6 @@ var ResetButtonModule = (function () {
                 }
             }
             for (var i = 0; i < that._objects.length; i++) {
-                console.log(that._objects[i]);
                 that._objects[i].reset.call(that._objects[i]);
             }
         }
