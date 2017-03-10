@@ -117,7 +117,9 @@ var IntervalSliderModule = (function() {
     }
 
     /***** PUBLIC INTERFACE *****/
-    // NONE
+    IntervalSliderModule.prototype.reset = function() {
+        _setDisplayedValue(1.0);
+    };
 
     return IntervalSliderModule;
 })();

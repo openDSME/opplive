@@ -1,10 +1,7 @@
 var ResetButtonModule = (function () {
-    /***** PRIVATE VARIABLES *****/
-    var _procedure_name = null;
-    var _stored_sessions = {};
 
     /***** CONSTRUCTOR *****/
-    function ResetButtonModule(container_id, uris) {
+    function ResetButtonModule(container_id, uris, objects) {
         if (!(this instanceof arguments.callee)) {
             throw new Error("Constructor called as a function");
         }
@@ -12,18 +9,23 @@ var ResetButtonModule = (function () {
             console.log("Creating instance of 'reset.js' at '" + container_id + "'");
         }
 
-        _procedure_name = "http://opendsme.org/rpc/restart"
+        /***** PRIVATE VARIABLES *****/
+        this._procedure_name = "http://opendsme.org/rpc/restart"
+        this._stored_sessions = {};
+        this._objects = objects;
 
-        _prepare_input(container_id);
+        _prepare_input.call(this, container_id);
 
         for (var i = 0; i < uris.length; i++) {
-            _connect(uris[i]);
+            _connect.call(this, uris[i]);
         }
     }
 
     /***** PRIVATE METHODS *****/
 
     function _prepare_input(container_id) {
+        var that = this;
+
         var fieldset = document.createElement("fieldset");
         $("#" + container_id).append(fieldset);
 
@@ -37,9 +39,10 @@ var ResetButtonModule = (function () {
         store_button.onclick = onClick;
 
         function onClick() {
-            for (var uri in _stored_sessions) {
-                if(_stored_sessions[uri]) {
-                    _stored_sessions[uri].call(_procedure_name).then(
+            console.log(that)
+            for (var uri in that._stored_sessions) {
+                if(that._stored_sessions[uri]) {
+                    that._stored_sessions[uri].call(that._procedure_name).then(
                         function (res) {
                             console.log("calling ", _procedure_name, " on session ", _stored_sessions);
                             return;
@@ -51,20 +54,26 @@ var ResetButtonModule = (function () {
                     );
                 }
             }
+            for (var i = 0; i < that._objects.length; i++) {
+                console.log(that._objects[i]);
+                that._objects[i].reset.call(that._objects[i]);
+            }
         }
 
     }
 
     function _connect(uri) {
+        var that = this;
+
         ab.connect(uri,
             function (session) {
-                _stored_sessions[uri] = session;
+                that._stored_sessions[uri] = session;
                 if (window.DEBUG) {
                     console.log("Connected to " + uri);
                 }
             },
             function (code, reason) {
-                _stored_sessions[uri] = null;
+                that._stored_sessions[uri] = null;
                 if (window.DEBUG) {
                     console.error("Connection lost (" + reason + ")");
                 }

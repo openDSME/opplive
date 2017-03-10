@@ -128,8 +128,9 @@
 
 		var power_statistics = new PowerStatisticsModule("power_chart_container", [dsme_wsuri, csma_wsuri], ["DSME", "CSMA"]);
 
-		var reset_button = new ResetButtonModule("reset_container",  [dsme_wsuri, csma_wsuri]);
 		var interval_slider = new IntervalSliderModule("interval_container", [dsme_wsuri, csma_wsuri]);
+		var reset_button = new ResetButtonModule("reset_container",  [dsme_wsuri, csma_wsuri], [interval_slider]);
+
 		var positioning_module = new NodePositioningModule("positioning_container", [dsme_wsuri, csma_wsuri], nodeCount);
 		var network_layout = new NetworkLayoutModule("layout_container", positioning_module);
 

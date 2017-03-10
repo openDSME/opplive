@@ -169,4 +169,3 @@ var NoteStatisticsModule = (function() {
 
     return NoteStatisticsModule;
 })();
-
