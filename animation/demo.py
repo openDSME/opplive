@@ -47,7 +47,7 @@ while True:
     move(loc_reset)
     sleep(1)
     click()
-    sleep(35)
+    sleep(45)
 
     move(loc_concentric)
     sleep(1)
