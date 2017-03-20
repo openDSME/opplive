@@ -106,6 +106,8 @@
 	</div>
 
 	<script>
+		document.addEventListener('contextmenu', event => event.preventDefault());
+
 		/***** CONFIGURATION *****/
 		var dsme_wsuri = "ws://localhost:9002";
 		var csma_wsuri = "ws://localhost:9003";
