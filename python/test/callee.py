@@ -7,6 +7,7 @@ class TestCallee(ApplicationSession):
         print('session ready')
 
         def add2(x, y):
+            print(x, '+', y)
             return x + y
 
         try:
