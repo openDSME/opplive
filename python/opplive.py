@@ -5,7 +5,7 @@ import autobahn_sync
 import cmd
 
 class Shell(cmd.Cmd):
-    intro = 'Test shell. Type help or ? to list commands.\n'
+    intro = 'Interactive OMNeT++ shell. Type help or ? to list commands.\n'
     prompt = '>> '
 
     def __init__(self, caller, *args):
