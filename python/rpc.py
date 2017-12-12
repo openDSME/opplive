@@ -62,7 +62,7 @@ def main(args):
     Shell(autobahn_sync.call).cmdloop()
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description='Call remote procedures on a remote OMNeT++ simulation')
     parser.add_argument('realm', type=str)
     parser.add_argument('host', type=str)
     parser.add_argument('port', type=int)
