@@ -13,10 +13,10 @@ def main(args):
         @inlineCallbacks
         def onJoin(self, details):
 
-            def onevent(msg):
-                print('>> {}'.format(msg))
-
             for topic in args.topic:
+                def onevent(msg):
+                    print('>> {0} >> {1}'.format(topic, msg))
+
                 print('Subscribing to topic {}'.format(topic))
                 yield self.subscribe(onevent, topic)
 
