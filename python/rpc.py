@@ -12,6 +12,9 @@ class Shell(cmd.Cmd):
         super().__init__(*args)
         self.caller = caller
 
+    def complete_modules(self, text, line, begidx, endidx):
+        return [text] #TODO
+
     def do_modules(self, arg):
         '''List all submodules of a module'''
 
@@ -55,14 +58,14 @@ class Shell(cmd.Cmd):
         print(res)
 
 def main(args):
-    url = u'ws://{0}:{1}/ws'.format(args.host, args.port)
-    print('Attempting connection to "{0}"'.format(url))
+    url = u'ws://{}:{}/ws'.format(args.host, args.port)
+    print('Connecting to "{}".'.format(url))
 
     autobahn_sync.run(url=url, realm=args.realm)
     Shell(autobahn_sync.call).cmdloop()
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Call remote procedures on a remote OMNeT++ simulation')
+    parser = argparse.ArgumentParser(description='Call remote procedures on a remote OMNeT++ simulation.')
     parser.add_argument('realm', type=str)
     parser.add_argument('host', type=str)
     parser.add_argument('port', type=int)

@@ -1,30 +1,33 @@
 #!/usr/bin/env python3
 
 import argparse
+import asyncio
 
-from twisted.internet.defer import inlineCallbacks
-from autobahn.twisted.wamp import ApplicationSession, ApplicationRunner
-
+from autobahn.asyncio.wamp import ApplicationSession, ApplicationRunner
 
 def main(args):
-    url = u'ws://{0}:{1}/ws'.format(args.host, args.port)
+    url = 'ws://{}:{}/ws'.format(args.host, args.port)
+    print('Connecting to "{}".'.format(url))
 
     class EventPrinter(ApplicationSession):
-        @inlineCallbacks
-        def onJoin(self, details):
+        async def onJoin(self, details):
 
             for topic in args.topic:
                 def onevent(*args):
-                    print('>> {0} >> {1}'.format(topic, args))
+                    print('>> {} >> {}'.format(topic, ','.join(args)))
 
-                print('Subscribing to topic {}'.format(topic))
-                yield self.subscribe(onevent, topic)
+                print('Subscribing to topic "{}".'.format(topic))
+                await self.subscribe(onevent, topic)
+
+        def onDisconnect(self):
+            print('Disconnecting.')
+            asyncio.get_event_loop().stop()
 
     runner = ApplicationRunner(url=url, realm=args.realm)
     runner.run(EventPrinter)
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Subscribe to events of a remote OMNeT++ simulation')
+    parser = argparse.ArgumentParser(description='Subscribe to events of a remote OMNeT++ simulation.')
     parser.add_argument('realm', type=str)
     parser.add_argument('host', type=str)
     parser.add_argument('port', type=int)
