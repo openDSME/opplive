@@ -100,6 +100,10 @@ class Shell(cmd.Cmd):
         module, parameter, value = arg.split(' ')
         res = self.caller(u'com.examples.functions.setParameter', module, parameter, value)
 
+    def do_quit(self, arg):
+        '''Exit the application'''
+        exit()
+
 def main(args):
     url = u'ws://{}:{}/ws'.format(args.host, args.port)
     print('Connecting to "{}".'.format(url))
