@@ -99,7 +99,6 @@ class Shell(cmd.Cmd):
 
         module, parameter, value = arg.split(' ')
         res = self.caller(u'com.examples.functions.setParameter', module, parameter, value)
-        print(res)
 
 def main(args):
     url = u'ws://{}:{}/ws'.format(args.host, args.port)
