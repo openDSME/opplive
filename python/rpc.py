@@ -4,14 +4,19 @@ import argparse
 import autobahn_sync
 import cmd
 
+PROCEDURE_GET_SUBMODULES      = 'com.examples.functions.getAllSubmodules'
+PROCEDURE_GET_PARAMTERS       = 'com.examples.functions.getParameterNames'
+PROCEDURE_GET_PARAMETER_VALUE = 'com.examples.functions.getParameter'
+PROCEDURE_SET_PARAMETER_VALUE = 'com.examples.functions.setParameter'
+
 class Shell(cmd.Cmd):
     intro = 'Interactive OMNeT++ shell. Type help or ? to list commands.\n'
     prompt = '>> '
 
     ###### CONSTRUCTOR ######
-    def __init__(self, caller, *args):
+    def __init__(self, call, *args):
         super().__init__(*args)
-        self.caller = caller
+        self.call = call
 
     ###### HELPER FUNCTIONS ######
     def emptyline(self):
@@ -27,11 +32,11 @@ class Shell(cmd.Cmd):
         return res
 
     def get_modules(self, module):
-        res = self.caller(u'com.examples.functions.getAllSubmodules', module)
+        res = self.call(PROCEDURE_GET_SUBMODULES, module)
         return self.result_to_list(res)
 
     def get_parameters(self, module):
-        res = self.caller(u'com.examples.functions.getParameterNames', module)
+        res = self.call(PROCEDURE_GET_PARAMTERS, module)
         return self.result_to_list(res)
 
     def get_modules_for_completion(self, text):
@@ -51,6 +56,13 @@ class Shell(cmd.Cmd):
         matching_parameters = [p[0] for p in matching_parameters]
         matching_parameters = [p for p in matching_parameters if p.startswith(text)]
         return matching_parameters
+
+    def print_objects(self, objects):
+        objects = sorted(objects, key=lambda o: o[0])
+        max_name_length = max(len(name) for name, _ in objects)
+        print(max_name_length)
+        for name, typename in objects:
+            print(name.ljust(max_name_length), '->', typename)
 
     ###### AUTOCOMPLETE FUNCTIONS ######
     def complete_modules(self, text, line, begidx, endidx):
@@ -75,30 +87,21 @@ class Shell(cmd.Cmd):
     ###### COMMANDS ######
     def do_modules(self, arg):
         '''List all submodules of a module'''
-
-        modules = self.get_modules(arg)
-        for name, typename in modules:
-            print(name, '->', typename)
+        self.print_objects(self.get_modules(arg))
 
     def do_parameters(self, arg):
         '''List all parameters of a module'''
-
-        parameters = self.get_parameters(arg)
-        for name, typename in parameters:
-            print(name, '->', typename)
+        self.print_objects(self.get_parameters(arg))
 
     def do_getParameter(self, arg):
         '''Retrieve the value of a module parameter'''
-
         module, parameter = arg.split(' ')
-        res = self.caller(u'com.examples.functions.getParameter', module, parameter)
-        print(res)
+        print(self.call(PROCEDURE_SET_PARAMETER_VALUE, module, parameter))
 
     def do_setParameter(self, arg):
         '''Change the value of a module parameter'''
-
         module, parameter, value = arg.split(' ')
-        res = self.caller(u'com.examples.functions.setParameter', module, parameter, value)
+        self.call(PROCEDURE_SET_PARAMETER_VALUE, module, parameter, value)
 
     def do_quit(self, arg):
         '''Exit the application'''
@@ -109,7 +112,10 @@ def main(args):
     print('Connecting to "{}".'.format(url))
 
     autobahn_sync.run(url=url, realm=args.realm)
-    Shell(autobahn_sync.call).cmdloop()
+    try:
+        Shell(autobahn_sync.call).cmdloop()
+    except KeyboardInterrupt:
+        print('Shutting down.')
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Call remote procedures on a remote OMNeT++ simulation.')
