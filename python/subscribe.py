@@ -14,8 +14,8 @@ def main(args):
         def onJoin(self, details):
 
             for topic in args.topic:
-                def onevent(msg):
-                    print('>> {0} >> {1}'.format(topic, msg))
+                def onevent(*args):
+                    print('>> {0} >> {1}'.format(topic, args))
 
                 print('Subscribing to topic {}'.format(topic))
                 yield self.subscribe(onevent, topic)
