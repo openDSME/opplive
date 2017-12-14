@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+
+	<script src="lib/autobahn.min.js"></script>
+	<script src="lib/jquery-3.2.1.min.js"></script>
+
+	<script src="script/script.js"></script>
+
+	<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
+
+	<title>OMNeT++ Live Interface</title>
+</head>
+
+<body>
+	<div id="top-bar" class="container">
+		<form id="connection" class="vertical">
+			<label>Host:</label>
+			<input type="text" id="host" size="20" value="localhost">
+			<label>Port:</label>
+			<input type="text" id="port" size="6" value="9000">
+			<label>Realm:</label>
+			<input type="text" id="realm" size="20" value="opplive">
+			<input type="submit" id="submit" value="Connect">
+		</form>
+	</div>
+
+	<div class="container">
+		<div class="component">
+			<h1>Modules</h1>
+			<div id="module-tree"></div>
+		</div>
+		<div class="component">
+			<h1>Parameters</h1>
+			<table id="parameter-table">
+			</table>
+		</div>
+	</div>
+
+	<script>
+		$('#connection').submit(function(event) {
+			event.preventDefault();
+
+			var host  = $('#host').val();
+			var port  = $('#port').val();
+			var realm = $('#realm').val();
+
+			var url = 'ws://' + host + ':' + port + '/ws';
+			console.log('Connecting to realm "' + realm + '" on "' + url + '"');
+
+			connect(url, realm);
+		});
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,59 @@
+:root {
+    --primary-color:              rgba(255, 255, 255, 0.95);
+    --background-color:           #222222;
+    --highlight-background-color: rgba(255, 255, 255, 0.05);
+
+    --main-font-family:             Courier New, Courier, monospace;
+}
+
+body {
+    color:            var(--primary-color);
+    background-color: var(--background-color);
+    font-family:      var(--main-font-family);
+    margin:           0px;
+}
+
+div.container {
+    padding: 15px;
+}
+
+div.component {
+    float: left;
+    width: 50%;
+}
+
+div#top-bar {
+    border-bottom-style: solid;
+    border-color:        var(--primary-color);
+    border-width:        2px;
+}
+
+form.vertical > input {
+    margin-right: 15px;
+}
+
+input, button {
+    font-family:        inherit;
+    font-size:          inherit;
+
+    color:              var(--primary-color);
+    background-color:   var(--highlight-background-color);
+
+    border-color:       var(--primary-color);
+    border-width:       1px;
+}
+
+input {
+    padding:      0.2em;
+    border-style: none none dashed none;
+}
+
+input#submit {
+    padding:      0.2em 0.5em 0.2em 0.5em;
+    border-style: solid;
+}
+
+table#parameter-table > tr >td {
+    padding-right:  2em;
+    height:         28px;
+}
