@@ -3,6 +3,7 @@
 import argparse
 import autobahn_sync
 import cmd
+import re
 
 PROCEDURE_GET_SUBMODULES      = 'com.examples.functions.getAllSubmodules'
 PROCEDURE_GET_PARAMTERS       = 'com.examples.functions.getParameterNames'
@@ -19,9 +20,6 @@ class Shell(cmd.Cmd):
         self.call = call
 
     ###### HELPER FUNCTIONS ######
-    def emptyline(self):
-        pass
-
     def result_to_list(self, res):
         if hasattr(res, 'results'):
             res = list(res.results)
@@ -57,10 +55,15 @@ class Shell(cmd.Cmd):
         matching_parameters = [p for p in matching_parameters if p.startswith(text)]
         return matching_parameters
 
+    def sort_objects(self, objects):
+        convert = lambda text: int(text) if text.isdigit() else text
+        alphanum_key = lambda o: [convert(c) for c in re.split('([0-9]+)', o[0])]
+        objects = sorted(objects, key=alphanum_key)
+        return objects
+
     def print_objects(self, objects):
-        objects = sorted(objects, key=lambda o: o[0])
+        objects = self.sort_objects(objects)
         max_name_length = max(len(name) for name, _ in objects)
-        print(max_name_length)
         for name, typename in objects:
             print(name.ljust(max_name_length), '->', typename)
 
@@ -85,6 +88,9 @@ class Shell(cmd.Cmd):
         return self.complete_getParameter(text, line, begidx, endidx)
 
     ###### COMMANDS ######
+    def emptyline(self):
+        pass
+
     def do_modules(self, arg):
         '''List all submodules of a module'''
         self.print_objects(self.get_modules(arg))
@@ -96,7 +102,7 @@ class Shell(cmd.Cmd):
     def do_getParameter(self, arg):
         '''Retrieve the value of a module parameter'''
         module, parameter = arg.split(' ')
-        print(self.call(PROCEDURE_SET_PARAMETER_VALUE, module, parameter))
+        print(self.call(PROCEDURE_GET_PARAMETER_VALUE, module, parameter))
 
     def do_setParameter(self, arg):
         '''Change the value of a module parameter'''
