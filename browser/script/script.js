@@ -15,11 +15,35 @@ function result_to_list(res) {
     return res;
 }
 
+function set_parameter_value(session, module_path, parameter, input) {
+    input.removeClass('invalid').addClass('syncing');
+    var value = input.val();
+    session.call(PROCEDURE_SET_PARAMETER_VALUE, [module_path, parameter, value]).then(function (res) {
+        input.removeClass('syncing')
+    });
+}
+
 function show_parameter_value(session, module_path, parameter, cell) {
     session.call(PROCEDURE_GET_PARAMETER_VALUE, [module_path, parameter]).then(function (res) {
         cell.empty();
-        var input = $('<input type="text" value="' + res + '">');
-        cell.append(input);
+
+        var form = $('<form></form>');
+        cell.append(form);
+
+        let input = $('<input type="text" value="' + res + '">');
+        form.append(input);
+
+        var submit = $('<input type="submit" hidden>');
+        form.append(submit);
+
+        input.on('input',function(e){
+            input.addClass('invalid');
+        });
+
+        form.submit(function(event) {
+            event.preventDefault();
+            set_parameter_value(session, module_path, parameter, input);
+		});
     });
 }
 
@@ -37,10 +61,10 @@ function show_parameters(session, module_path) {
             let row   = $('<tr></tr>');
             table.append(row);
 
-            let name_cell = $('<td>' + name + '</td>');
+            let name_cell = $('<td class="variable">' + name + '</td>');
             row.append(name_cell);
 
-            let type_cell = $('<td>' + type + '</td>');
+            let type_cell = $('<td class="type">' + type + '</td>');
             row.append(type_cell);
 
             let value_cell = $('<td></td>');
@@ -64,18 +88,24 @@ function append_modules(session, module_path, node) {
             for(var i = 0; i < res.length; i++) {
                 let name = res[i][0];
                 let type = res[i][1];
+                type = type.replace('C++ class: ', '');
+
 
                 let entry = $('<li></li>');
                 list.append(entry);
 
-                let label = $('<span>' + name + ' (' + type + ')</span>');
+                let label = $('<span><span class="variable module-name">' + name + '</span> (<span class="type">' + type + '</span>)</span>');
                 entry.append(label);
 
                 let child_module = module_path + '.' + name;
                 if (module_path === '') {
                     child_module = name;
                 }
+
                 label.click(function(){
+                    $('.module-name').removeClass('selected');
+                    $(this).children('.module-name').first().addClass('selected');
+
                     append_modules(session, child_module, entry);
                     show_parameters(session, child_module);
                 });

@@ -1,15 +1,23 @@
 :root {
-    --primary-color:              rgba(255, 255, 255, 0.95);
-    --background-color:           #222222;
-    --highlight-background-color: rgba(255, 255, 255, 0.05);
+    --primary-color:              #d4d4d4;
+    --variable-color:             #9cdcfe;
+    --type-color:                 #569cd6;
+    --highlight-color:            #ce9178;
 
-    --main-font-family:             Courier New, Courier, monospace;
+    --background-color:           #1e1e1e;
+
+    --highlight-background-color: #333333;
+    --invalid-background-color:   rgba(255, 0, 0, 0.2);
+    --syncing-background-color:   rgba(0, 255, 0, 0.2);
+
+    --main-font-family:             monospace;
 }
 
 body {
     color:            var(--primary-color);
     background-color: var(--background-color);
     font-family:      var(--main-font-family);
+    font-size:        14px;
     margin:           0px;
 }
 
@@ -48,6 +56,18 @@ input {
     border-style: none none dashed none;
 }
 
+span.selected {
+    color: var(--highlight-color);
+}
+
+input.invalid {
+    background-color: var(--invalid-background-color);
+}
+
+input.syncing {
+    background-color: var(--syncing-background-color);
+}
+
 input#submit {
     padding:      0.2em 0.5em 0.2em 0.5em;
     border-style: solid;
@@ -56,4 +76,12 @@ input#submit {
 table#parameter-table > tr >td {
     padding-right:  2em;
     height:         28px;
+}
+
+.type {
+    color: var(--type-color);
+}
+
+.variable {
+    color: var(--variable-color);
 }
