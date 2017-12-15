@@ -2,6 +2,7 @@
     --primary-color:              #d4d4d4;
     --variable-color:             #9cdcfe;
     --type-color:                 #569cd6;
+    --keyword-color:             #dcdcaa;
     --highlight-color:            #ce9178;
 
     --background-color:           #1e1e1e;
@@ -84,4 +85,8 @@ table#parameter-table > tr >td {
 
 .variable {
     color: var(--variable-color);
+}
+
+.keyword {
+    color: var(--keyword-color);
 }

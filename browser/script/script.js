@@ -87,14 +87,12 @@ function append_modules(session, module_path, node) {
 
             for(var i = 0; i < res.length; i++) {
                 let name = res[i][0];
-                let type = res[i][1];
-                type = type.replace('C++ class: ', '');
-
+                let type = format_type(res[i][1]);
 
                 let entry = $('<li></li>');
                 list.append(entry);
 
-                let label = $('<span><span class="variable module-name">' + name + '</span> (<span class="type">' + type + '</span>)</span>');
+                let label = $('<span><span class="variable module-name">' + name + '</span> (' + type + ')</span>');
                 entry.append(label);
 
                 let child_module = module_path + '.' + name;
