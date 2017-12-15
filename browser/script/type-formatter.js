@@ -14,13 +14,11 @@ function format_type(rawtype) {
     if (type.startsWith('C++ class: ')) {
         type = type.replace('C++ class: ', '');
         type = format_namespace(type);
-        console.log(type);
 
     } else if (type.startsWith('extends ')) {
         type = type.replace('C++ class: ', '');
         var parts = type.split('  ');
         console.assert(parts.length === 3);
-
         console.assert(parts[0].startsWith('extends '));
         console.assert(parts[1].startsWith('like '));
 
@@ -35,7 +33,6 @@ function format_type(rawtype) {
         type = type.replace('C++ class: ', '');
         var parts = type.split('  ');
         console.assert(parts.length === 2);
-
         console.assert(parts[0].startsWith('like '));
 
         var part_like    = parts[0].substr('like '.length);

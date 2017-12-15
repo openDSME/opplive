@@ -30,7 +30,8 @@ function show_parameter_value(session, module_path, parameter, cell) {
         var form = $('<form></form>');
         cell.append(form);
 
-        let input = $('<input type="text" value="' + res + '">');
+        let width = Math.max(20, res.length + 1);
+        let input = $('<input type="text" style="width:' + width + 'ch;" value="' + res + '">');
         form.append(input);
 
         var submit = $('<input type="submit" hidden>');
