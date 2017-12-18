@@ -10,7 +10,9 @@
 
 	<script src="lib/autobahn.min.js"></script>
 	<script src="lib/jquery-3.2.1.min.js"></script>
+	<script src="lib/jquery.validate.min.js"></script>
 
+	<script src="script/validation-rules.js"></script>
 	<script src="script/type-formatter.js"></script>
 	<script src="script/script.js"></script>
 
@@ -22,14 +24,14 @@
 
 <body>
 	<div id="top-bar" class="container">
-		<form id="connection" class="vertical">
+		<form id="connection" class="vertical" method="post">
 			<label>Host:</label>
-			<input type="text" id="host" size="20" value="localhost">
+			<input type="text"  name="host" size="20" value="localhost" placeholder="localhost">
 			<label>Port:</label>
-			<input type="text" id="port" size="6" value="9000">
+			<input type="text" name="port" size="6" value="9000" placeholder="9000">
 			<label>Realm:</label>
-			<input type="text" id="realm" size="20" value="opplive">
-			<input type="submit" id="submit" value="Connect">
+			<input type="text" name="realm" size="20" value="opplive" placeholder="opplive">
+			<input type="submit" value="Connect">
 		</form>
 	</div>
 
@@ -46,17 +48,34 @@
 	</div>
 
 	<script>
-		$('#connection').submit(function(event) {
-			event.preventDefault();
+		var form = $('form#connection');
 
-			var host  = $('#host').val();
-			var port  = $('#port').val();
-			var realm = $('#realm').val();
+		form.validate({
+			rules: {
+				host: {
+					required: true,
+					host: true
+				},
+				port: {
+					required: true,
+					digits: true,
+					port: true
+				},
+				realm: {
+					required: true,
+					realm: true
+				}
+			},
+			submitHandler: function(f) {
+				var host  = $('[name="host"]').val();
+				var port  = $('[name="port"]').val();
+				var realm = $('[name="realm"]').val();
 
-			var url = 'ws://' + host + ':' + port + '/ws';
-			console.log('Connecting to realm "' + realm + '" on "' + url + '"');
+				var url = 'ws://' + host + ':' + port + '/ws';
+				console.log('Connecting to realm "' + realm + '" on "' + url + '"');
 
-			connect(url, realm);
+				connect(url, realm);
+			}
 		});
 	</script>
 </body>

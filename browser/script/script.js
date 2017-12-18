@@ -93,7 +93,7 @@ function append_modules(session, module_path, node) {
                 let entry = $('<li></li>');
                 list.append(entry);
 
-                let label = $('<span><span class="variable module-name">' + name + '</span> (' + type + ')</span>');
+                let label = $('<span class="module-handle"><span class="variable module-name">' + name + '</span> (' + type + ')</span>');
                 entry.append(label);
 
                 let child_module = module_path + '.' + name;

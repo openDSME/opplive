@@ -5,6 +5,8 @@
     --keyword-color:              #c586c0; /* #dcdcaa; */
     --highlight-color:            #ce9178;
 
+    --error-color:                #f44747;
+
     --background-color:           #1e1e1e;
 
     --highlight-background-color: #333333;
@@ -20,6 +22,11 @@ body {
     font-family:      var(--main-font-family);
     font-size:        14px;
     margin:           0px;
+}
+
+label.error {
+    color:     var(--error-color);
+    font-size: 10px;
 }
 
 div.container {
@@ -68,7 +75,11 @@ input.syncing {
     background-color: var(--syncing-background-color);
 }
 
-input#submit {
+span.module-handle {
+    cursor: pointer;
+}
+
+input[type="submit"]  {
     padding:      0.2em 0.5em 0.2em 0.5em;
     border-style: solid;
 }
