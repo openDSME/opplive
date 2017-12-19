@@ -8,7 +8,7 @@ function format_keyword(keyword) {
     return '<span class="keyword">' + keyword + '</span>';
 }
 
-function format_type(rawtype) {
+function format_module_type(rawtype) {
     var type = rawtype;
 
     if (type.startsWith('C++ class: ')) {
@@ -41,6 +41,18 @@ function format_type(rawtype) {
         type = format_namespace(part_class)
         + ' ' + format_keyword('like') + ' ' + format_namespace(part_like);
     }
+
+    return '<span class="type">' + type + '</span>';
+}
+
+function format_parameter_type(parameter) {
+    var type = "";
+
+    if (parameter.volatile) {
+        type += format_keyword('volatile') + ' ';
+    }
+
+    type += parameter.base_type;
 
     return '<span class="type">' + type + '</span>';
 }

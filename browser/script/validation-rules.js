@@ -10,14 +10,34 @@ function validation_is_hostname(value) {
     return value.match(/(^\s*((?=.{1,255}$)[0-9A-Za-z](?:(?:[0-9A-Za-z]|\b-){0,61}[0-9A-Za-z])?(?:\.[0-9A-Za-z](?:(?:[0-9A-Za-z]|\b-){0,61}[0-9A-Za-z])?)*\.?)\s*$)/);
 }
 
-jQuery.validator.addMethod("host", function(value, element) {
+function validation_is_valid_value(type, value) {
+    switch(type) {
+        case 'bool':
+            return value === 'true' || value === 'false';
+        case 'double':
+            return !isNaN(value);
+        case 'long':
+            return !isNaN(value) && value.match(/[+-]?\d+/);
+        case 'string':
+            return true;
+        default:
+            console.log(type, value);
+            return true;
+    }
+}
+
+jQuery.validator.addMethod('host', function(value, element) {
     return this.optional(element) || validation_is_ipv4(value) || validation_is_ipv6(value) || validation_is_hostname(value);
-}, "Please enter a valid hostname or IP address.");
+}, 'Please enter a valid hostname or IP address.');
 
-jQuery.validator.addMethod("port", function(value, element) {
+jQuery.validator.addMethod('port', function(value, element) {
     return this.optional(element) || parseInt(value) >= 1 && parseInt(value) <= 65535;
-}, "Please enter a valid port number.");
+}, 'Please enter a valid port number.');
 
-jQuery.validator.addMethod("realm", function(value, element) {
+jQuery.validator.addMethod('realm', function(value, element) {
     return this.optional(element) || !value.includes(' ');
-}, "Please enter a valid realm identifier.");
+}, 'Please enter a valid realm identifier.');
+
+jQuery.validator.addMethod('parameter_type', function(value, element, parameter) {
+    return parameter.volatile || validation_is_valid_value(parameter.base_type, value);
+}, 'Please enter a valid value for this parameter.');

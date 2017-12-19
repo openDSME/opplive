@@ -15,23 +15,23 @@ function result_to_list(res) {
     return res;
 }
 
-function set_parameter_value(session, module_path, parameter, input) {
+function set_parameter_value(session, module_path, parameter_name, input) {
     input.removeClass('invalid').addClass('syncing');
     var value = input.val();
-    session.call(PROCEDURE_SET_PARAMETER_VALUE, [module_path, parameter, value]).then(function (res) {
+    session.call(PROCEDURE_SET_PARAMETER_VALUE, [module_path, parameter_name, value]).then(function (res) {
         input.removeClass('syncing')
     });
 }
 
 function show_parameter_value(session, module_path, parameter, cell) {
-    session.call(PROCEDURE_GET_PARAMETER_VALUE, [module_path, parameter]).then(function (res) {
+    session.call(PROCEDURE_GET_PARAMETER_VALUE, [module_path, parameter.name]).then(function (res) {
         cell.empty();
 
         var form = $('<form></form>');
         cell.append(form);
 
         let width = Math.max(20, res.length + 1);
-        let input = $('<input type="text" style="width:' + width + 'ch;" value="' + res + '">');
+        let input = $('<input type="text" name="value" style="width:' + width + 'ch;" value="' + res + '">');
         form.append(input);
 
         var submit = $('<input type="submit" hidden>');
@@ -41,10 +41,17 @@ function show_parameter_value(session, module_path, parameter, cell) {
             input.addClass('invalid');
         });
 
-        form.submit(function(event) {
-            event.preventDefault();
-            set_parameter_value(session, module_path, parameter, input);
-		});
+        form.validate({
+            rules: {
+                value: {
+                    required: true,
+                    parameter_type: parameter
+                }
+            },
+            submitHandler: function(f) {
+                set_parameter_value(session, module_path, parameter.name, input);
+            }
+        });
     });
 }
 
@@ -56,22 +63,21 @@ function show_parameters(session, module_path) {
         table.empty();
 
         for(var i = 0; i < res.length; i++) {
-            let name = res[i][0];
-            let type = res[i][1];
+            let parameter = parameter_parse(res[i]);
 
             let row   = $('<tr></tr>');
             table.append(row);
 
-            let name_cell = $('<td class="variable">' + name + '</td>');
+            let name_cell = $('<td class="variable">' + parameter.name + '</td>');
             row.append(name_cell);
 
-            let type_cell = $('<td class="type">' + type + '</td>');
+            let type_cell = $('<td>' + format_parameter_type(parameter) + '</td>');
             row.append(type_cell);
 
             let value_cell = $('<td></td>');
             row.append(value_cell);
 
-            show_parameter_value(session, module_path, name, value_cell);
+            show_parameter_value(session, module_path, parameter, value_cell);
         }
     });
 }
@@ -88,7 +94,7 @@ function append_modules(session, module_path, node) {
 
             for(var i = 0; i < res.length; i++) {
                 let name = res[i][0];
-                let type = format_type(res[i][1]);
+                let type = format_module_type(res[i][1]);
 
                 let entry = $('<li></li>');
                 list.append(entry);
@@ -115,12 +121,12 @@ function append_modules(session, module_path, node) {
 
 function connect(url, realm) {
     var connection = new autobahn.Connection({url: url, realm: realm});
-    
+
     connection.onopen = function (session) {
         $('#module-tree').empty();
         $('#parameter-table').empty();
         append_modules(session, '', $('#module-tree'));
     };
-    
+
     connection.open();
 }
