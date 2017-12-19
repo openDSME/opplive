@@ -1,3 +1,9 @@
+/*
+    Copyright (c) Maximilian Köstler
+    3-clause BSD license
+    https://license.koestler.hamburg
+*/
+
 function format_namespace(type) {
     parts = type.split(/(?:::)|(?:\.)/);
     type_name = parts[parts.length - 1];

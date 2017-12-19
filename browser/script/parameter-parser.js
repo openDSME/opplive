@@ -1,3 +1,9 @@
+/*
+    Copyright (c) Maximilian Köstler
+    3-clause BSD license
+    https://license.koestler.hamburg
+*/
+
 function parameter_parse(entry) {
     var parameter = {
         name:      null,

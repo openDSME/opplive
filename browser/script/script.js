@@ -1,3 +1,9 @@
+/*
+    Copyright (c) Maximilian Köstler
+    3-clause BSD license
+    https://license.koestler.hamburg
+*/
+
 var PROCEDURE_GET_SUBMODULES      = 'com.examples.functions.getAllSubmodules'
 var PROCEDURE_GET_PARAMTERS       = 'com.examples.functions.getParameterNames'
 var PROCEDURE_GET_PARAMETER_VALUE = 'com.examples.functions.getParameter'
@@ -44,7 +50,6 @@ function show_parameter_value(session, module_path, parameter, cell) {
         form.validate({
             rules: {
                 value: {
-                    required: true,
                     parameter_type: parameter
                 }
             },
