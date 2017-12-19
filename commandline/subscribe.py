@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+# Copyright (c) Maximilian Köstler
+# 3-clause BSD license
+# https://license.koestler.hamburg
+
 import argparse
 import asyncio
 
