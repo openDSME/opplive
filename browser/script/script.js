@@ -33,14 +33,15 @@ function show_parameter_value(session, module_path, parameter, cell) {
     session.call(PROCEDURE_GET_PARAMETER_VALUE, [module_path, parameter.name]).then(function (res) {
         cell.empty();
 
-        var form = $('<form></form>');
+        let form = $('<form></form>');
         cell.append(form);
 
-        let width = Math.max(20, res.length + 1);
-        let input = $('<input type="text" name="value" style="width:' + width + 'ch;" value="' + res + '">');
+        let value = res.toString();
+        let width = Math.max(20, value.length + 1);
+        let input = $('<input type="text" name="value" style="width:' + width + 'ch;" value="' + value + '">');
         form.append(input);
 
-        var submit = $('<input type="submit" hidden>');
+        let submit = $('<input type="submit" hidden>');
         form.append(submit);
 
         input.on('input',function(e){

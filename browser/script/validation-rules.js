@@ -16,18 +16,22 @@ function validation_is_hostname(value) {
     return value.match(/(^\s*((?=.{1,255}$)[0-9A-Za-z](?:(?:[0-9A-Za-z]|\b-){0,61}[0-9A-Za-z])?(?:\.[0-9A-Za-z](?:(?:[0-9A-Za-z]|\b-){0,61}[0-9A-Za-z])?)*\.?)\s*$)/);
 }
 
-function validation_is_valid_value(type, value) {
-    switch(type) {
+function validation_is_valid_value(parameter, value) {
+    if (parameter.volatile && value.startsWith('=')) {
+        return true;
+    }
+
+    switch(parameter.base_type) {
         case 'bool':
             return value === 'true' || value === 'false';
         case 'double':
             return !isNaN(value);
         case 'long':
-            return !isNaN(value) && value.match(/[+-]?\d+/);
+            return !isNaN(value) && value.match(/^[+-]?\d+$/);
         case 'string':
             return true;
         default:
-            console.log(type, value);
+            console.log(parameter.base_type, value);
             return true;
     }
 }
@@ -45,5 +49,5 @@ jQuery.validator.addMethod('realm', function(value, element) {
 }, 'Please enter a valid realm identifier.');
 
 jQuery.validator.addMethod('parameter_type', function(value, element, parameter) {
-    return parameter.volatile || validation_is_valid_value(parameter.base_type, value);
+    return validation_is_valid_value(parameter, value);
 }, 'Please enter a valid value for this parameter.');
