@@ -4,24 +4,6 @@
     https://license.koestler.hamburg
 */
 
-:root {
-    --primary-color:              #d4d4d4;
-    --variable-color:             #9cdcfe;
-    --type-color:                 #569cd6;
-    --keyword-color:              #c586c0; /* #dcdcaa; */
-    --highlight-color:            #ce9178;
-
-    --error-color:                #f44747;
-
-    --background-color:           #1e1e1e;
-
-    --highlight-background-color: #333333;
-    --invalid-background-color:   rgba(255, 0, 0, 0.2);
-    --syncing-background-color:   rgba(0, 255, 0, 0.2);
-
-    --main-font-family:             monospace;
-}
-
 body {
     color:            var(--primary-color);
     background-color: var(--background-color);
@@ -47,6 +29,25 @@ div#top-bar {
     border-bottom-style: solid;
     border-color:        var(--primary-color);
     border-width:        2px;
+
+    overflow:            auto;
+}
+
+div#bar-element-left {
+    float: left;
+}
+
+div#bar-element-right {
+    float: right;
+}
+
+a#theme {
+    cursor: pointer;
+    font-size: 21px;
+}
+
+a#theme:after {
+    content: var(--switch-theme-symbol);
 }
 
 form.vertical > input {
@@ -85,7 +86,7 @@ span.module-handle {
     cursor: pointer;
 }
 
-input[type="submit"]  {
+input[type="submit"] {
     padding:      0.2em 0.5em 0.2em 0.5em;
     border-style: solid;
 }

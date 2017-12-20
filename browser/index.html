@@ -10,6 +10,7 @@
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+	<link id="theme-stylesheet" rel="stylesheet" type="text/css" href="css/theme-dark.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 
 	<script src="lib/autobahn.min.js"></script>
@@ -29,15 +30,20 @@
 
 <body>
 	<div id="top-bar" class="container">
-		<form id="connection" class="vertical" method="post">
-			<label>Host:</label>
-			<input type="text"  name="host" size="20" value="localhost" placeholder="localhost">
-			<label>Port:</label>
-			<input type="text" name="port" size="6" value="9000" placeholder="9000">
-			<label>Realm:</label>
-			<input type="text" name="realm" size="20" value="opplive" placeholder="opplive">
-			<input type="submit" value="Connect">
-		</form>
+		<div id="bar-element-left">
+			<form id="connection" class="vertical" method="post">
+				<label>Host:</label>
+				<input type="text"  name="host" size="20" value="localhost" placeholder="localhost">
+				<label>Port:</label>
+				<input type="text" name="port" size="6" value="9000" placeholder="9000">
+				<label>Realm:</label>
+				<input type="text" name="realm" size="20" value="opplive" placeholder="opplive">
+				<input type="submit" value="Connect">
+			</form>
+		</div>
+		<div id="bar-element-right">
+			<a id="theme"></a>
+		</div>
 	</div>
 
 	<div class="container">
@@ -81,6 +87,17 @@
 
 				connect(url, realm);
 			}
+		});
+
+		$('#theme').click(function(event) {
+			var theme = $('#theme-stylesheet');
+			var current_theme = theme.attr('href');
+			if (current_theme === 'css/theme-light.css') {
+				current_theme = 'css/theme-dark.css';
+			} else {
+				current_theme = 'css/theme-light.css';
+			}
+			theme.attr('href', current_theme);
 		});
 	</script>
 </body>

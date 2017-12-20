@@ -1,0 +1,28 @@
+/*
+    Copyright (c) Maximilian Köstler
+    3-clause BSD license
+    https://license.koestler.hamburg
+
+    Color theme adopted from Visual Studio Code
+    (c) 2017 Microsoft Corporation
+*/
+
+:root {
+    --primary-color:              #d4d4d4;
+    --variable-color:             #9cdcfe;
+    --type-color:                 #569cd6;
+    --keyword-color:              #c586c0;
+    --highlight-color:            #ce9178;
+
+    --error-color:                #f44747;
+
+    --background-color:           #1e1e1e;
+
+    --highlight-background-color: #333333;
+    --invalid-background-color:   rgba(255, 0, 0, 0.2);
+    --syncing-background-color:   rgba(0, 255, 0, 0.2);
+
+    --main-font-family:             monospace;
+
+    --switch-theme-symbol:          "🌘";
+}
