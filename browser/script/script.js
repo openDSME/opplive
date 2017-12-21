@@ -80,6 +80,9 @@ function show_parameters(session, module_path) {
             let type_cell = $('<td>' + format_parameter_type(parameter) + '</td>');
             row.append(type_cell);
 
+            let unit_cell = $('<td>' + format_unit(parameter) + '</td>');
+            row.append(unit_cell);
+
             let value_cell = $('<td></td>');
             row.append(value_cell);
 

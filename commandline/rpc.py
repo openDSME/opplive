@@ -67,9 +67,9 @@ class Shell(cmd.Cmd):
 
     def print_objects(self, objects):
         objects = self.sort_objects(objects)
-        max_name_length = max(len(name) for name, _ in objects)
-        for name, typename in objects:
-            print(name.ljust(max_name_length), '->', typename)
+        max_name_length = max(len(name) for name, *t in objects)
+        for name, *t in objects:
+            print(name.ljust(max_name_length), '->', *t)
 
     ###### AUTOCOMPLETE FUNCTIONS ######
     def complete_modules(self, text, line, begidx, endidx):

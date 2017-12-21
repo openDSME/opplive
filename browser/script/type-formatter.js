@@ -14,6 +14,10 @@ function format_keyword(keyword) {
     return '<span class="keyword">' + keyword + '</span>';
 }
 
+function format_type(type) {
+    return '<span class="type">' + type + '</span>';
+}
+
 function format_module_type(rawtype) {
     var type = rawtype;
 
@@ -48,7 +52,7 @@ function format_module_type(rawtype) {
         + ' ' + format_keyword('like') + ' ' + format_namespace(part_like);
     }
 
-    return '<span class="type">' + type + '</span>';
+    return format_type(type);
 }
 
 function format_parameter_type(parameter) {
@@ -60,5 +64,13 @@ function format_parameter_type(parameter) {
 
     type += parameter.base_type;
 
-    return '<span class="type">' + type + '</span>';
+    return format_type(type);
+}
+
+function format_unit(parameter) {
+    if (parameter.unit !== '') {
+        return '[' + format_type(parameter.unit) + ']';
+    } else {
+        return '';
+    }
 }
